@@ -18,6 +18,12 @@ export async function sendContactFormEmail(formData: {
   message: string;
 }) {
   try {
+    // Validate API key exists
+    if (!process.env.RESEND_API_KEY) {
+      console.error('❌ RESEND_API_KEY is not set in environment variables');
+      throw new Error('Email service not configured. Please contact support.');
+    }
+
     // Add timestamp
     const submittedAt = new Date().toLocaleString('en-US', {
       timeZone: 'America/Edmonton',
@@ -34,6 +40,11 @@ export async function sendContactFormEmail(formData: {
     const htmlContent = generateContactEmail(emailData);
     const textContent = generateContactEmailText(emailData);
 
+    console.log('📧 Sending email with Resend...');
+    console.log('From:', `${emailConfig.fromName} <${emailConfig.fromEmail}>`);
+    console.log('To:', emailConfig.recipientEmail);
+    console.log('BCC:', emailConfig.bccEmail);
+
     // Send email via Resend
     const result = await resend.emails.send({
       from: `${emailConfig.fromName} <${emailConfig.fromEmail}>`,
@@ -46,12 +57,27 @@ export async function sendContactFormEmail(formData: {
       ...(emailConfig.bccEmail && { bcc: emailConfig.bccEmail }),
     });
 
+    // Log the full result for debugging
+    console.log('✅ Email sent successfully!');
+    console.log('Email ID:', result.data?.id);
+    console.log('Full result:', JSON.stringify(result, null, 2));
+
+    // Check for errors in response
+    if (result.error) {
+      console.error('❌ Resend returned an error:', result.error);
+      throw new Error(`Resend error: ${JSON.stringify(result.error)}`);
+    }
+
     return {
       success: true,
       emailId: result.data?.id,
     };
   } catch (error) {
-    console.error('Resend email error:', error);
+    console.error('❌ Resend email error:', error);
+    if (error instanceof Error) {
+      console.error('Error message:', error.message);
+      console.error('Error stack:', error.stack);
+    }
     throw new Error('Failed to send email');
   }
 }
