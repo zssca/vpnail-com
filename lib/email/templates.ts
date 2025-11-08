@@ -101,15 +101,15 @@ export function generateContactEmail(data: ContactFormData): string {
       <center style="width: 100%; background-color: #f3f4f6; padding: 20px 0;">
 
         <!-- Email Container -->
-        <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" width="600" class="email-container" style="margin: auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" width="600" class="email-container" style="margin: auto; background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden;">
 
           <!-- Header -->
           <tr>
-            <td style="background: linear-gradient(135deg, ${brandColor} 0%, ${brandColor}dd 100%); padding: 40px 30px; text-align: center;">
-              <h1 style="margin: 0; font-size: 28px; font-weight: 700; color: #ffffff; letter-spacing: -0.5px;">
+            <td style="background-color: ${brandColor}; padding: 32px 30px; text-align: center;">
+              <h1 style="margin: 0; font-size: 24px; font-weight: 600; color: #ffffff;">
                 ${clientName}
               </h1>
-              <p style="margin: 12px 0 0 0; font-size: 16px; color: #ffffff; opacity: 0.95; font-weight: 400;">
+              <p style="margin: 10px 0 0 0; font-size: 15px; color: #ffffff; opacity: 0.95;">
                 New Contact Form Submission
               </p>
             </td>
@@ -119,41 +119,38 @@ export function generateContactEmail(data: ContactFormData): string {
           <tr>
             <td class="mobile-padding" style="padding: 40px 30px;">
 
-              <!-- Customer Information Card -->
+              <!-- Contact Details -->
               <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin-bottom: 30px;">
                 <tr>
-                  <td style="background: #f9fafb; border-left: 4px solid ${brandColor}; padding: 24px; border-radius: 8px;">
-                    <h2 style="margin: 0 0 20px 0; font-size: 18px; font-weight: 600; color: #111827;">
-                      Customer Information
-                    </h2>
+                  <td style="background: #ffffff; border: 1px solid #e5e7eb; padding: 24px; border-radius: 6px;">
 
                     <!-- Contact Details Table -->
                     <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                       <tr>
-                        <td style="padding: 10px 0; font-weight: 600; color: #6b7280; font-size: 14px; width: 80px; vertical-align: top;">
+                        <td style="padding: 8px 0; font-weight: 600; color: #6b7280; font-size: 14px; width: 80px; vertical-align: top;">
                           Name
                         </td>
-                        <td style="padding: 10px 0; color: #111827; font-size: 15px; font-weight: 500;">
+                        <td style="padding: 8px 0; color: #111827; font-size: 15px;">
                           ${name}
                         </td>
                       </tr>
                       <tr>
-                        <td style="padding: 10px 0; font-weight: 600; color: #6b7280; font-size: 14px; vertical-align: top;">
+                        <td style="padding: 8px 0; font-weight: 600; color: #6b7280; font-size: 14px; vertical-align: top;">
                           Email
                         </td>
-                        <td style="padding: 10px 0;">
-                          <a href="mailto:${email}" style="color: ${brandColor}; text-decoration: none; font-size: 15px; font-weight: 500;">
+                        <td style="padding: 8px 0;">
+                          <a href="mailto:${email}" style="color: ${brandColor}; text-decoration: none; font-size: 15px;">
                             ${email}
                           </a>
                         </td>
                       </tr>
                       ${phone ? `
                       <tr>
-                        <td style="padding: 10px 0; font-weight: 600; color: #6b7280; font-size: 14px; vertical-align: top;">
+                        <td style="padding: 8px 0; font-weight: 600; color: #6b7280; font-size: 14px; vertical-align: top;">
                           Phone
                         </td>
-                        <td style="padding: 10px 0;">
-                          <a href="tel:${phone}" style="color: ${brandColor}; text-decoration: none; font-size: 15px; font-weight: 500;">
+                        <td style="padding: 8px 0;">
+                          <a href="tel:${phone}" style="color: ${brandColor}; text-decoration: none; font-size: 15px;">
                             ${phone}
                           </a>
                         </td>
@@ -164,15 +161,15 @@ export function generateContactEmail(data: ContactFormData): string {
                 </tr>
               </table>
 
-              <!-- Message Card -->
+              <!-- Message -->
               <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin-bottom: 24px;">
                 <tr>
                   <td>
-                    <h3 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 600; color: #111827;">
+                    <h3 style="margin: 0 0 12px 0; font-size: 15px; font-weight: 600; color: #111827;">
                       Message
                     </h3>
-                    <div style="background: #f9fafb; padding: 20px; border-radius: 8px; border: 1px solid #e5e7eb;">
-                      <p style="margin: 0; line-height: 1.7; color: #374151; font-size: 15px; white-space: pre-wrap;">${message.replace(/\n/g, '<br>')}</p>
+                    <div style="background: #ffffff; padding: 20px; border-radius: 6px; border: 1px solid #e5e7eb;">
+                      <p style="margin: 0; line-height: 1.6; color: #374151; font-size: 15px; white-space: pre-wrap;">${message.replace(/\n/g, '<br>')}</p>
                     </div>
                   </td>
                 </tr>
@@ -225,7 +222,6 @@ export function generateContactEmailText(data: ContactFormData): string {
 ${clientName} - New Contact Form Submission
 ${'='.repeat(50)}
 
-Customer Information:
 Name: ${name}
 Email: ${email}
 ${phone ? `Phone: ${phone}` : ''}
