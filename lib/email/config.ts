@@ -15,14 +15,14 @@ export const emailConfig = {
   websiteDomain: 'vpnail.com',
 
   // Email Settings
-  fromEmail: 'contact@zss.ca',
+  fromEmail: 'noreply@contact.zss.ca',  // ✅ Matches verified domain in Resend
   fromName: 'Victoria Park Nails Contact',
 
   // Branding
   brandColor: '#d4a5a5', // Pink/Rose color
 
   // Optional: BCC yourself for monitoring
-  bccEmail: 'info@zss.ca',
+  bccEmail: 'info@contact.zss.ca',  // ✅ Also using verified domain
 } as const;
 
 // Export type for TypeScript
