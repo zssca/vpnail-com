@@ -1,2 +1,2 @@
-export { AccessibilityPage } from './accessibility-page'
-export { accessibilityMetadata } from './accessibility.seo'
+export { AccessibilityPage } from './page'
+export { accessibilityMetadata } from './seo'

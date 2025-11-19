@@ -15,7 +15,17 @@ export function ClientOnly({ children, fallback = null }: ClientOnlyProps) {
   const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
-    setHasMounted(true);
+    let cancelled = false;
+    const timer = window.setTimeout(() => {
+      if (!cancelled) {
+        setHasMounted(true);
+      }
+    }, 0);
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
   }, []);
 
   if (!hasMounted) {

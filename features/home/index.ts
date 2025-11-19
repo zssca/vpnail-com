@@ -1,5 +1,5 @@
-export { HomePage } from './home-page'
-export { homeMetadata } from './home.seo'
+export { HomePage } from './page'
+export { homeMetadata } from './seo'
 export * from './sections/hero'
 export * from './sections/features'
 export * from './sections/local-seo'

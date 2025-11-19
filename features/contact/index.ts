@@ -1,5 +1,6 @@
-export { ContactPage } from './contact-page'
-export { contactMetadata } from './contact.seo'
+export { ContactPage } from './page'
+export { contactMetadata } from './seo'
+export { sendContactEmail } from './actions/send-email.action'
 export * from './sections/hero'
 export * from './sections/contact-info'
 export * from './sections/hours'

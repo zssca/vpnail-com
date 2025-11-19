@@ -1,2 +1,2 @@
-export { AreasPage } from './areas-page'
-export { areasMetadata } from './areas.seo'
+export { AreasPage } from './page'
+export { areasMetadata } from './seo'

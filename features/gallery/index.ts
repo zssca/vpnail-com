@@ -1,5 +1,5 @@
-export { GalleryPage } from './gallery-page'
-export { galleryMetadata } from './gallery.seo'
+export { GalleryPage } from './page'
+export { galleryMetadata } from './seo'
 export * from './sections/hero'
 export * from './sections/gallery'
 export * from './sections/cta'

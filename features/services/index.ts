@@ -1,5 +1,5 @@
-export { ServicesPage } from './services-page'
-export { servicesMetadata } from './services.seo'
+export { ServicesPage } from './page'
+export { servicesMetadata } from './seo'
 
 // Services Listing Page Sections
 export * from './sections/hero'

@@ -1,6 +1,7 @@
-import { TermsPage } from '@/features/terms'
-import { termsMetadata } from '@/features/terms/terms.seo'
+import { TermsPage, termsMetadata } from '@/features/terms'
 
 export const metadata = termsMetadata
+export const dynamic = 'force-static'
+export const revalidate = false
 
 export default TermsPage

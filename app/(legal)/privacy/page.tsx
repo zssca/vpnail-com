@@ -1,6 +1,7 @@
-import { PrivacyPage } from '@/features/privacy'
-import { privacyMetadata } from '@/features/privacy/privacy.seo'
+import { PrivacyPage, privacyMetadata } from '@/features/privacy'
 
 export const metadata = privacyMetadata
+export const dynamic = 'force-static'
+export const revalidate = false
 
 export default PrivacyPage

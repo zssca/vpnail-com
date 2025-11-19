@@ -1,6 +1,7 @@
-import { HomePage } from '@/features/home'
-import { homeMetadata } from '@/features/home/home.seo'
+import { HomePage, homeMetadata } from '@/features/home'
 
 export const metadata = homeMetadata
+export const dynamic = 'force-static'
+export const revalidate = false
 
 export default HomePage

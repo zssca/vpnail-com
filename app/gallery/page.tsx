@@ -1,6 +1,7 @@
-import { GalleryPage } from '@/features/gallery'
-import { galleryMetadata } from '@/features/gallery/gallery.seo'
+import { GalleryPage, galleryMetadata } from '@/features/gallery'
 
 export const metadata = galleryMetadata
+export const dynamic = 'force-static'
+export const revalidate = false
 
 export default GalleryPage

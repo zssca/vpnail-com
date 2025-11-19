@@ -1,2 +1,2 @@
-export { TermsPage } from './terms-page'
-export { termsMetadata } from './terms.seo'
+export { TermsPage } from './page'
+export { termsMetadata } from './seo'

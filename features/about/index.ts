@@ -1,5 +1,5 @@
-export { AboutPage } from './about-page'
-export { aboutMetadata } from './about.seo'
+export { AboutPage } from './page'
+export { aboutMetadata } from './seo'
 export * from './sections/hero'
 export * from './sections/story'
 export * from './sections/stats'

@@ -1,6 +1,7 @@
-import { ContactPage } from '@/features/contact'
-import { contactMetadata } from '@/features/contact/contact.seo'
+import { ContactPage, contactMetadata } from '@/features/contact'
 
 export const metadata = contactMetadata
+export const dynamic = 'force-static'
+export const revalidate = false
 
 export default ContactPage

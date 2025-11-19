@@ -1,2 +1,2 @@
-export { PrivacyPage } from './privacy-page'
-export { privacyMetadata } from './privacy.seo'
+export { PrivacyPage } from './page'
+export { privacyMetadata } from './seo'

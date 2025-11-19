@@ -1,6 +1,7 @@
-import { AboutPage } from '@/features/about'
-import { aboutMetadata } from '@/features/about/about.seo'
+import { AboutPage, aboutMetadata } from '@/features/about'
 
 export const metadata = aboutMetadata
+export const dynamic = 'force-static'
+export const revalidate = false
 
 export default AboutPage

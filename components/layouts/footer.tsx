@@ -14,7 +14,7 @@ export function Footer({ id }: { id?: string }) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
           {/* Brand & Description */}
           <div className="lg:col-span-2">
-            <h3 className="font-bold text-lg mb-4">Victoria Park Nails and Spa</h3>
+            <h3 className="font-bold text-lg mb-4">{siteConfig.business.name}</h3>
             <p className="text-sm text-muted-foreground mb-4 max-w-sm">
               Calgary&apos;s premier nail salon and spa in Victoria Park. Book online 24/7 or walk-ins welcome.
             </p>

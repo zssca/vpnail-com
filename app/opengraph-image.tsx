@@ -1,7 +1,5 @@
 import { ImageResponse } from 'next/og';
 
-export const runtime = 'edge';
-
 export const alt = 'Victoria Park Nails and Spa - Calgary Premiere Nail Salon & Spa';
 export const size = {
   width: 1200,

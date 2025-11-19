@@ -1,4 +1,5 @@
 import { ROUTES } from '@/lib/constants/routes'
+import { siteConfig } from './site.config'
 
 /**
  * Navigation Configuration
@@ -92,7 +93,7 @@ export const footerNav: NavSection[] = [
     title: 'Book Online',
     links: [
       { label: 'Book Appointment', href: ROUTES.SERVICES },
-      { label: 'Call Us', href: 'tel:+14037193600', external: true },
+      { label: 'Call Us', href: siteConfig.social.phone, external: true },
     ],
   },
   {

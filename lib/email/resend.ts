@@ -2,8 +2,20 @@ import { Resend } from 'resend';
 import { emailConfig } from './config';
 import { generateContactEmail, generateContactEmailText } from './templates';
 
-// Initialize Resend with API key from environment variables
-const resend = new Resend(process.env.RESEND_API_KEY);
+let resendClient: Resend | null = null;
+
+const getResendClient = () => {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    return null;
+  }
+
+  if (!resendClient) {
+    resendClient = new Resend(apiKey);
+  }
+
+  return resendClient;
+};
 
 /**
  * Send contact form email using Resend
@@ -19,7 +31,9 @@ export async function sendContactFormEmail(formData: {
 }) {
   try {
     // Validate API key exists
-    if (!process.env.RESEND_API_KEY) {
+    const resend = getResendClient();
+
+    if (!resend) {
       console.error('❌ RESEND_API_KEY is not set in environment variables');
       throw new Error('Email service not configured. Please contact support.');
     }
