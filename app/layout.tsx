@@ -47,7 +47,7 @@ export default function RootLayout({
               </Suspense>
               <Header />
               <Breadcrumbs />
-              <main id="main-content" className="flex-1 pb-20 lg:pb-0" tabIndex={-1}>{children}</main>
+              <main id="main-content" className="flex-1 pb-[72px] lg:pb-0 transition-padding duration-300" tabIndex={-1}>{children}</main>
               <Footer id="footer" />
               <StickyBottomNav />
             </div>

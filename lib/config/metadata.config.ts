@@ -25,7 +25,17 @@ if (process.env.NEXT_PUBLIC_MSVALIDATE) {
 }
 
 export const rootViewport: Viewport = {
-  themeColor: '#ffffff',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  viewportFit: 'cover',
+  colorScheme: 'light dark',
+  interactiveWidget: 'resizes-content',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#09090b' }
+  ]
 }
 
 export const rootMetadata: Metadata = {
