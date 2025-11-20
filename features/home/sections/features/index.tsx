@@ -23,24 +23,20 @@ export function FeaturesSection() {
           {featuresData.features.map((feature, index) => {
             const IconComponent = iconMap[feature.icon as keyof typeof iconMap]
             return (
-              <Card key={index} className="text-center">
-                <CardHeader>
-                  <div className="flex justify-center mb-4">
-                    <div className="p-3 rounded-full bg-primary/10">
-                      <IconComponent className="h-6 w-6 text-primary" />
-                    </div>
+              <Card key={index} className="flex flex-col gap-4 p-6 text-center">
+                <div className="flex justify-center">
+                  <div className="p-3 rounded-full bg-primary text-primary-foreground">
+                    <IconComponent className="h-6 w-6" />
                   </div>
+                </div>
+                <div>
                   <CardTitle>
                     <Small className="text-base font-semibold">{feature.title}</Small>
                   </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription>
-                    <P className="text-sm text-muted-foreground">
-                      {feature.description}
-                    </P>
-                  </CardDescription>
-                </CardContent>
+                </div>
+                <P className="text-sm text-muted-foreground">
+                  {feature.description}
+                </P>
               </Card>
             )
           })}

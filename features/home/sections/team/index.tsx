@@ -68,7 +68,7 @@ export function TeamSection() {
                           </Small>
 
                           <div className="flex items-center gap-1 mb-3">
-                            <Star className="h-3.5 w-3.5 text-amber-500 fill-amber-500" />
+                            <Star className="h-3.5 w-3.5 text-[var(--rating)] fill-[var(--rating)]" />
                             <span className="text-xs text-muted-foreground">{member.experience}</span>
                           </div>
 

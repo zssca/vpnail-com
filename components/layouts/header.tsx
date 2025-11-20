@@ -40,7 +40,7 @@ export function Header({ items = primaryNav }: HeaderProps) {
 
   return (
     <header className={cn(
-      "sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-transform duration-300",
+      "sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-transform duration-300",
       !isVisible && "-translate-y-full"
     )}>
       <Container className="flex h-16 items-center justify-between gap-3">

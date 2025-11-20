@@ -49,13 +49,13 @@ export function CombinationsSection() {
                   className="basis-[calc(85%-1rem)] pl-4 pr-4 sm:basis-[calc(70%-1rem)] md:basis-1/2 lg:basis-1/3"
                 >
                   <div className="h-full">
-                    <Card className="relative flex h-full flex-col gap-0 overflow-hidden rounded-xl border border-border/70 bg-background py-0">
+                    <Card className="relative flex h-full flex-col gap-0 overflow-hidden rounded-xl border border-border/70 bg-background">
                       {pkg.popular && (
                         <>
                           <div className="absolute inset-x-0 top-0 h-1 bg-primary" />
                           <Badge
                             variant="secondary"
-                            className="absolute right-6 top-6 gap-2 bg-primary/10 text-primary"
+                            className="absolute right-6 top-6 gap-2 bg-primary text-primary-foreground"
                           >
                             <Sparkles className="h-3 w-3" /> Popular
                           </Badge>
@@ -65,7 +65,7 @@ export function CombinationsSection() {
                       <CardHeader className="space-y-4 pb-4 pt-5">
                         <div className="flex items-start gap-3">
                           <div className="flex items-center gap-3">
-                            <span className="flex h-9 w-9 items-center justify-center rounded-md border border-primary/20 bg-primary/10 text-primary">
+                            <span className="flex h-9 w-9 items-center justify-center rounded-md border border-primary/20 bg-primary text-primary-foreground">
                               <Icon className="h-5 w-5" />
                             </span>
                             <div className="space-y-1">
@@ -87,7 +87,7 @@ export function CombinationsSection() {
                       <CardContent className="flex-1 space-y-4 px-6 pb-4">
                         <div className="text-center">
                           <div className="mx-auto inline-flex flex-col items-center justify-center gap-2 px-5 py-4">
-                            <span className="text-4xl font-semibold leading-none text-emerald-600 sm:text-5xl">
+                            <span className="text-4xl font-semibold leading-none text-primary sm:text-5xl">
                               ${pkg.price}
                             </span>
                             <span className="text-sm text-muted-foreground line-through">
@@ -100,7 +100,7 @@ export function CombinationsSection() {
                           <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                             What&apos;s Included
                           </p>
-                          <ol className="list-decimal space-y-2 pl-4 text-sm leading-relaxed text-foreground marker:text-emerald-500 marker:font-medium">
+                          <ol className="list-decimal space-y-2 pl-4 text-sm leading-relaxed text-foreground marker:text-primary/80 marker:font-medium">
                             {pkg.services.map((service, idx) => (
                               <li key={idx} className="text-sm leading-relaxed text-foreground">
                                 {service.name}

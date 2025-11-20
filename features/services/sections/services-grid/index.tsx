@@ -48,8 +48,8 @@ export function ServicesGridSection() {
                 <div key={`${category.id}-${subcategory.name}`} className="mb-12">
                   {/* Subcategory Header */}
                   <div className="text-center mb-6">
-                    <Badge variant="secondary" className="py-2 px-4 mb-4 bg-primary/5 text-primary border-primary/20">
-                      <Small className="text-primary font-semibold tracking-wide uppercase">
+                    <Badge variant="secondary" className="py-2 px-4 mb-4 bg-primary text-primary-foreground border-primary">
+                      <Small className="text-primary-foreground font-semibold tracking-wide uppercase">
                         {subcategory.name}
                       </Small>
                     </Badge>
@@ -61,9 +61,9 @@ export function ServicesGridSection() {
                     {subcategory.services.map((service) => (
                       <Card
                         key={service.id}
-                        className="border hover:border-primary/50 transition-all duration-200 overflow-hidden"
+                        className="flex flex-col gap-4 p-4 hover:border-primary/50 transition-all duration-200 overflow-hidden focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2"
                       >
-                        <CardHeader className="flex items-start justify-between gap-3 pb-2">
+                        <div className="flex items-start justify-between gap-3">
                           {/* Service Info */}
                           <div className="flex-1 min-w-0">
                             <CardTitle className="text-base leading-tight">
@@ -78,31 +78,29 @@ export function ServicesGridSection() {
 
                           {/* Price Badge */}
                           <div className="flex-shrink-0">
-                            <div className="flex flex-col items-end bg-primary/10 px-2.5 py-1.5 rounded-md">
-                              <span className="text-base font-bold text-primary whitespace-nowrap leading-none">
+                            <div className="flex flex-col items-end bg-primary px-3 py-1.5 rounded-md gap-0.5">
+                              <span className="text-base font-bold text-primary-foreground whitespace-nowrap leading-none">
                                 {service.price}
                               </span>
-                              <div className="flex items-center gap-1 text-[10px] text-muted-foreground mt-1">
+                              <div className="flex items-center gap-1 text-[10px] text-primary-foreground/80 mt-0.5">
                                 <Clock className="h-3 w-3" />
                                 <span className="whitespace-nowrap">{service.duration}</span>
                               </div>
                             </div>
                           </div>
-                        </CardHeader>
+                        </div>
 
-                        <CardContent className="pt-0">
-                          <Button asChild size="sm" className="w-full">
-                            <Link
-                              href={service.href}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex items-center justify-center gap-1.5"
-                            >
-                              <span className="font-medium">Book This Service</span>
-                              <ArrowRight className="h-3 w-3" />
-                            </Link>
-                          </Button>
-                        </CardContent>
+                        <Button asChild size="sm" variant="outline" className="w-full" aria-label={`Book ${service.title}`}>
+                          <Link
+                            href={service.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-center gap-1.5 focus-visible:outline-none"
+                          >
+                            <span className="font-medium">Book This Service</span>
+                            <ArrowRight className="h-3 w-3" />
+                          </Link>
+                        </Button>
                       </Card>
                     ))}
                   </div>

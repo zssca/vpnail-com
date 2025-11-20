@@ -5,8 +5,10 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import { X } from "lucide-react"
 import {
   Drawer,
+  DrawerClose,
   DrawerContent,
   DrawerTitle,
   DrawerTrigger
@@ -41,7 +43,7 @@ export function MobileMenu({ items, ctaHref, ctaLabel }: MobileMenuProps) {
           Menu
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="!w-80 sm:!w-96 !max-w-[85vw] !h-full !rounded-l-xl !rounded-r-none !border-l !border-r-0 !shadow-none">
+      <DrawerContent className="!w-[90vw] sm:!w-80 md:!w-96 !h-full !rounded-l-xl !rounded-r-none !border-l !border-r-0 !shadow-none">
         <div className="flex flex-col h-full">
           {/* Mobile Header */}
           <div className="px-6 py-6 border-b border-border/50 flex items-center justify-between">
@@ -49,35 +51,25 @@ export function MobileMenu({ items, ctaHref, ctaLabel }: MobileMenuProps) {
               <DrawerTitle className="text-xl font-bold text-foreground">Menu</DrawerTitle>
               <p className="text-sm text-muted-foreground mt-1">Explore our services</p>
             </div>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsDrawerOpen(false)}
-              aria-label="Close menu"
-            >
-              <svg
-                className="h-4 w-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+            <DrawerClose asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label="Close menu"
+                className="focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:rounded-md"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </Button>
+                <X className="h-4 w-4" aria-hidden="true" />
+              </Button>
+            </DrawerClose>
           </div>
 
           {/* Mobile Navigation Links */}
           <div className="flex-1 overflow-y-auto p-4">
-            <Accordion type="multiple" className="space-y-2">
+            <Accordion type="multiple" className="space-y-0">
               {items.map((item) => (
                 item.children ? (
-                  <AccordionItem key={item.label} value={item.label} className="border border-border/30 rounded-lg overflow-hidden">
-                    <AccordionTrigger className="px-4 py-3 hover:bg-accent/50 hover:no-underline rounded-t-lg data-[state=open]:bg-accent/30 data-[state=open]:rounded-b-none">
+                  <AccordionItem key={item.label} value={item.label} className="border-b border-border/30 focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
+                    <AccordionTrigger className="px-4 py-3 hover:bg-accent/50 hover:no-underline data-[state=open]:bg-accent/30 focus-visible:bg-accent/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
                       <span className="font-semibold text-base text-foreground">{item.label}</span>
                     </AccordionTrigger>
                     <AccordionContent className="px-0 pb-0">
@@ -86,7 +78,7 @@ export function MobileMenu({ items, ctaHref, ctaLabel }: MobileMenuProps) {
                           <Link
                             key={child.label}
                             href={child.href}
-                            className="block px-6 py-3 text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors touch-manipulation border-b border-border/20 last:border-b-0"
+                            className="block px-6 py-3 text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors touch-manipulation border-b border-border/20 last:border-b-0 focus-visible:bg-accent/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                             onClick={() => setIsDrawerOpen(false)}
                           >
                             <div>
@@ -103,11 +95,11 @@ export function MobileMenu({ items, ctaHref, ctaLabel }: MobileMenuProps) {
                     </AccordionContent>
                   </AccordionItem>
                 ) : (
-                  <div key={item.label} className="border border-border/30 rounded-lg overflow-hidden">
+                  <div key={item.label} className="border border-border/30 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
                     <Link
                       href={item.href || "#"}
                       className={cn(
-                        "block px-4 py-3 text-base font-semibold rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors touch-manipulation",
+                        "block px-4 py-3 text-base font-semibold rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors touch-manipulation focus-visible:bg-accent/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
                         pathname === item.href && "bg-accent text-accent-foreground"
                       )}
                       onClick={() => setIsDrawerOpen(false)}

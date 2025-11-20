@@ -1,14 +1,17 @@
 import { cn } from '@/lib/utils'
 
 type SectionProps = React.ComponentPropsWithoutRef<'section'> & {
-  variant?: 'default' | 'muted' | 'primary'
+  variant?: 'default' | 'muted' | 'muted-light' | 'primary' | 'primary-light' | 'accent'
   size?: 'sm' | 'md' | 'lg'
 }
 
 const variantStyles = {
   default: '',
-  muted: 'bg-muted/30',
-  primary: 'bg-primary/5',
+  muted: 'bg-muted',
+  'muted-light': 'bg-muted/30',
+  primary: 'bg-primary',
+  'primary-light': 'bg-primary/5',
+  accent: 'bg-accent/10',
 }
 
 const sizeStyles = {

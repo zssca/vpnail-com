@@ -28,9 +28,9 @@ export function FaqsSection() {
               <AccordionItem
                 key={index}
                 value={`item-${index}`}
-                className="bg-card border rounded-lg px-6"
+                className="bg-card border rounded-lg px-6 focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2"
               >
-                <AccordionTrigger className="text-left hover:no-underline py-6">
+                <AccordionTrigger className="text-left hover:no-underline py-6 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:rounded-md">
                   <span className="font-semibold">
                     {faq.question}
                   </span>

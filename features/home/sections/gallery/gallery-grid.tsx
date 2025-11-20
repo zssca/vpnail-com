@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
 import type { GalleryImage } from '@/lib/gallery'
 
 interface HomeGalleryGridProps {
@@ -12,14 +13,30 @@ interface HomeGalleryGridProps {
 
 export function HomeGalleryGrid({ images }: HomeGalleryGridProps) {
   const [selected, setSelected] = useState<GalleryImage | null>(null)
+  const [mounted, setMounted] = useState(false)
+
+  // Hydration safety - ensure component is mounted before rendering interactive elements
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   if (images.length === 0) {
     return null
   }
 
+  if (!mounted) {
+    return (
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-3 lg:grid-cols-5 lg:gap-4">
+        {images.map((image) => (
+          <Skeleton key={image.filename} className="aspect-square rounded-xl" />
+        ))}
+      </div>
+    )
+  }
+
   return (
     <>
-      <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 sm:gap-3 lg:grid-cols-5 lg:gap-4">
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-3 lg:grid-cols-5 lg:gap-4">
         {images.map((image) => (
           <figure
             key={image.filename}
@@ -42,7 +59,7 @@ export function HomeGalleryGrid({ images }: HomeGalleryGridProps) {
                 fill
                 itemProp="contentUrl"
                 className="object-cover transition-transform duration-300 group-hover:scale-105"
-                sizes="(max-width: 640px) 33vw, (max-width: 1024px) 25vw, 20vw"
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw"
               />
               <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/15" />
             </Button>

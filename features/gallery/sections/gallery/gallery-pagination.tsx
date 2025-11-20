@@ -33,43 +33,55 @@ export function GalleryPagination({ activePage, totalPages, onPageChange }: Gall
   }
 
   return (
-    <Pagination className="mt-10 flex-col items-center gap-4">
-      <PaginationContent className="flex flex-wrap items-center justify-center gap-3">
-        <PaginationItem>
-          <PaginationPrevious
-            href={previousPageHref}
-            onClick={handlePrevious}
-            aria-disabled={disablePrevious}
-            className={cn(disablePrevious && 'pointer-events-none opacity-50')}
-          />
-        </PaginationItem>
-        {pageNumbers.map((pageNumber) => (
-          <PaginationItem key={pageNumber}>
-            <PaginationLink
-              href={getPageHref(pageNumber)}
-              isActive={pageNumber === activePage}
-              size="default"
-              className="min-w-10 justify-center"
-              onClick={(event) => {
-                event.preventDefault()
-                if (pageNumber !== activePage) {
-                  onPageChange(pageNumber)
-                }
-              }}
-            >
-              {pageNumber}
-            </PaginationLink>
+    <>
+      {/* Screen reader announcement for page changes */}
+      <div
+        className="sr-only"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        Page {activePage} of {totalPages}
+      </div>
+
+      <Pagination className="mt-10 flex-col items-center gap-4">
+        <PaginationContent className="flex flex-wrap items-center justify-center gap-3">
+          <PaginationItem>
+            <PaginationPrevious
+              href={previousPageHref}
+              onClick={handlePrevious}
+              aria-disabled={disablePrevious}
+              className={cn(disablePrevious && 'pointer-events-none opacity-50')}
+            />
           </PaginationItem>
-        ))}
-        <PaginationItem>
-          <PaginationNext
-            href={nextPageHref}
-            onClick={handleNext}
-            aria-disabled={disableNext}
-            className={cn(disableNext && 'pointer-events-none opacity-50')}
-          />
-        </PaginationItem>
-      </PaginationContent>
-    </Pagination>
+          {pageNumbers.map((pageNumber) => (
+            <PaginationItem key={pageNumber}>
+              <PaginationLink
+                href={getPageHref(pageNumber)}
+                isActive={pageNumber === activePage}
+                size="default"
+                className="min-w-10 justify-center"
+                onClick={(event) => {
+                  event.preventDefault()
+                  if (pageNumber !== activePage) {
+                    onPageChange(pageNumber)
+                  }
+                }}
+              >
+                {pageNumber}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+          <PaginationItem>
+            <PaginationNext
+              href={nextPageHref}
+              onClick={handleNext}
+              aria-disabled={disableNext}
+              className={cn(disableNext && 'pointer-events-none opacity-50')}
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    </>
   )
 }

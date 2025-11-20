@@ -9,7 +9,7 @@ export function HeaderLogo({ name }: HeaderLogoProps) {
   return (
     <Link
       href="/"
-      className="flex items-center space-x-2 rounded-lg p-1 sm:p-2 -ml-1 sm:-ml-2 touch-manipulation flex-shrink-0"
+      className="flex items-center space-x-2 rounded-lg p-1 sm:p-2 -ml-1 sm:-ml-2 touch-manipulation flex-shrink-0 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
     >
       <Image
         src="/Victoria_Park_Nails_Spa_Logo_Primary_small.png"

@@ -59,8 +59,8 @@ export function HeroSection() {
               loading="lazy"
             />
             <div className="absolute inset-x-4 bottom-4 md:bottom-6 md:left-6 md:right-auto">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-green-600 px-3 py-1 text-xs font-medium text-white shadow-sm">
-                <span className="inline-block h-1.5 w-1.5 rounded-full bg-white" aria-hidden />
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[var(--success)] px-3 py-1 text-xs font-medium text-[var(--primary-foreground)] shadow-sm">
+                <span className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--primary-foreground)]" aria-hidden />
                 Free parking available
               </span>
             </div>

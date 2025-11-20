@@ -20,13 +20,13 @@ export function CredentialsSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {credentialsData.credentials.map((credential, index) => (
-            <Card key={index}>
-              <CardHeader>
+            <Card key={index} className="gap-4 p-6">
+              <CardHeader className="p-0">
                 <CardTitle>
                   <H4 className="text-balance text-lg">{credential.title}</H4>
                 </CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-0">
                 <CardDescription>
                   <P className="text-sm sm:text-base text-muted-foreground">
                     {credential.description}

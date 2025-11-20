@@ -87,7 +87,7 @@ export function CombinationsSection() {
                       <CardContent className="flex-1 space-y-4 px-6 pb-4">
                         <div className="text-center">
                           <div className="mx-auto inline-flex flex-col items-center justify-center gap-2 px-5 py-4">
-                            <span className="text-4xl font-semibold leading-none text-emerald-600 sm:text-5xl">
+                            <span className="text-4xl font-semibold leading-none text-primary sm:text-5xl">
                               ${pkg.price}
                             </span>
                             <span className="text-sm text-muted-foreground line-through">
@@ -100,7 +100,7 @@ export function CombinationsSection() {
                           <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                             What&apos;s Included
                           </p>
-                          <ol className="list-decimal space-y-2 pl-4 text-sm leading-relaxed text-foreground marker:text-emerald-500 marker:font-medium">
+                          <ol className="list-decimal space-y-2 pl-4 text-sm leading-relaxed text-foreground marker:text-primary/80 marker:font-medium">
                             {pkg.services.map((service, idx) => (
                               <li key={idx} className="text-sm leading-relaxed text-foreground">
                                 {service.name}

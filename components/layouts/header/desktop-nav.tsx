@@ -30,7 +30,10 @@ export function DesktopNav({ items }: DesktopNavProps) {
           <NavigationMenuItem key={item.label}>
             {item.children ? (
               <>
-                <NavigationMenuTrigger className="px-3 py-2 text-sm font-medium">
+                <NavigationMenuTrigger 
+                  className="px-3 py-2 text-sm font-medium focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:rounded-md"
+                  aria-label={`${item.label} navigation menu`}
+                >
                   {item.label}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className="p-0">
@@ -95,7 +98,7 @@ const ListItem = React.forwardRef<
         <a
           ref={ref}
           className={cn(
-            "block h-full select-none space-y-3 rounded-lg border border-border/60 bg-background/95 p-4 leading-none no-underline outline-none transition-colors hover:border-primary/50 hover:bg-primary/5 focus:border-primary/50 focus:bg-primary/5",
+            "block h-full select-none space-y-3 rounded-lg border border-border/60 bg-background/95 p-4 leading-none no-underline outline-none transition-colors hover:border-primary/50 hover:bg-primary/5 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:border-primary/50 focus-visible:bg-primary/5",
             className
           )}
           {...props}
@@ -103,7 +106,7 @@ const ListItem = React.forwardRef<
           <div className="flex items-center justify-between gap-3">
             <div className="text-base font-semibold leading-none">{title}</div>
             {typeof serviceCount === "number" && (
-              <span className="rounded-full bg-primary/10 px-2 py-1 text-xs font-semibold text-primary">
+              <span className="rounded-full bg-primary/20 px-2 py-1 text-xs font-semibold text-primary dark:bg-primary/30">
                 {serviceCount} {serviceCount === 1 ? "service" : "services"}
               </span>
             )}

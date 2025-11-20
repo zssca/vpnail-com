@@ -13,7 +13,7 @@ export function Footer({ id }: { id?: string }) {
       <Container className="py-12 pb-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
           {/* Brand & Description */}
-          <div className="lg:col-span-2">
+          <section className="lg:col-span-2">
             <h3 className="font-bold text-lg mb-4">{siteConfig.business.name}</h3>
             <p className="text-sm text-muted-foreground mb-4 max-w-sm">
               Calgary&apos;s premier nail salon and spa in Victoria Park. Book online 24/7 or walk-ins welcome.
@@ -40,11 +40,11 @@ export function Footer({ id }: { id?: string }) {
                 <Facebook className="h-5 w-5" />
               </a>
             </div>
-          </div>
+          </section>
 
           {/* Footer Navigation */}
           {footerNav.map((section) => (
-            <div key={section.title}>
+            <nav key={section.title} aria-label={section.title}>
               <h4 className="font-semibold mb-4">{section.title}</h4>
               <ul className="space-y-2 text-sm">
                 {section.links.map((link) => (
@@ -55,11 +55,11 @@ export function Footer({ id }: { id?: string }) {
                   </li>
                 ))}
               </ul>
-            </div>
+            </nav>
           ))}
 
           {/* Contact Information */}
-          <div>
+          <section aria-label="Contact Information">
             <h4 className="font-semibold mb-4">Contact</h4>
             <ul className="space-y-3 text-sm">
               <li>
@@ -96,7 +96,7 @@ export function Footer({ id }: { id?: string }) {
                 </a>
               </li>
             </ul>
-          </div>
+          </section>
         </div>
 
         {/* Bottom Bar */}

@@ -83,27 +83,29 @@ export function Breadcrumbs() {
 
   return (
     <div className="border-b bg-background">
-      <Container className="py-3">
-        <Breadcrumb>
-          <BreadcrumbList>
-            {breadcrumbs.map((breadcrumb, index) => (
-              <React.Fragment key={breadcrumb.href}>
-                <BreadcrumbItem>
-                  {breadcrumb.isCurrentPage ? (
-                    <BreadcrumbPage>{breadcrumb.label}</BreadcrumbPage>
-                  ) : (
-                    <BreadcrumbLink asChild>
-                      <Link href={breadcrumb.href}>
-                        {breadcrumb.label}
-                      </Link>
-                    </BreadcrumbLink>
-                  )}
-                </BreadcrumbItem>
-                {index < breadcrumbs.length - 1 && <BreadcrumbSeparator />}
-              </React.Fragment>
-            ))}
-          </BreadcrumbList>
-        </Breadcrumb>
+      <Container className="py-2 sm:py-3">
+        <div className="overflow-x-auto">
+          <Breadcrumb>
+            <BreadcrumbList className="whitespace-nowrap">
+              {breadcrumbs.map((breadcrumb, index) => (
+                <React.Fragment key={breadcrumb.href}>
+                  <BreadcrumbItem>
+                    {breadcrumb.isCurrentPage ? (
+                      <BreadcrumbPage className="text-xs sm:text-sm">{breadcrumb.label}</BreadcrumbPage>
+                    ) : (
+                      <BreadcrumbLink asChild>
+                        <Link href={breadcrumb.href} className="text-xs sm:text-sm">
+                          {breadcrumb.label}
+                        </Link>
+                      </BreadcrumbLink>
+                    )}
+                  </BreadcrumbItem>
+                  {index < breadcrumbs.length - 1 && <BreadcrumbSeparator />}
+                </React.Fragment>
+              ))}
+            </BreadcrumbList>
+          </Breadcrumb>
+        </div>
       </Container>
     </div>
   )

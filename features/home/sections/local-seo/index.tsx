@@ -21,20 +21,16 @@ export function LocalSeoSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
           {localSeoData.areas.map((area) => (
-            <Card key={area.id} className="h-full">
-              <CardHeader>
+            <Card key={area.id} className="flex flex-col gap-4 p-6 h-full">
+              <div>
                 <CardTitle>
                   <Small className="text-base font-semibold">{area.title}</Small>
                 </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <P className="text-muted-foreground">{area.copy}</P>
-              </CardContent>
-              <CardFooter>
-                <Button asChild variant="link">
-                  <Link href={area.href}>Plan your visit</Link>
-                </Button>
-              </CardFooter>
+              </div>
+              <P className="text-muted-foreground flex-1">{area.copy}</P>
+              <Button asChild variant="outline" size="sm" className="w-fit">
+                <Link href={area.href}>Plan your visit</Link>
+              </Button>
             </Card>
           ))}
         </div>

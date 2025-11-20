@@ -47,7 +47,7 @@ export function TestimonialsSection() {
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-0.5">
                           {Array.from({ length: testimonial.rating }).map((_, i) => (
-                            <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                            <Star key={i} className="w-4 h-4 fill-[var(--rating)] text-[var(--rating)]" />
                           ))}
                         </div>
                         <span className="text-xs text-muted-foreground">{testimonial.date}</span>
