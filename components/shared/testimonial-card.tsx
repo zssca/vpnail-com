@@ -105,14 +105,14 @@ export const TestimonialCard = React.forwardRef<
       <Card
         ref={ref}
         className={cn(
-          'flex flex-col h-full p-5',
+          'flex flex-col gap-4 p-6 h-full',
           interactive && 'hover:shadow-lg hover:border-primary/50 transition-all duration-200',
           className
         )}
         {...props}
       >
         {/* Star Rating & Date Header */}
-        <CardHeader className="p-0 pb-3 flex items-start justify-between">
+        <div className="flex items-start justify-between gap-2">
           <div className="flex items-center gap-1">
             <StarRating
               rating={rating}
@@ -122,40 +122,36 @@ export const TestimonialCard = React.forwardRef<
             />
           </div>
           {date && (
-            <span className="text-xs text-muted-foreground whitespace-nowrap ml-2">
+            <span className="text-xs text-muted-foreground whitespace-nowrap">
               {date}
             </span>
           )}
-        </CardHeader>
+        </div>
 
         {/* Testimonial Content */}
-        <CardContent className="flex-1 p-0 pb-4">
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            {content}
-          </p>
-        </CardContent>
+        <p className="text-sm text-muted-foreground leading-relaxed flex-1">
+          {content}
+        </p>
 
         {/* Author Info Footer */}
-        <CardFooter className="p-0 pt-3 border-t">
-          <div className="flex items-center gap-3 w-full">
-            <Avatar className="h-9 w-9 shrink-0">
-              {avatarUrl && <AvatarImage src={avatarUrl} alt={name} />}
-              <AvatarFallback className="bg-primary/10 text-primary font-medium text-xs">
-                {initials}
-              </AvatarFallback>
-            </Avatar>
-            <div className="flex-1 min-w-0">
-              <p className="font-semibold text-sm leading-tight truncate">
-                {name}
+        <div className="flex items-center gap-3 w-full pt-2 border-t">
+          <Avatar className="h-9 w-9 shrink-0">
+            {avatarUrl && <AvatarImage src={avatarUrl} alt={name} />}
+            <AvatarFallback className="bg-primary text-primary-foreground font-medium text-xs">
+              {initials}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex-1 min-w-0">
+            <p className="font-semibold text-sm leading-tight truncate">
+              {name}
+            </p>
+            {role && (
+              <p className="text-xs text-muted-foreground truncate">
+                {role}
               </p>
-              {role && (
-                <p className="text-xs text-muted-foreground truncate">
-                  {role}
-                </p>
-              )}
-            </div>
+            )}
           </div>
-        </CardFooter>
+        </div>
       </Card>
     )
   }

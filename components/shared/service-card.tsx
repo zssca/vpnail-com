@@ -98,60 +98,58 @@ export const ServiceCard = React.forwardRef<HTMLDivElement, ServiceCardProps>(
       <Card
         ref={ref}
         className={cn(
-          'flex flex-col h-full border hover:border-primary/50 transition-all duration-200 overflow-hidden',
+          'flex flex-col gap-4 p-4 hover:border-primary/50 transition-all duration-200 overflow-hidden focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2',
           className
         )}
         {...props}
       >
         {/* Badge */}
         {badge && (
-          <div className="px-6 pt-6 pb-0">
-            <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
+          <div>
+            <span className="inline-flex items-center gap-1 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground">
               {badge}
             </span>
           </div>
         )}
 
         {/* Header - Title & Price */}
-        <CardHeader className="flex items-start justify-between gap-3 pb-2">
+        <div className="flex items-start justify-between gap-3">
           {/* Service Info */}
           <div className="flex-1 min-w-0">
-            <CardTitle className="text-base leading-tight">
+            <h3 className="text-base font-semibold leading-tight">
               {title}
-            </CardTitle>
+            </h3>
             {description && (
-              <CardDescription className="text-xs leading-snug mt-1">
+              <p className="text-xs text-muted-foreground leading-snug mt-1">
                 {description}
-              </CardDescription>
+              </p>
             )}
           </div>
 
           {/* Price & Duration Badge */}
           <div className="flex-shrink-0">
-            <div className="flex flex-col items-end bg-primary/10 px-2.5 py-1.5 rounded-md">
-              <span className="text-base font-bold text-primary whitespace-nowrap leading-none">
+            <div className="flex flex-col items-end bg-primary px-3 py-1.5 rounded-md gap-0.5">
+              <span className="text-base font-bold text-primary-foreground whitespace-nowrap leading-none">
                 {price}
               </span>
-              <div className="flex items-center gap-1 text-[10px] text-muted-foreground mt-1">
+              <div className="flex items-center gap-1 text-[10px] text-primary-foreground/80 mt-0.5">
                 <Clock className="h-3 w-3" />
                 <span className="whitespace-nowrap">{duration}</span>
               </div>
             </div>
           </div>
-        </CardHeader>
+        </div>
 
         {/* CTA Button */}
-        <CardContent className="flex-1 flex items-end pt-0">
-          <Button asChild size="sm" className="w-full">
-            <Link
-              {...linkProps}
-              className="flex items-center justify-center gap-1.5"
-            >
-              <span className="font-medium">{ctaText}</span>
-              <ArrowRight className="h-3 w-3" />
-            </Link>
-          </Button>
-        </CardContent>
+        <Button asChild size="sm" variant="outline" className="w-full" aria-label={`Book ${title}`}>
+          <Link
+            {...linkProps}
+            className="flex items-center justify-center gap-1.5 focus-visible:outline-none"
+          >
+            <span className="font-medium">{ctaText}</span>
+            <ArrowRight className="h-3 w-3" />
+          </Link>
+        </Button>
       </Card>
     )
   }

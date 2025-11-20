@@ -48,8 +48,8 @@ export function HomeGalleryGrid({ images }: HomeGalleryGridProps) {
               type="button"
               onClick={() => setSelected(image)}
               variant="ghost"
-              className="group relative flex aspect-square h-full w-full overflow-hidden rounded-xl border bg-muted p-0 hover:bg-transparent"
-              aria-label={image.alt}
+              className="group relative flex aspect-square h-full w-full overflow-hidden rounded-xl border bg-muted p-0 hover:bg-transparent focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-ring"
+              aria-label={`View full size: ${image.alt}`}
               title={image.title}
             >
               <Image
