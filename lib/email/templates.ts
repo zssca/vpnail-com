@@ -1,16 +1,14 @@
 import { emailConfig } from './config';
-import { lightColors } from '@/lib/utils/colors';
 
 /**
  * Email Template for Contact Form Submissions
  *
  * This template can be customized per client by:
- * 1. Changing colors (update in lib/utils/colors.ts to match globals.css)
+ * 1. Changing colors (hardcoded hex values below)
  * 2. Modifying layout/structure here
  * 3. Adding client logo (update logoUrl)
  *
- * Note: Email templates use hex colors from lib/utils/colors.ts since
- * CSS variables are not supported in email clients.
+ * Note: Email templates use hex colors since CSS variables are not supported in email clients.
  */
 
 interface ContactFormData {
@@ -25,14 +23,14 @@ export function generateContactEmail(data: ContactFormData): string {
   const { name, email, phone, message, submittedAt } = data;
   const { clientName, websiteDomain, brandColor } = emailConfig;
 
-  // Email-safe colors from globals.css color system
+  // Email-safe colors (hardcoded hex values)
   const colors = {
-    background: lightColors.muted,           // #f5f5f5
-    cardBackground: lightColors.background,   // #ffffff
-    border: lightColors.border,               // #e4e4e7
-    textPrimary: lightColors.foreground,      // #18181b
-    textSecondary: lightColors.mutedForeground, // #71717a
-    textMuted: lightColors.secondaryForeground, // #3f3f46
+    background: '#f5f5f5',       // Muted background
+    cardBackground: '#ffffff',    // White cards
+    border: '#e4e4e7',           // Border color
+    textPrimary: '#18181b',      // Primary text
+    textSecondary: '#71717a',    // Secondary text
+    textMuted: '#3f3f46',        // Muted text
   };
 
   return `
@@ -120,10 +118,10 @@ export function generateContactEmail(data: ContactFormData): string {
           <!-- Header -->
           <tr>
             <td style="background-color: ${brandColor}; padding: 32px 30px; text-align: center;">
-              <h1 style="margin: 0; font-size: 24px; font-weight: 600; color: ${lightColors.primaryForeground};">
+              <h1 style="margin: 0; font-size: 24px; font-weight: 600; color: #fafafa;">
                 ${clientName}
               </h1>
-              <p style="margin: 10px 0 0 0; font-size: 15px; color: ${lightColors.primaryForeground}; opacity: 0.95;">
+              <p style="margin: 10px 0 0 0; font-size: 15px; color: #fafafa; opacity: 0.95;">
                 New Contact Form Submission
               </p>
             </td>

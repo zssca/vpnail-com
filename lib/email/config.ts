@@ -1,6 +1,5 @@
 import { siteConfig } from '@/lib/config/site.config'
 import type { EmailConfig } from '@/lib/types/config.types'
-import { lightColors } from '@/lib/utils/colors'
 
 /**
  * Client Email Configuration
@@ -12,7 +11,6 @@ import { lightColors } from '@/lib/utils/colors'
  * - brandColor: Primary brand color for email styling (from CSS variables)
  *
  * Note: Email templates require hex colors since CSS variables aren't supported.
- * Colors are sourced from lib/utils/colors.ts which maps globals.css variables to hex.
  */
 
 const websiteDomain = (() => {
@@ -33,8 +31,8 @@ export const emailConfig = {
   fromEmail: 'noreply@contact.zss.ca',  // ✅ Matches verified domain in Resend
   fromName: `${siteConfig.name} Contact`,
 
-  // Branding - uses primary color from globals.css color system
-  brandColor: lightColors.primary, // Maps to --primary CSS variable
+  // Branding - primary brand color
+  brandColor: '#8b9a7c', // Sage green (matches --primary CSS variable)
 
   // Optional: BCC yourself for monitoring
   bccEmail: 'info@contact.zss.ca',  // ✅ Also using verified domain

@@ -22,15 +22,6 @@ export type HeroBackground =
   | { type: 'muted' }
   | { type: 'gradient' }
   | { type: 'image'; src: string; alt?: string }
-  | { type: 'video'; src: string; poster?: string }
-  | {
-      type: 'iframe'
-      src: string
-      title?: string
-      allowFullScreen?: boolean
-      loading?: 'lazy' | 'eager'
-      referrerPolicy?: string
-    }
 
 export type HeroProps = {
   title?: React.ReactNode
@@ -96,49 +87,6 @@ function HeroBackground({ background }: { background?: HeroBackground }) {
     )
   }
 
-  if (background.type === 'video') {
-    return (
-      <>
-        <div className="absolute inset-0 z-0">
-          <video
-            key={background.src}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            className="h-full w-full object-cover"
-            aria-hidden="true"
-            title="Background video"
-            poster={background.poster}
-          >
-            <source src={background.src} type="video/mp4" />
-            <track kind="captions" />
-          </video>
-        </div>
-        <div className="absolute inset-0 z-0 bg-background/60" />
-      </>
-    )
-  }
-
-  if (background.type === 'iframe') {
-    return (
-      <>
-        <div className="absolute inset-0 z-0">
-          <iframe
-            src={background.src}
-            title={background.title || 'Embedded content'}
-            className="h-full w-full border-0"
-            loading={background.loading || 'lazy'}
-            allowFullScreen={background.allowFullScreen ?? true}
-            referrerPolicy={(background.referrerPolicy as React.HTMLAttributeReferrerPolicy) || 'no-referrer-when-downgrade'}
-          />
-        </div>
-        <div className="absolute inset-0 z-0 bg-background/60" />
-      </>
-    )
-  }
-
   return null
 }
 
@@ -150,7 +98,7 @@ function HeroButton({ action, index }: { action: HeroAction; index: number }) {
   if (isExternal) {
     return (
       <div className="w-full sm:w-auto">
-        <Button variant={variant} size="2xl" className="w-full sm:w-auto" asChild>
+        <Button variant={variant} size="lg" className="w-full sm:w-auto" asChild>
           <a
             href={action.href}
             target={action.external ? '_blank' : undefined}
@@ -165,7 +113,7 @@ function HeroButton({ action, index }: { action: HeroAction; index: number }) {
 
   return (
     <div className="w-full sm:w-auto">
-      <Button variant={variant} size="2xl" className="w-full sm:w-auto" asChild>
+      <Button variant={variant} size="lg" className="w-full sm:w-auto" asChild>
         <Link href={action.href as Route}>
           {action.text}
         </Link>
