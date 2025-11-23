@@ -23,6 +23,14 @@ export type HeroBackground =
   | { type: 'gradient' }
   | { type: 'image'; src: string; alt?: string }
   | { type: 'video'; src: string; poster?: string }
+  | {
+      type: 'iframe'
+      src: string
+      title?: string
+      allowFullScreen?: boolean
+      loading?: 'lazy' | 'eager'
+      referrerPolicy?: string
+    }
 
 export type HeroProps = {
   title?: React.ReactNode
@@ -107,6 +115,24 @@ function HeroBackground({ background }: { background?: HeroBackground }) {
             <source src={background.src} type="video/mp4" />
             <track kind="captions" />
           </video>
+        </div>
+        <div className="absolute inset-0 z-0 bg-background/60" />
+      </>
+    )
+  }
+
+  if (background.type === 'iframe') {
+    return (
+      <>
+        <div className="absolute inset-0 z-0">
+          <iframe
+            src={background.src}
+            title={background.title || 'Embedded content'}
+            className="h-full w-full border-0"
+            loading={background.loading || 'lazy'}
+            allowFullScreen={background.allowFullScreen ?? true}
+            referrerPolicy={(background.referrerPolicy as React.HTMLAttributeReferrerPolicy) || 'no-referrer-when-downgrade'}
+          />
         </div>
         <div className="absolute inset-0 z-0 bg-background/60" />
       </>
