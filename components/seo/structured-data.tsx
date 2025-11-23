@@ -9,6 +9,7 @@ import {
   getWebsiteSchema,
   toJsonLd,
 } from '@/lib/seo/structured-data'
+import { siteConfig } from '@/lib/config/site.config'
 
 export type StructuredDataType =
   | 'LocalBusiness'
@@ -61,7 +62,7 @@ const builders: Record<StructuredDataType, (data?: Record<string, unknown>) => R
       url: String(data?.url ?? '/'),
       publishedTime: String(data?.publishedTime ?? new Date().toISOString()),
       modifiedTime: data?.modifiedTime ? String(data.modifiedTime) : undefined,
-      authorName: String(data?.authorName ?? 'Victoria Park Nails & Spa'),
+      authorName: String(data?.authorName ?? siteConfig.business.name ?? siteConfig.name),
       image: data?.image ? String(data.image) : undefined,
     }),
   SiteNavigationElement: (data) =>

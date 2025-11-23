@@ -12,7 +12,7 @@ import {
   SEO_DEFAULT_DESCRIPTION,
   SEO_DEFAULT_KEYWORDS,
   SEO_DEFAULT_OG_IMAGE,
-} from './constants'
+} from '@/lib/config/seo.config'
 import { PageSEOConfig } from './types'
 import { getRandomGalleryImage } from './og-image'
 

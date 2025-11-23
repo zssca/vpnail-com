@@ -1,9 +1,11 @@
 import { buildMetadata } from '@/lib/seo/metadata'
 
+import { siteConfig } from '@/lib/config/site.config'
+
 export const galleryMetadata = buildMetadata({
-  title: 'Calgary Nail Art Gallery | Victoria Park Nails & Spa',
+  title: `Calgary Nail Art Gallery | ${siteConfig.business.name}`,
   description:
-    'Calgary nail art gallery: manicures, pedicures, and custom designs from our Victoria Park studio near Stampede. Free parking and CTrain access. View our work!',
+    `View Calgary nail art, manicures, and pedicures from ${siteConfig.business.name} near the Stampede grounds. Free parking, CTrain access, and online booking.`,
   path: '/gallery',
   keywords: [
     'nail art gallery Calgary',
@@ -21,7 +23,7 @@ export const galleryMetadata = buildMetadata({
     'shellac nail art Calgary',
   ],
   openGraphDescription:
-    'See Calgary nail art, manicures, pedicures, and custom designs created at our Victoria Park studio near the Stampede with free parking and CTrain access.',
+    `See Calgary nail art, manicures, pedicures, and custom designs from ${siteConfig.business.name} near the Stampede with free parking and CTrain access.`,
   twitterDescription:
-    'Browse Calgary nail art and manicure inspiration from our Victoria Park studio near the Stampede.',
+    'Browse Calgary nail art and manicure inspiration from our Victoria Park studio with online booking and free parking.',
 })

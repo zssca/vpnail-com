@@ -9,6 +9,7 @@ const config = [
       "out/**",
       "build/**",
       "next-env.d.ts",
+      "components/ui/**",
     ],
   },
 ];

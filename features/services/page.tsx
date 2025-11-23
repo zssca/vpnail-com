@@ -1,4 +1,3 @@
-import { HeroSection } from './sections/hero'
 import { CombinationsSection } from './sections/combinations'
 import { ServicesGridSection } from './sections/services-grid'
 import { TestimonialsSection } from './sections/testimonials'
@@ -28,9 +27,8 @@ export function ServicesPage() {
           areaServed: 'Calgary, Alberta',
         }}
       />
-      <HeroSection />
-      <CombinationsSection />
       <ServicesGridSection />
+      <CombinationsSection />
       <TestimonialsSection />
       <FaqsSection />
       <CtaSection />

@@ -1,9 +1,6 @@
 import { Section, Container } from '@/components/layouts'
 import { HeroSection } from './sections/hero'
-import { ContactInfoSection } from './sections/contact-info'
-import { HoursSection } from './sections/hours'
-import { LocationSection } from './sections/location'
-import { FormSection } from './sections/form'
+import { MainSection } from './sections/main'
 import { FaqsSection } from './sections/faqs'
 import { StructuredData } from '@/components/seo'
 import { getFAQSchema } from '@/lib/seo/structured-data'
@@ -16,17 +13,16 @@ export function ContactPage() {
     <main>
       {/* FAQPage JSON-LD for Contact page */}
       <StructuredData schema={getFAQSchema(faqEntities)} />
+
       <HeroSection />
-      <Section>
+
+      {/* Contact 2x2 Grid: Info, Hours, Location, Form */}
+      <Section variant="muted">
         <Container>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <ContactInfoSection />
-            <HoursSection />
-            <LocationSection />
-            <FormSection />
-          </div>
+          <MainSection />
         </Container>
       </Section>
+
       <FaqsSection />
     </main>
   )

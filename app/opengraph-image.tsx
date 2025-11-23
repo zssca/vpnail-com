@@ -1,6 +1,11 @@
-import { ImageResponse } from 'next/og';
+import { ImageResponse } from 'next/og'
+import { siteConfig } from '@/lib/config/site.config'
 
-export const alt = 'Victoria Park Nails and Spa - Calgary Premiere Nail Salon & Spa';
+const brandCity = siteConfig.business.address.city
+const tagline = siteConfig.business.tagline || 'Premier Nail Salon & Spa'
+const locationLabel = brandCity || siteConfig.business.name
+
+export const alt = `${siteConfig.name} - ${brandCity ? `${brandCity} ` : ''}${tagline}`
 export const size = {
   width: 1200,
   height: 630,
@@ -32,7 +37,7 @@ export default async function Image() {
             textAlign: 'center',
           }}
         >
-          Victoria Park Nails and Spa
+          {siteConfig.name}
         </div>
         <div
           style={{
@@ -43,7 +48,7 @@ export default async function Image() {
             lineHeight: 1.2,
           }}
         >
-          Calgary&apos;s Premier Nail Salon & Spa
+          {brandCity ? `${brandCity}'s ${tagline}` : tagline}
         </div>
         <div
           style={{
@@ -53,7 +58,7 @@ export default async function Image() {
             textAlign: 'center',
           }}
         >
-          Exceptional Service • Beautiful Results • Victoria Park
+          {`Exceptional Service • Beautiful Results • ${locationLabel}`}
         </div>
       </div>
     ),

@@ -1,15 +1,17 @@
 import { buildMetadata } from '@/lib/seo/metadata'
 
+import { siteConfig } from '@/lib/config/site.config'
+
 export const accessibilityMetadata = buildMetadata({
-  title: 'Accessibility | Victoria Park Nails & Spa Calgary',
+  title: `Accessibility | ${siteConfig.business.name} Calgary`,
   description:
-    'Accessibility statement for Victoria Park Nails & Spa in Calgary. Learn about our inclusive policies and accessible features for both our salon and website.',
+    `Accessibility statement for ${siteConfig.business.name} in Calgary. Learn about our inclusive policies and accessible features for both our salon and website.`,
   path: '/accessibility',
   keywords: [
-    'Victoria Park Nails accessibility',
+    `${siteConfig.business.name} accessibility`,
     'Calgary nail salon accessibility',
     'accessible nail salon Calgary',
-    'Victoria Park Nails ADA compliance',
+    `${siteConfig.business.name} ADA compliance`,
   ],
   type: 'article',
   noindex: true,

@@ -1,8 +1,8 @@
 import { siteConfig } from '@/lib/config/site.config'
 
 export const contactInfoData = {
-  title: 'Get in Touch',
-  description: 'We\'d love to hear from you. Reach out to us for appointments or inquiries.',
+  title: 'Call, email, or visit',
+  description: 'Talk to our Victoria Park team for bookings, parking help, or service recommendations.',
   methods: [
     {
       icon: 'Phone',

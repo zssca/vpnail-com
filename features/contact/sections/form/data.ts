@@ -1,7 +1,5 @@
 export const formData = {
-  title: 'Ready to Start Your Journey?',
-  description: 'Fill out the form below and a member of our team will get back to you shortly. We\'re excited to be a part of your wellness journey.',
-  badge: 'Contact Us',
+  title: 'Send a Message',
   fields: {
     name: {
       label: 'Name',

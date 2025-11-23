@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { cn } from '@/lib/utils'
-import { Small, H2, Lead } from './typography'
 import { Badge, badgeVariants } from './badge'
 import { type VariantProps } from 'class-variance-authority'
 
@@ -110,25 +109,25 @@ export const SectionHeader = React.forwardRef<
           {badge && (
             <Badge
               variant={badge.variant}
-              className="w-fit mx-auto py-2 px-4 bg-primary/5 text-primary border-primary/20"
+              className="w-fit mx-auto py-2 px-4 bg-primary/5 border-primary/20"
             >
-              <Small className="text-primary font-semibold tracking-wide uppercase">
+              <small className="text-sm font-medium leading-none font-semibold tracking-wide uppercase">
                 {badge.content}
-              </Small>
+              </small>
             </Badge>
           )}
 
           {/* Subtitle */}
-          <Small className="text-primary uppercase tracking-[0.3em] block">
+          <small className="text-sm font-medium leading-none text-primary uppercase tracking-[0.3em] block">
             {subtitle}
-          </Small>
+          </small>
 
           {/* Title */}
-          <H2>{title}</H2>
+          <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">{title}</h2>
 
           {/* Description */}
           {description && (
-            <Lead>{description}</Lead>
+            <p className="text-xl text-muted-foreground/50">{description}</p>
           )}
         </div>
       </div>

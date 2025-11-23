@@ -1,12 +1,8 @@
 import { siteConfig } from '@/lib/config/site.config'
+import type { DualCtaContent } from '@/components/shared/dual-cta-section'
 
-export const ctaData = {
-  title: 'Your Best Nails Are Just One Appointment Away',
-  subtitle: 'Join thousands of Calgary guests who trust our top-rated team',
-  description:
-    'Reserve a time that fits your calendar, then arrive to sterilized tools, heated massage chairs, and technicians who remember your preferences. Same-day spots fill fast.',
-  cta: {
-    primary: { text: 'Reserve Your Spot Online', href: '/services' },
-    secondary: { text: `Call ${siteConfig.business.phone} Now`, href: siteConfig.social.phone },
-  },
-} as const
+export const ctaData: DualCtaContent = {
+  title: 'Book Your Appointment',
+  primary: { text: 'Book online', href: siteConfig.links.booking },
+  secondary: { text: 'Call now', href: siteConfig.social.phone },
+}

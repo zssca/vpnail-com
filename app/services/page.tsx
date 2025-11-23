@@ -4,4 +4,7 @@ export const metadata = servicesMetadata
 export const dynamic = 'force-static'
 export const revalidate = false
 
-export default ServicesPage
+export default async function ServicesRoute() {
+  'use cache'
+  return <ServicesPage />
+}

@@ -1,8 +1,9 @@
 "use client"
 
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef } from "react"
 import { flushSync } from "react-dom"
 import { Moon, Sun } from "lucide-react"
+import { useTheme } from "next-themes"
 
 import { Button } from "@/components/ui/button"
 
@@ -26,37 +27,17 @@ export function AnimatedThemeToggler({
   onClick,
   ...props
 }: AnimatedThemeTogglerProps) {
-  const [isDark, setIsDark] = useState(false)
+  const { theme, setTheme } = useTheme()
   const buttonRef = useRef<HTMLButtonElement>(null)
-
-  useEffect(() => {
-    if (typeof document === "undefined") return
-
-    const updateThemeState = () => {
-      setIsDark(document.documentElement.classList.contains("dark"))
-    }
-
-    updateThemeState()
-
-    const observer = new MutationObserver(updateThemeState)
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["class"],
-    })
-
-    return () => observer.disconnect()
-  }, [])
 
   const toggleTheme = useCallback(
     async (event: React.MouseEvent<HTMLButtonElement>) => {
       if (!buttonRef.current) return
 
-      const targetIsDark = !isDark
+      const targetTheme = theme === "dark" ? "light" : "dark"
 
       const applyTheme = () => {
-        setIsDark(targetIsDark)
-        document.documentElement.classList.toggle("dark", targetIsDark)
-        localStorage.setItem("theme", targetIsDark ? "dark" : "light")
+        setTheme(targetTheme)
       }
 
       // Check if browser supports View Transitions API
@@ -99,7 +80,7 @@ export function AnimatedThemeToggler({
 
       onClick?.(event)
     },
-    [isDark, duration, onClick]
+    [theme, setTheme, duration, onClick]
   )
 
   return (
@@ -110,11 +91,11 @@ export function AnimatedThemeToggler({
       size={size}
       className={className}
       onClick={toggleTheme}
-      aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
+      aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
       {...props}
     >
       <span aria-hidden className="flex items-center justify-center">
-        {isDark ? <Sun className="size-4" /> : <Moon className="size-4" />}
+        {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
       </span>
       <span className="sr-only">Toggle theme</span>
     </Button>

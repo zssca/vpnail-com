@@ -5,7 +5,7 @@ import {
   SEO_NAVIGATION_ITEMS,
   SEO_SOCIAL_LINKS,
   SEO_DEFAULT_OG_IMAGE,
-} from './constants'
+} from '@/lib/config/seo.config'
 
 export type BreadcrumbItem = { name: string; url: string }
 export type FAQItem = { question: string; answer: string }

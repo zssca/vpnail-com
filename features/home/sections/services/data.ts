@@ -1,14 +1,13 @@
+import { siteConfig } from '@/lib/config/site.config'
+
 export const servicesData = {
-  subtitle: 'Exceptional Treatments',
-  title: 'From Quick Lunch-Break Manicures to 2-Hour Spa Escapes',
-  description:
-    'Victoria Park Nails & Spa pairs meticulous nail care with restorative spa treatments, making it easy to fit confidence-boosting self-care into any Calgary schedule.',
+  title: 'Our Services',
   categories: [
     {
       id: 'nail-services',
       title: 'Nail Services',
       description:
-        'Manicures, resilient gel polish, intricate nail art, and sculpted extensions - all tailored to keep your hands and feet photo-ready for workdays, weddings, and Stampede nights.',
+        'Classic manicures, chip-resistant gel, sculpted acrylic or gel extensions, and custom nail art that survive meetings, weddings, and Stampede nights.',
       serviceCount: 29,
       href: '/services#nail-services',
     },
@@ -16,7 +15,7 @@ export const servicesData = {
       id: 'massage-spa',
       title: 'Massage & Spa',
       description:
-        'Reset between meetings with relaxation massage, hot stone therapy, and glow-boosting facials designed to melt away stress in the middle of downtown.',
+        'Relaxation and hot stone massage plus glow-boosting facials to reset between meetings without leaving Victoria Park.',
       serviceCount: 7,
       href: '/services#massage-spa',
     },
@@ -24,10 +23,10 @@ export const servicesData = {
       id: 'waxing',
       title: 'Waxing',
       description:
-        'Face and body waxing delivered with gentle techniques, premium hard wax, and detailed finishing so you can step out smooth and confident.',
+        'Gentle facial and body waxing with precise finishing so you leave smooth and ready for the day.',
       serviceCount: 10,
       href: '/services#waxing',
     },
   ],
-  cta: { text: 'View All Services & Pricing', href: '/services' },
+  cta: { text: 'View services & pricing', href: '/services' },
 } as const

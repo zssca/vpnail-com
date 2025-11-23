@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import type { GalleryImage } from '@/lib/gallery'
+import type { GalleryImage } from '@/lib/utils/gallery'
 import { GalleryImageItem } from './gallery-image-item'
 import { GalleryLightbox } from './gallery-lightbox'
 import { GalleryPagination } from './gallery-pagination'
@@ -15,16 +15,10 @@ const ITEMS_PER_PAGE = 30
 export function GalleryGrid({ images }: GalleryGridProps) {
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null)
   const [activePage, setActivePage] = useState(1)
-  const [mounted, setMounted] = useState(false)
 
   const totalPages = Math.max(1, Math.ceil(images.length / ITEMS_PER_PAGE))
   const startIndex = (activePage - 1) * ITEMS_PER_PAGE
   const paginatedImages = images.slice(startIndex, startIndex + ITEMS_PER_PAGE)
-
-  // Hydration safety - ensure component is mounted before rendering interactive elements
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -53,8 +47,6 @@ export function GalleryGrid({ images }: GalleryGridProps) {
 
   // Preload images for next page
   useEffect(() => {
-    if (!mounted) return
-
     const nextPageStart = activePage * ITEMS_PER_PAGE
     const nextPageEnd = Math.min(nextPageStart + ITEMS_PER_PAGE, images.length)
 
@@ -64,39 +56,22 @@ export function GalleryGrid({ images }: GalleryGridProps) {
         img.src = images[i].src
       }
     }
-  }, [activePage, images, mounted])
-
-  if (!mounted) {
-    return (
-      <>
-        <div className="grid grid-cols-3 gap-2 md:grid-cols-4 md:gap-4 lg:grid-cols-5 xl:grid-cols-6">
-          {paginatedImages.map((image) => (
-            <GalleryImageItem
-              key={image.filename}
-              image={image}
-              onClick={() => {}}
-            />
-          ))}
-        </div>
-        <GalleryPagination
-          activePage={activePage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
-      </>
-    )
-  }
+  }, [activePage, images])
 
   return (
     <>
-      <div className="grid grid-cols-3 gap-2 md:grid-cols-4 md:gap-4 lg:grid-cols-5 xl:grid-cols-6">
-        {paginatedImages.map((image) => (
+      <div className="overflow-x-hidden">
+        <div className="grid grid-cols-2 gap-1.5 xs:gap-2 sm:grid-cols-3 sm:gap-2 md:grid-cols-4 md:gap-3 lg:grid-cols-5 lg:gap-4 xl:grid-cols-6">
+        {paginatedImages.map((image, index) => (
           <GalleryImageItem
             key={image.filename}
             image={image}
+            index={index}
             onClick={() => setSelectedImage(image)}
+            priority={index < 6}
           />
         ))}
+        </div>
       </div>
 
       <GalleryPagination

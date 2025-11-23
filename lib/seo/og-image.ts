@@ -1,4 +1,4 @@
-import { getGalleryImages } from '@/lib/gallery'
+import { getGalleryImages } from '@/lib/utils/gallery'
 
 const FALLBACK_IMAGE = '/images/gallery/victoria-park-nails-calgary-luxury-gel-manicure-1.webp'
 

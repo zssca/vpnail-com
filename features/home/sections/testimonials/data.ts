@@ -1,9 +1,7 @@
-import { siteConfig } from '@/lib/config/site.config'
+import type { TestimonialsContent } from '@/components/shared/testimonials-carousel'
 
 export const homeTestimonialsData = {
-  title: "What Our Clients Are Saying",
-  subtitle: "Discover why we are a top-rated nail salon in Calgary",
-  description: `Don't just take our word for it - hear what our satisfied clients have to say about their experience at ${siteConfig.business.name}.`,
+  title: 'Client Reviews',
   testimonials: [
     {
       id: "home-testimonial-1",
@@ -126,4 +124,4 @@ export const homeTestimonialsData = {
       rating: 5
     }
   ]
-} as const
+} satisfies TestimonialsContent

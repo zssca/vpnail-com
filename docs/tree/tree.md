@@ -1,11 +1,13 @@
 # Project Tree Structure
 
-Generated on: 2025-11-19 03:54:33
+Generated on: 2025-11-21 20:07:29
 
 Excluded directories: .claude, .git, .next, __pycache__, build, dist, node_modules
 
 ```
 vpnail-com/
+├── .vscode/
+│   └── settings.json
 ├── app/
 │   ├── (legal)/
 │   │   ├── accessibility/
@@ -16,20 +18,23 @@ vpnail-com/
 │   │   │   └── page.tsx
 │   │   └── layout.tsx
 │   ├── about/
-│   │   └── page.tsx
-│   ├── areas/
-│   │   ├── [slug]/
-│   │   │   └── page.tsx
-│   │   ├── layout.tsx
+│   │   ├── loading.tsx
 │   │   └── page.tsx
 │   ├── consultation/
+│   │   ├── loading.tsx
 │   │   └── page.tsx
 │   ├── contact/
+│   │   ├── loading.tsx
 │   │   └── page.tsx
 │   ├── gallery/
 │   │   ├── loading.tsx
 │   │   └── page.tsx
+│   ├── layout/
+│   │   ├── head-tags.tsx
+│   │   ├── skip-links.tsx
+│   │   └── structured-data-config.ts
 │   ├── services/
+│   │   ├── loading.tsx
 │   │   └── page.tsx
 │   ├── error.tsx
 │   ├── global-error.tsx
@@ -43,6 +48,10 @@ vpnail-com/
 │   └── sitemap.ts
 ├── components/
 │   ├── layouts/
+│   │   ├── header/
+│   │   │   ├── desktop-nav.tsx
+│   │   │   ├── header-logo.tsx
+│   │   │   └── mobile-menu.tsx
 │   │   ├── announcement-banner.tsx
 │   │   ├── breadcrumbs.tsx
 │   │   ├── container.tsx
@@ -63,10 +72,14 @@ vpnail-com/
 │   │   ├── meta-tags.tsx
 │   │   └── structured-data.tsx
 │   ├── shared/
-│   │   └── location-map.tsx
+│   │   ├── location-map.tsx
+│   │   ├── service-card.tsx
+│   │   ├── suspense-boundary.tsx
+│   │   └── testimonial-card.tsx
 │   └── ui/
 │       ├── accordion.tsx
 │       ├── alert.tsx
+│       ├── animated-tab.tsx
 │       ├── animated-theme-toggler.tsx
 │       ├── avatar.tsx
 │       ├── badge.tsx
@@ -76,199 +89,114 @@ vpnail-com/
 │       ├── carousel.tsx
 │       ├── dialog.tsx
 │       ├── drawer.tsx
+│       ├── form.tsx
+│       ├── icon-colored.tsx
 │       ├── input.tsx
+│       ├── item.tsx
 │       ├── label.tsx
 │       ├── navigation-menu.tsx
 │       ├── pagination.tsx
+│       ├── section-header.tsx
 │       ├── select.tsx
 │       ├── separator.tsx
+│       ├── skeleton-loader.tsx
 │       ├── skeleton.tsx
 │       ├── sonner.tsx
+│       ├── star-rating.tsx
 │       ├── tabs.tsx
-│       ├── textarea.tsx
-│       └── typography.tsx
+│       └── textarea.tsx
 ├── docs/
-│   ├── rules/
-│   │   ├── nextjs/
-│   │   │   ├── 01-core-updates.md
-│   │   │   ├── 02-breaking-changes.md
-│   │   │   ├── 03-rendering-patterns.md
-│   │   │   ├── 04-data-and-caching.md
-│   │   │   └── 05-migration-checklist.md
-│   │   ├── tasks/
-│   │   │   ├── deployment/
-│   │   │   │   ├── 01-pre-deploy-qa.md
-│   │   │   │   └── 02-deploy.md
-│   │   │   ├── development/
-│   │   │   │   ├── 01-add-page.md
-│   │   │   │   ├── 02-add-section.md
-│   │   │   │   ├── 03-update-content.md
-│   │   │   │   └── 04-contact-form.md
-│   │   │   ├── optimization/
-│   │   │   │   └── 01-performance.md
-│   │   │   ├── setup/
-│   │   │   │   ├── 01-initial-setup.md
-│   │   │   │   ├── 02-email-config.md
-│   │   │   │   └── 03-analytics.md
-│   │   │   └── README.md
-│   │   ├── 01-start-here.md
-│   │   ├── 02-project-type.md
-│   │   ├── 03-architecture.md
-│   │   ├── 04-file-organization.md
-│   │   ├── 05-golden-rules.md
-│   │   ├── 06-anti-patterns.md
-│   │   ├── 07-nextjs-essentials.md
+│   ├── playbooks/
+│   │   ├── add-page.md
+│   │   ├── add-section.md
+│   │   ├── add-service.md
+│   │   ├── form-setup.md
+│   │   ├── localization.md
+│   │   ├── seo-pass.md
+│   │   └── update-content.md
+│   ├── prompts/
+│   │   ├── compliance-audit.md
+│   │   ├── feature-template.md
+│   │   └── task-template.md
+│   ├── stack/
+│   │   ├── 00-overview.md
+│   │   ├── 01-architecture.md
+│   │   ├── 02-content-data.md
+│   │   ├── 03-components-ui.md
+│   │   ├── 04-actions-runtime.md
+│   │   ├── 05-configuration.md
+│   │   ├── 06-performance-seo.md
+│   │   ├── 07-a11y-brand.md
 │   │   ├── 08-task-guide.md
-│   │   └── README.md
-│   ├── shadcn-components-docs/
-│   │   ├── accordion.md
-│   │   ├── alert-dialog.md
-│   │   ├── alert.md
-│   │   ├── aspect-ratio.md
-│   │   ├── avatar.md
-│   │   ├── badge.md
-│   │   ├── breadcrumb.md
-│   │   ├── button.md
-│   │   ├── calendar.md
-│   │   ├── card.md
-│   │   ├── carousel.md
-│   │   ├── chart.md
-│   │   ├── checkbox.md
-│   │   ├── collapsible.md
-│   │   ├── combobox.md
-│   │   ├── command.md
-│   │   ├── context-menu.md
-│   │   ├── data-table.md
-│   │   ├── date-picker.md
-│   │   ├── dialog.md
-│   │   ├── drawer.md
-│   │   ├── dropdown-menu.md
-│   │   ├── empty.md
-│   │   ├── field.md
-│   │   ├── form.md
-│   │   ├── hover-card.md
-│   │   ├── input-group.md
-│   │   ├── input-otp.md
-│   │   ├── input.md
-│   │   ├── item.md
-│   │   ├── kbd.md
-│   │   ├── label.md
-│   │   ├── menubar.md
-│   │   ├── navigation-menu.md
-│   │   ├── pagination.md
-│   │   ├── popover.md
-│   │   ├── progress.md
-│   │   ├── radio-group.md
-│   │   ├── resizable.md
-│   │   ├── scroll-area.md
-│   │   ├── select.md
-│   │   ├── separator.md
-│   │   ├── sheet.md
-│   │   ├── sidebar.md
-│   │   ├── skeleton.md
-│   │   ├── slider.md
-│   │   ├── sonner.md
-│   │   ├── spinner.md
-│   │   ├── switch.md
-│   │   ├── table.md
-│   │   ├── tabs.md
-│   │   ├── textarea.md
-│   │   ├── toast.md
-│   │   ├── toggle-group.md
-│   │   ├── toggle.md
-│   │   ├── tooltip.md
-│   │   └── typography.md
-│   └── tree/
+│   │   ├── checklists.md
+│   │   └── glossary.md
+│   ├── templates/
+│   │   ├── playbook-template.md
+│   │   ├── section-component.tsx.txt
+│   │   └── section-data.ts.txt
+│   ├── tree/
+│   └── README.md
 ├── features/
 │   ├── about/
 │   │   ├── sections/
 │   │   │   ├── credentials/
-│   │   │   │   ├── credentials.data.ts
-│   │   │   │   ├── credentials.tsx
-│   │   │   │   └── index.ts
+│   │   │   │   ├── data.ts
+│   │   │   │   └── index.tsx
 │   │   │   ├── cta/
-│   │   │   │   ├── cta.data.ts
-│   │   │   │   ├── cta.tsx
-│   │   │   │   └── index.ts
+│   │   │   │   ├── data.ts
+│   │   │   │   └── index.tsx
 │   │   │   ├── hero/
-│   │   │   │   ├── hero.data.ts
-│   │   │   │   ├── hero.tsx
-│   │   │   │   └── index.ts
+│   │   │   │   ├── data.ts
+│   │   │   │   └── index.tsx
 │   │   │   ├── location/
-│   │   │   │   ├── index.ts
-│   │   │   │   ├── location.data.ts
-│   │   │   │   └── location.tsx
+│   │   │   │   ├── data.ts
+│   │   │   │   └── index.tsx
 │   │   │   ├── philosophy/
-│   │   │   │   ├── index.ts
-│   │   │   │   ├── philosophy.data.ts
-│   │   │   │   └── philosophy.tsx
+│   │   │   │   ├── data.ts
+│   │   │   │   └── index.tsx
 │   │   │   ├── stats/
-│   │   │   │   ├── index.ts
-│   │   │   │   ├── stats.data.ts
-│   │   │   │   └── stats.tsx
+│   │   │   │   ├── data.ts
+│   │   │   │   └── index.tsx
 │   │   │   ├── story/
-│   │   │   │   ├── index.ts
-│   │   │   │   ├── story.data.ts
-│   │   │   │   └── story.tsx
+│   │   │   │   ├── data.ts
+│   │   │   │   └── index.tsx
 │   │   │   ├── testimonials/
-│   │   │   │   ├── index.ts
-│   │   │   │   ├── testimonials.data.ts
-│   │   │   │   └── testimonials.tsx
+│   │   │   │   ├── data.ts
+│   │   │   │   └── index.tsx
 │   │   │   ├── values/
-│   │   │   │   ├── index.ts
-│   │   │   │   ├── values.data.ts
-│   │   │   │   └── values.tsx
+│   │   │   │   ├── data.ts
+│   │   │   │   └── index.tsx
 │   │   │   └── who-we-serve/
-│   │   │       ├── index.ts
-│   │   │       ├── who-we-serve.data.ts
-│   │   │       └── who-we-serve.tsx
-│   │   ├── about-page.tsx
-│   │   ├── about.seo.ts
-│   │   └── index.ts
+│   │   │       ├── data.ts
+│   │   │       └── index.tsx
+│   │   ├── index.ts
+│   │   ├── page.tsx
+│   │   └── seo.ts
 │   ├── accessibility/
 │   │   ├── sections/
 │   │   │   └── content/
-│   │   │       ├── content.data.ts
-│   │   │       ├── content.tsx
-│   │   │       └── index.ts
-│   │   ├── accessibility-page.tsx
-│   │   ├── accessibility.seo.ts
-│   │   └── index.ts
-│   ├── area-detail/
-│   │   ├── area-detail-page.tsx
-│   │   ├── area-detail.data.ts
-│   │   ├── area-detail.seo.ts
-│   │   └── index.ts
-│   ├── areas/
-│   │   ├── sections/
-│   │   │   └── hero/
-│   │   │       ├── hero.data.ts
-│   │   │       ├── hero.tsx
-│   │   │       └── index.ts
-│   │   ├── areas-page.tsx
-│   │   ├── areas.seo.ts
-│   │   └── index.ts
+│   │   │       ├── data.ts
+│   │   │       └── index.tsx
+│   │   ├── index.ts
+│   │   ├── page.tsx
+│   │   └── seo.ts
 │   ├── consultation/
 │   │   ├── sections/
 │   │   │   ├── cta/
-│   │   │   │   ├── cta.data.ts
-│   │   │   │   ├── cta.tsx
-│   │   │   │   └── index.ts
+│   │   │   │   ├── data.ts
+│   │   │   │   └── index.tsx
 │   │   │   ├── hero/
-│   │   │   │   ├── hero.data.ts
-│   │   │   │   ├── hero.tsx
-│   │   │   │   └── index.ts
+│   │   │   │   ├── data.ts
+│   │   │   │   └── index.tsx
 │   │   │   ├── journey/
-│   │   │   │   ├── index.ts
-│   │   │   │   ├── journey.data.ts
-│   │   │   │   └── journey.tsx
+│   │   │   │   ├── data.ts
+│   │   │   │   └── index.tsx
 │   │   │   └── types/
-│   │   │       ├── index.ts
-│   │   │       ├── types.data.ts
-│   │   │       └── types.tsx
-│   │   ├── consultation-page.tsx
-│   │   ├── consultation.seo.ts
-│   │   └── index.ts
+│   │   │       ├── data.ts
+│   │   │       └── index.tsx
+│   │   ├── index.ts
+│   │   ├── page.tsx
+│   │   └── seo.ts
 │   ├── contact/
 │   │   ├── actions/
 │   │   │   └── send-email.action.ts
@@ -276,150 +204,131 @@ vpnail-com/
 │   │   │   └── contact.schema.ts
 │   │   ├── sections/
 │   │   │   ├── contact-info/
-│   │   │   │   ├── contact-info.data.ts
-│   │   │   │   ├── contact-info.tsx
-│   │   │   │   └── index.ts
+│   │   │   │   ├── data.ts
+│   │   │   │   └── index.tsx
 │   │   │   ├── faqs/
-│   │   │   │   ├── faqs.data.ts
-│   │   │   │   ├── faqs.tsx
-│   │   │   │   └── index.ts
+│   │   │   │   ├── data.ts
+│   │   │   │   └── index.tsx
 │   │   │   ├── form/
-│   │   │   │   ├── form.data.ts
-│   │   │   │   ├── form.tsx
-│   │   │   │   └── index.ts
+│   │   │   │   ├── data.ts
+│   │   │   │   ├── form-fields.tsx
+│   │   │   │   ├── index.tsx
+│   │   │   │   └── use-form-submission.tsx
 │   │   │   ├── hero/
-│   │   │   │   ├── hero.data.ts
-│   │   │   │   ├── hero.tsx
-│   │   │   │   └── index.ts
+│   │   │   │   ├── data.ts
+│   │   │   │   └── index.tsx
 │   │   │   ├── hours/
-│   │   │   │   ├── hours.data.ts
-│   │   │   │   ├── hours.tsx
-│   │   │   │   └── index.ts
+│   │   │   │   ├── data.ts
+│   │   │   │   └── index.tsx
 │   │   │   ├── location/
-│   │   │   │   ├── index.ts
-│   │   │   │   ├── location.data.ts
-│   │   │   │   └── location.tsx
+│   │   │   │   ├── data.ts
+│   │   │   │   └── index.tsx
 │   │   │   └── methods/
-│   │   │       ├── index.ts
-│   │   │       ├── methods.data.ts
-│   │   │       └── methods.tsx
-│   │   ├── contact-page.tsx
-│   │   ├── contact.seo.ts
-│   │   └── index.ts
+│   │   │       ├── data.ts
+│   │   │       └── index.tsx
+│   │   ├── index.ts
+│   │   ├── page.tsx
+│   │   └── seo.ts
 │   ├── gallery/
 │   │   ├── sections/
 │   │   │   ├── cta/
-│   │   │   │   ├── cta.data.ts
-│   │   │   │   ├── cta.tsx
-│   │   │   │   └── index.ts
+│   │   │   │   ├── data.ts
+│   │   │   │   └── index.tsx
 │   │   │   ├── gallery/
+│   │   │   │   ├── data.ts
 │   │   │   │   ├── gallery-grid.tsx
-│   │   │   │   ├── gallery.data.ts
-│   │   │   │   ├── gallery.tsx
-│   │   │   │   └── index.ts
+│   │   │   │   ├── gallery-image-item.tsx
+│   │   │   │   ├── gallery-lightbox.tsx
+│   │   │   │   ├── gallery-pagination.tsx
+│   │   │   │   ├── index.tsx
+│   │   │   │   └── lightbox-navigation.tsx
 │   │   │   └── hero/
-│   │   │       ├── hero.data.ts
-│   │   │       ├── hero.tsx
-│   │   │       └── index.ts
-│   │   ├── gallery-page.tsx
-│   │   ├── gallery.seo.ts
-│   │   └── index.ts
+│   │   │       ├── data.ts
+│   │   │       └── index.tsx
+│   │   ├── index.ts
+│   │   ├── page.tsx
+│   │   └── seo.ts
 │   ├── home/
 │   │   ├── sections/
 │   │   │   ├── combinations/
-│   │   │   │   ├── combinations.data.ts
-│   │   │   │   ├── combinations.tsx
-│   │   │   │   └── index.ts
+│   │   │   │   ├── data.ts
+│   │   │   │   └── index.tsx
 │   │   │   ├── cta/
-│   │   │   │   ├── cta.data.ts
-│   │   │   │   ├── cta.tsx
-│   │   │   │   └── index.ts
+│   │   │   │   ├── data.ts
+│   │   │   │   └── index.tsx
 │   │   │   ├── features/
-│   │   │   │   ├── features.data.ts
-│   │   │   │   ├── features.tsx
-│   │   │   │   └── index.ts
+│   │   │   │   ├── data.ts
+│   │   │   │   └── index.tsx
 │   │   │   ├── gallery/
+│   │   │   │   ├── data.ts
 │   │   │   │   ├── gallery-grid.tsx
-│   │   │   │   ├── gallery.data.ts
-│   │   │   │   ├── gallery.tsx
-│   │   │   │   └── index.ts
+│   │   │   │   └── index.tsx
 │   │   │   ├── hero/
-│   │   │   │   ├── hero.data.ts
-│   │   │   │   ├── hero.tsx
-│   │   │   │   └── index.ts
+│   │   │   │   ├── data.ts
+│   │   │   │   └── index.tsx
 │   │   │   ├── local-seo/
-│   │   │   │   ├── index.ts
-│   │   │   │   ├── local-seo.data.ts
-│   │   │   │   └── local-seo.tsx
+│   │   │   │   ├── data.ts
+│   │   │   │   └── index.tsx
 │   │   │   ├── services/
-│   │   │   │   ├── index.ts
-│   │   │   │   ├── services.data.ts
-│   │   │   │   └── services.tsx
+│   │   │   │   ├── data.ts
+│   │   │   │   └── index.tsx
 │   │   │   ├── team/
-│   │   │   │   ├── index.ts
-│   │   │   │   ├── team.data.ts
-│   │   │   │   ├── team.tsx
-│   │   │   │   └── team.types.ts
+│   │   │   │   ├── data.ts
+│   │   │   │   ├── index.tsx
+│   │   │   │   └── types.ts
 │   │   │   └── testimonials/
-│   │   │       ├── index.ts
-│   │   │       ├── testimonials.data.ts
-│   │   │       └── testimonials.tsx
-│   │   ├── home-page.tsx
-│   │   ├── home.data.ts
-│   │   ├── home.seo.ts
-│   │   └── index.ts
+│   │   │       ├── data.ts
+│   │   │       └── index.tsx
+│   │   ├── index.ts
+│   │   ├── page.tsx
+│   │   ├── schema.ts
+│   │   └── seo.ts
 │   ├── privacy/
 │   │   ├── sections/
 │   │   │   └── content/
-│   │   │       ├── content.data.ts
-│   │   │       ├── content.tsx
-│   │   │       └── index.ts
+│   │   │       ├── data.ts
+│   │   │       └── index.tsx
 │   │   ├── index.ts
-│   │   ├── privacy-page.tsx
-│   │   └── privacy.seo.ts
+│   │   ├── page.tsx
+│   │   └── seo.ts
 │   ├── services/
 │   │   ├── sections/
 │   │   │   ├── combinations/
-│   │   │   │   ├── combinations.data.ts
-│   │   │   │   ├── combinations.tsx
-│   │   │   │   └── index.ts
+│   │   │   │   ├── data.ts
+│   │   │   │   └── index.tsx
+│   │   │   ├── comparison/
+│   │   │   │   ├── data.ts
+│   │   │   │   ├── index.tsx
+│   │   │   │   └── types.ts
 │   │   │   ├── cta/
-│   │   │   │   ├── cta.data.ts
-│   │   │   │   ├── cta.tsx
-│   │   │   │   └── index.ts
+│   │   │   │   ├── data.ts
+│   │   │   │   └── index.tsx
 │   │   │   ├── faqs/
-│   │   │   │   ├── faqs.data.ts
-│   │   │   │   ├── faqs.tsx
-│   │   │   │   └── index.ts
+│   │   │   │   ├── data.ts
+│   │   │   │   └── index.tsx
 │   │   │   ├── hero/
-│   │   │   │   ├── hero.data.ts
-│   │   │   │   ├── hero.tsx
-│   │   │   │   └── index.ts
+│   │   │   │   ├── data.ts
+│   │   │   │   └── index.tsx
 │   │   │   ├── services-grid/
-│   │   │   │   ├── index.ts
-│   │   │   │   ├── services-grid.data.ts
-│   │   │   │   ├── services-grid.tsx
-│   │   │   │   └── services-grid.types.ts
+│   │   │   │   ├── data.ts
+│   │   │   │   ├── index.tsx
+│   │   │   │   └── types.ts
 │   │   │   └── testimonials/
-│   │   │       ├── index.ts
-│   │   │       ├── testimonials.data.ts
-│   │   │       └── testimonials.tsx
+│   │   │       ├── data.ts
+│   │   │       └── index.tsx
 │   │   ├── index.ts
-│   │   ├── services-page.tsx
-│   │   ├── services.seo.ts
-│   │   └── services.types.ts
+│   │   ├── page.tsx
+│   │   └── seo.ts
 │   └── terms/
 │       ├── sections/
 │       │   └── content/
-│       │       ├── content.data.ts
-│       │       ├── content.tsx
-│       │       └── index.ts
+│       │       ├── data.ts
+│       │       └── index.tsx
 │       ├── index.ts
-│       ├── terms-page.tsx
-│       └── terms.seo.ts
+│       ├── page.tsx
+│       └── seo.ts
 ├── hooks/
-│   ├── use-mobile.ts
-│   └── use-mobile.tsx
+│   └── use-tabs.tsx
 ├── lib/
 │   ├── config/
 │   │   ├── analytics.config.ts
@@ -427,7 +336,8 @@ vpnail-com/
 │   │   ├── metadata.config.ts
 │   │   ├── nav.config.ts
 │   │   ├── seo.config.ts
-│   │   └── site.config.ts
+│   │   ├── site.config.ts
+│   │   └── theme.config.ts
 │   ├── constants/
 │   │   └── routes.ts
 │   ├── email/
@@ -437,8 +347,12 @@ vpnail-com/
 │   │   ├── RESEND-SETUP.md
 │   │   ├── resend.ts
 │   │   └── templates.ts
+│   ├── hooks/
+│   │   ├── index.ts
+│   │   ├── use-media-query.ts
+│   │   ├── use-scroll-lock.ts
+│   │   └── use-touch-gestures.ts
 │   ├── seo/
-│   │   ├── constants.ts
 │   │   ├── index.ts
 │   │   ├── metadata.ts
 │   │   ├── og-image.ts
@@ -446,8 +360,14 @@ vpnail-com/
 │   │   └── types.ts
 │   ├── types/
 │   │   └── global.types.ts
-│   ├── gallery.ts
-│   ├── image-placeholder.ts
+│   ├── utils/
+│   │   ├── animations.ts
+│   │   ├── form-helpers.ts
+│   │   ├── gallery.ts
+│   │   ├── heading-validator.ts
+│   │   ├── image-placeholder.ts
+│   │   ├── image.ts
+│   │   └── index.ts
 │   └── utils.ts
 ├── public/
 │   ├── favicons/
@@ -548,23 +468,26 @@ vpnail-com/
 ├── scripts/
 │   ├── backup-project.py
 │   ├── fresh-install.py
-│   ├── generate-tree.py
-│   └── README.md
+│   ├── README.md
+│   └── update-service-images.py
 ├── .env.local
 ├── .gitignore
+├── AGENTS.md
+├── build-errors.log
 ├── CLAUDE.md
-├── code-audit-prompt.md
 ├── components.json
 ├── eslint.config.mjs
-├── middleware.ts
+├── lint-errors.log
+├── next-env.d.ts
 ├── next.config.ts
 ├── package-lock.json
 ├── package.json
 ├── postcss.config.mjs
-├── README.md
+├── proxy.ts
+├── TODO-FULL-AUDIT.md
 └── tsconfig.json
 ```
 
 ---
 
-**Total items:** 557
+**Total items:** 500

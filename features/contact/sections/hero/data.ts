@@ -1,17 +1,16 @@
 import { siteConfig } from '@/lib/config/site.config'
 
 export const heroData = {
-  title: "Let's Plan Your Visit to Victoria Park Nails & Spa",
-  subtitle: 'Questions about timing, parking, or the right service? We are a message away.',
+  title: 'Contact our Calgary nail salon',
   description:
-    "Reach out for real-time availability, parking directions, or help choosing the perfect manicure, pedicure, or spa treatment. Our team replies quickly during business hours.",
+    'Call, message, or book online for Victoria Park appointments. Need a same-day spot, parking directions, or help choosing a service? Reach the team directly and get clear answers fast.',
   cta: {
     primary: {
-      text: 'Check Live Availability',
-      href: '/consultation',
+      text: 'Book online',
+      href: siteConfig.links.booking,
     },
     secondary: {
-      text: `Call ${siteConfig.business.phone}`,
+      text: 'Call now',
       href: siteConfig.social.phone,
     },
   },

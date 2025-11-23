@@ -31,19 +31,19 @@ interface IconColoredProps extends React.SVGAttributes<SVGElement> {
 }
 
 const colorMap: Record<SemanticColor, string> = {
-  success: 'text-[hsl(var(--color-success))] fill-[hsl(var(--color-success))]',
-  warning: 'text-[hsl(var(--color-warning))] fill-[hsl(var(--color-warning))]',
-  error: 'text-[hsl(var(--color-error))] fill-[hsl(var(--color-error))]',
-  info: 'text-[hsl(var(--color-info))] fill-[hsl(var(--color-info))]',
-  primary: 'text-[hsl(var(--color-primary))] fill-[hsl(var(--color-primary))]',
+  success: 'text-[oklch(var(--color-success))] fill-[oklch(var(--color-success))]',
+  warning: 'text-[oklch(var(--color-warning))] fill-[oklch(var(--color-warning))]',
+  error: 'text-[oklch(var(--color-error))] fill-[oklch(var(--color-error))]',
+  info: 'text-[oklch(var(--color-info))] fill-[oklch(var(--color-info))]',
+  primary: 'text-[oklch(var(--color-primary))] fill-[oklch(var(--color-primary))]',
 }
 
 const bgColorMap: Record<SemanticColor, string> = {
-  success: 'bg-[hsl(var(--color-success)/0.1)]',
-  warning: 'bg-[hsl(var(--color-warning)/0.1)]',
-  error: 'bg-[hsl(var(--color-error)/0.1)]',
-  info: 'bg-[hsl(var(--color-info)/0.1)]',
-  primary: 'bg-primary/10',
+  success: 'bg-[oklch(var(--color-success)/0.1)]',
+  warning: 'bg-[oklch(var(--color-warning)/0.1)]',
+  error: 'bg-[oklch(var(--color-error)/0.1)]',
+  info: 'bg-[oklch(var(--color-info)/0.1)]',
+  primary: 'bg-[oklch(var(--color-primary)/0.1)]',
 }
 
 /**

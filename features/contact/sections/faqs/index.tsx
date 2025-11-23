@@ -6,7 +6,6 @@ import { Badge } from '@/components/ui/badge'
 import { MessageCircle } from 'lucide-react'
 import Link from 'next/link'
 import { faqsData } from './data'
-import { H2, Lead, Small, P } from '@/components/ui/typography'
 
 export function FaqsSection() {
   return (
@@ -15,27 +14,22 @@ export function FaqsSection() {
         <div className="text-center mb-16">
           <Container size="sm">
             <div className="space-y-4">
-              <Badge variant="outline">{faqsData.badge}</Badge>
-              <H2>{faqsData.title}</H2>
-              <Lead>{faqsData.description}</Lead>
+              <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">{faqsData.title}</h2>
             </div>
           </Container>
         </div>
 
         <div className="space-y-12">
-          <Accordion type="single" collapsible className="space-y-4">
+          <Accordion type="single" collapsible>
             {faqsData.faqs.map((faq, index) => (
               <AccordionItem
                 key={index}
                 value={`item-${index}`}
-                className="bg-card border rounded-lg px-6 focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2"
               >
-                <AccordionTrigger className="text-left hover:no-underline py-6 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:rounded-md">
-                  <span className="font-semibold">
-                    {faq.question}
-                  </span>
+                <AccordionTrigger>
+                  {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground leading-relaxed pb-6">
+                <AccordionContent>
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
@@ -47,15 +41,15 @@ export function FaqsSection() {
               <div className="flex items-center justify-center mb-2">
                 <MessageCircle className="h-6 w-6 text-primary mr-2" />
                 <CardTitle>
-                  <Small className="text-base font-semibold uppercase tracking-wide">
+                  <small className="text-sm font-medium leading-none text-base font-semibold uppercase tracking-wide">
                     {faqsData.cta.title}
-                  </Small>
+                  </small>
                 </CardTitle>
               </div>
               <CardDescription className="text-center">
-                <P className="text-sm text-muted-foreground">
+                <p className="leading-7 text-sm text-muted-foreground">
                   {faqsData.cta.description}
-                </P>
+                </p>
               </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col sm:flex-row gap-3 justify-center">

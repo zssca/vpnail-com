@@ -1,10 +1,7 @@
 export const homeGalleryData = {
-  title: 'Latest Nail Art Highlights',
-  subtitle: 'Fresh from the Victoria Park Nails & Spa studio',
-  description:
-    'See our newest manicures, pedicures, and custom nail designs. We update this gallery with the latest looks so you always know what our artists are creating.',
+  title: 'Gallery',
   cta: {
-    text: 'View Full Gallery',
+    text: 'View full gallery',
     href: '/gallery',
   },
 } as const

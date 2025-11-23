@@ -1,11 +1,11 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
-import { SkeletonShimmer } from '@/components/ui/skeleton'
-import type { GalleryImage } from '@/lib/gallery'
+import { getImageSizes, imagePlaceholders, getLoadingStrategy } from '@/lib/utils/image'
+import type { GalleryImage } from '@/lib/utils/gallery'
 
 interface HomeGalleryGridProps {
   images: GalleryImage[]
@@ -13,36 +13,18 @@ interface HomeGalleryGridProps {
 
 export function HomeGalleryGrid({ images }: HomeGalleryGridProps) {
   const [selected, setSelected] = useState<GalleryImage | null>(null)
-  const [mounted, setMounted] = useState(false)
-
-  // Hydration safety - ensure component is mounted before rendering interactive elements
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   if (images.length === 0) {
     return null
-  }
-
-  if (!mounted) {
-    return (
-      <div className="overflow-x-hidden">
-        <div className="grid grid-cols-2 gap-1.5 xs:gap-2 sm:grid-cols-3 sm:gap-2 md:grid-cols-4 md:gap-3 lg:grid-cols-5 lg:gap-4">
-          {images.map((image) => (
-            <div key={image.filename} className="aspect-square">
-              <SkeletonShimmer className="h-full w-full rounded-xl" />
-            </div>
-          ))}
-        </div>
-      </div>
-    )
   }
 
   return (
     <>
       <div className="overflow-x-hidden">
         <div className="grid grid-cols-2 gap-1.5 xs:gap-2 sm:grid-cols-3 sm:gap-2 md:grid-cols-4 md:gap-3 lg:grid-cols-5 lg:gap-4">
-          {images.map((image, index) => (
+          {images.map((image, index) => {
+            const { priority } = getLoadingStrategy(index, images.length, 6)
+            return (
             <figure
               key={image.filename}
               itemScope
@@ -65,9 +47,11 @@ export function HomeGalleryGrid({ images }: HomeGalleryGridProps) {
                   fill
                   itemProp="contentUrl"
                   className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  sizes="(max-width: 400px) 48vw, (max-width: 640px) 45vw, (max-width: 768px) 30vw, (max-width: 1024px) 25vw, 20vw"
-                  priority={index < 6}
-                  loading={index < 6 ? 'eager' : 'lazy'}
+                  sizes={getImageSizes('gallery')}
+                  priority={priority}
+                  loading={priority ? 'eager' : 'lazy'}
+                  placeholder="blur"
+                  blurDataURL={imagePlaceholders.default}
                 />
                 <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/15" />
               </Button>
@@ -77,7 +61,8 @@ export function HomeGalleryGrid({ images }: HomeGalleryGridProps) {
               <meta itemProp="name" content={image.title} />
               <meta itemProp="description" content={image.description} />
             </figure>
-          ))}
+          )
+        })}
         </div>
       </div>
 
@@ -102,6 +87,8 @@ export function HomeGalleryGrid({ images }: HomeGalleryGridProps) {
                 className="object-contain"
                 sizes="(max-width: 640px) 95vw, (max-width: 768px) 90vw, 70vw"
                 priority
+                placeholder="blur"
+                blurDataURL={imagePlaceholders.default}
               />
               <figcaption className="sr-only" itemProp="caption">
                 {selected.caption}

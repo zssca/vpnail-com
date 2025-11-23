@@ -17,14 +17,15 @@ const verification: Metadata['verification'] = {
   google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || defaultGoogleSiteVerification,
   yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION || undefined,
   yahoo: process.env.NEXT_PUBLIC_YAHOO_VERIFICATION || undefined,
-  other: {}
+  other: process.env.NEXT_PUBLIC_MSVALIDATE
+    ? { 'msvalidate.01': process.env.NEXT_PUBLIC_MSVALIDATE }
+    : undefined,
 }
 
-if (process.env.NEXT_PUBLIC_MSVALIDATE) {
-  (verification.other as Record<string, string>)['msvalidate.01'] = process.env.NEXT_PUBLIC_MSVALIDATE
-}
+const metadataBase = new URL(siteConfig.url)
+const defaultOgImage = getAbsoluteOgImage()
 
-export const rootViewport: Viewport = {
+export const rootViewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
@@ -34,15 +35,15 @@ export const rootViewport: Viewport = {
   interactiveWidget: 'resizes-content',
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#09090b' }
-  ]
-}
+    { media: '(prefers-color-scheme: dark)', color: '#09090b' },
+  ],
+} satisfies Viewport
 
-export const rootMetadata: Metadata = {
-  metadataBase: new URL(siteConfig.url),
+export const rootMetadata = {
+  metadataBase,
   title: {
     default: siteConfig.name,
-    template: '%s | Victoria Park Nails and Spa Calgary',
+    template: `%s | ${siteConfig.name}${siteConfig.business.address.city ? ` ${siteConfig.business.address.city}` : ''}`,
   },
   description: siteConfig.description,
   keywords: [...siteConfig.keywords],
@@ -85,7 +86,7 @@ export const rootMetadata: Metadata = {
     description: siteConfig.description,
     images: [
       {
-        url: getAbsoluteOgImage(),
+        url: defaultOgImage,
         width: 1200,
         height: 630,
         alt: siteConfig.name,
@@ -97,7 +98,7 @@ export const rootMetadata: Metadata = {
     title: siteConfig.name,
     description: siteConfig.description,
     creator: siteConfig.creator,
-    images: [getAbsoluteOgImage()],
+    images: [defaultOgImage],
   },
   robots: {
     index: true,
@@ -117,4 +118,4 @@ export const rootMetadata: Metadata = {
       'x-default': siteConfig.url,
     },
   },
-}
+} satisfies Metadata

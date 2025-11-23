@@ -1,5 +1,0 @@
-export { ConsultationPage } from './page'
-export { consultationMetadata } from './seo'
-export * from './sections/hero'
-export * from './sections/types'
-export * from './sections/cta'

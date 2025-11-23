@@ -101,13 +101,15 @@ export function useScrollLockDuration(
   const [isLocked, setIsLocked] = useState(false)
 
   useEffect(() => {
-    setIsLocked(true)
-
-    const timer = setTimeout(() => {
+    const frame = window.requestAnimationFrame(() => setIsLocked(true))
+    const timer = window.setTimeout(() => {
       setIsLocked(false)
     }, duration)
 
-    return () => clearTimeout(timer)
+    return () => {
+      window.cancelAnimationFrame(frame)
+      window.clearTimeout(timer)
+    }
   }, [duration])
 
   useScrollLock(isLocked, options)

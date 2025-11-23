@@ -1,9 +1,7 @@
-import { siteConfig } from '@/lib/config/site.config'
+import type { TestimonialsContent } from '@/components/shared/testimonials-carousel'
 
 export const testimonialsData = {
-  title: "What Our Clients Are Saying",
-  subtitle: "Discover Why We Are Calgary's Top-Rated Nail Salon",
-  description: `Don't just take our word for it - hear what our satisfied clients have to say about their experience at ${siteConfig.business.name}.`,
+  title: 'Client Reviews',
   testimonials: [
     {
       id: "testimonial-1",
@@ -126,4 +124,4 @@ export const testimonialsData = {
       content: "Great salon. I showed up with messed up powder dip nails I did myself (never again). She cleaned them up beautifully and made my nails look amazing. Thank you!"
     }
   ]
-} as const
+} satisfies TestimonialsContent

@@ -4,4 +4,7 @@ export const metadata = accessibilityMetadata
 export const dynamic = 'force-static'
 export const revalidate = false
 
-export default AccessibilityPage
+export default async function AccessibilityRoute() {
+  'use cache'
+  return <AccessibilityPage />
+}

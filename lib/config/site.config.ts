@@ -2,6 +2,7 @@
  * Site Configuration
  * Single source of truth for site-wide settings
  */
+import type { SiteConfig } from '@/lib/types/config.types'
 
 export const siteConfig = {
   name: 'Victoria Park Nails and Spa',
@@ -59,7 +60,7 @@ export const siteConfig = {
   authors: [
     {
       name: 'Victoria Park Nails and Spa',
-      url: 'https://www.vpnail.com/about',
+      url: 'https://www.vpnail.com',
     },
   ],
   business: {
@@ -103,7 +104,22 @@ export const siteConfig = {
     phone: 'tel:+14037193600',
     booking: 'https://victoriaparknailsspa.setmore.com/',
   },
-} as const
+  announcement: {
+    enabled: true,
+    message: 'NEW! Reward & Redeem Points Program - Earn points with every visit - Ask us how to start earning today!',
+  },
+  location: {
+    coordinates: {
+      lat: 51.03873517171058,
+      lng: -114.06388202340791,
+    },
+    parking: {
+      lat: 51.038970063563234,
+      lng: -114.06128717486601,
+    },
+  },
+  googleMapsApiKey: 'AIzaSyBXWRem4S42DdV9NIDziNZ-vhqqNChWevo',
+} satisfies SiteConfig
 
 // Derived constants for easy access
 export const CONTACT_INFO = {

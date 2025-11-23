@@ -6,27 +6,24 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Separator } from '@/components/ui/separator'
-import { Carousel, CarouselContent, CarouselItem, CarouselDots } from '@/components/ui/carousel'
+import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel'
+import { CarouselDots } from '@/components/ui/carousel-dots'
 import { Section, Container } from '@/components/layouts'
 import { Star, GraduationCap, Calendar } from 'lucide-react'
 import Autoplay from 'embla-carousel-autoplay'
 import Link from 'next/link'
 import { teamData } from './data'
-import { H2, H4, Lead, P, Small } from '@/components/ui/typography'
+import { getImageSizes } from '@/lib/utils/image'
 
 export function TeamSection() {
   const plugin = React.useRef(Autoplay({ delay: 3000, stopOnInteraction: true }))
+  const [carouselApi, setCarouselApi] = React.useState<CarouselApi | null>(null)
 
   return (
     <Section variant="muted" id="team">
       <Container noPaddingMobile>
         <div className="text-center mb-16 px-4 md:px-0">
-          <Container size="sm">
-            <div className="space-y-4">
-              <H2>{teamData.title}</H2>
-              <Lead>{teamData.description}</Lead>
-            </div>
-          </Container>
+          <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">{teamData.title}</h2>
         </div>
 
         <div className="relative">
@@ -39,6 +36,7 @@ export function TeamSection() {
             className="w-full"
             onMouseEnter={plugin.current.stop}
             onMouseLeave={plugin.current.reset}
+            setApi={setCarouselApi}
           >
             <CarouselContent className="-ml-0 md:-ml-4">
               {teamData.members.map((member) => (
@@ -50,6 +48,7 @@ export function TeamSection() {
                           <AvatarImage
                             src={member.image ?? '/avatar-placeholder.webp'}
                             alt={member.name}
+                            sizes={getImageSizes('avatar')}
                           />
                           <AvatarFallback className="text-lg bg-secondary text-background">
                             {member.name
@@ -60,12 +59,12 @@ export function TeamSection() {
                         </Avatar>
 
                         <div className="flex-1 min-w-0">
-                          <H4 className="text-lg font-semibold text-primary mb-1">
+                          <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight text-lg font-semibold text-primary mb-1">
                             {member.name}
-                          </H4>
-                          <Small className="text-muted-foreground mb-2 block">
+                          </h3>
+                          <small className="text-sm font-medium leading-none text-muted-foreground mb-2 block">
                             {member.position}
-                          </Small>
+                          </small>
 
                           <div className="flex items-center gap-1 mb-3">
                             <Star className="h-3.5 w-3.5 text-[var(--rating)] fill-[var(--rating)]" />
@@ -91,12 +90,12 @@ export function TeamSection() {
                       <div className="space-y-4">
                         {member.certifications && member.certifications.length > 0 && (
                           <div>
-                            <Small className="text-muted-foreground uppercase tracking-wide mb-2 block">
+                            <small className="text-sm font-medium leading-none text-muted-foreground uppercase tracking-wide mb-2 block">
                               <span className="flex items-center gap-1">
                                 <GraduationCap className="h-3.5 w-3.5 text-primary" />
                                 Certifications
                               </span>
-                            </Small>
+                            </small>
                             <div className="flex flex-wrap gap-1.5">
                               {member.certifications.map((cert, index) => (
                                 <Badge key={index} variant="secondary" className="text-xs font-normal">
@@ -108,12 +107,12 @@ export function TeamSection() {
                         )}
 
                         <div>
-                          <Small className="text-muted-foreground uppercase tracking-wide mb-2 block">
+                          <small className="text-sm font-medium leading-none text-muted-foreground uppercase tracking-wide mb-2 block">
                             About
-                          </Small>
-                          <P className="text-xs text-foreground/80">
+                          </small>
+                          <p className="leading-7 text-xs text-foreground/80">
                             {member.bio}
-                          </P>
+                          </p>
                         </div>
                       </div>
                     </CardContent>
@@ -135,7 +134,7 @@ export function TeamSection() {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselDots className="mt-8 px-4 md:px-0" />
+            <CarouselDots api={carouselApi} className="mt-8 px-4 md:px-0" />
           </Carousel>
         </div>
       </Container>

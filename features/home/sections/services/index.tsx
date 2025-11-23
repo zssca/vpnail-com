@@ -5,38 +5,31 @@ import { Section, Container } from '@/components/layouts'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { servicesData } from './data'
-import { H2, H4, Lead, P, Small } from '@/components/ui/typography'
 
 export function ServicesSection() {
   return (
-    <Section>
+    <Section variant="muted-light">
       <Container>
         <div className="text-center mb-16">
-          <Container size="sm">
-            <div className="space-y-4">
-              <Badge variant="outline" className="text-sm">{servicesData.subtitle}</Badge>
-              <H2>{servicesData.title}</H2>
-              <Lead>{servicesData.description}</Lead>
-            </div>
-          </Container>
+          <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">{servicesData.title}</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {servicesData.categories.map((category) => (
             <Card key={category.id} className="flex flex-col h-full border">
               <CardHeader>
                 <Badge variant="outline" className="w-fit mb-2">
-                  <Small className="tracking-wide uppercase text-xs">
+                  <small className="text-sm font-medium leading-none tracking-wide uppercase text-xs">
                     {category.serviceCount} services
-                  </Small>
+                  </small>
                 </Badge>
-                <CardTitle>
-                  <H4 className="text-lg">{category.title}</H4>
-                </CardTitle>
+                <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight text-lg">
+                  {category.title}
+                </h3>
               </CardHeader>
               <CardContent className="flex-grow">
-                <P className="text-muted-foreground text-sm sm:text-base">
+                <p className="leading-7 text-muted-foreground text-sm sm:text-base">
                   {category.description}
-                </P>
+                </p>
               </CardContent>
               <CardFooter>
                 <Button asChild variant="outline" size="lg">

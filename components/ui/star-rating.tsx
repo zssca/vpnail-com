@@ -68,15 +68,15 @@ export const StarRating = React.forwardRef<HTMLDivElement, StarRatingProps>(
         <div className="flex items-center gap-0.5">
           {/* Full Stars */}
           {Array.from({ length: fullStars }).map((_, i) => (
-            <Star
-              key={`full-${i}`}
-              className={cn(
-                sizeClass,
-                'fill-[hsl(var(--star-fill))] text-[hsl(var(--star-fill))]'
-              )}
-              aria-hidden="true"
-            />
-          ))}
+              <Star
+                key={`full-${i}`}
+                className={cn(
+                  sizeClass,
+                  'fill-[oklch(var(--star-fill))] text-[oklch(var(--star-fill))]'
+                )}
+                aria-hidden="true"
+              />
+            ))}
 
           {/* Half Star */}
           {hasHalfStar && (
@@ -88,14 +88,14 @@ export const StarRating = React.forwardRef<HTMLDivElement, StarRatingProps>(
               <Star
                 className={cn(
                   sizeClass,
-                  'text-[hsl(var(--star-empty))]'
+                  'text-[oklch(var(--star-empty))]'
                 )}
               />
               <div className="absolute inset-0 overflow-hidden w-1/2">
                 <Star
                   className={cn(
                     sizeClass,
-                    'fill-[hsl(var(--star-fill))] text-[hsl(var(--star-fill))]'
+                    'fill-[oklch(var(--star-fill))] text-[oklch(var(--star-fill))]'
                   )}
                 />
               </div>
@@ -108,7 +108,7 @@ export const StarRating = React.forwardRef<HTMLDivElement, StarRatingProps>(
               key={`empty-${i}`}
               className={cn(
                 sizeClass,
-                'text-[hsl(var(--star-empty))]'
+                'text-[oklch(var(--star-empty))]'
               )}
               aria-hidden="true"
             />

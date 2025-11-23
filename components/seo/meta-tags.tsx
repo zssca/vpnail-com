@@ -1,5 +1,5 @@
-import { Metadata } from 'next';
-import { siteConfig } from '@/lib/config/site.config';
+import type { Metadata } from 'next'
+import { siteConfig } from '@/lib/config/site.config'
 
 interface MetaTagsProps {
   title: string;
@@ -23,10 +23,11 @@ export function generateMetaTags({
   type = 'website',
   publishedTime,
   modifiedTime,
-  author = 'Victoria Park Nails and Spa',
+  author = siteConfig.name,
   noindex = false,
 }: MetaTagsProps): Metadata {
-  const fullTitle = `${title} | Victoria Park Nails and Spa Calgary`;
+  const city = siteConfig.business.address.city
+  const fullTitle = `${title} | ${siteConfig.name}${city ? ` ${city}` : ''}`
   const fullImageUrl = image.startsWith('http') ? image : `${siteConfig.url}${image}`;
   
   return {
@@ -35,7 +36,7 @@ export function generateMetaTags({
     keywords: [...siteConfig.keywords, ...keywords].join(', '),
     authors: [{ name: author }],
     creator: siteConfig.creator,
-    publisher: 'Victoria Park Nails and Spa Incorporated',
+    publisher: siteConfig.business.name,
     metadataBase: new URL(siteConfig.url),
     
     // Open Graph
@@ -43,7 +44,7 @@ export function generateMetaTags({
       title: fullTitle,
       description,
       url,
-      siteName: 'Victoria Park Nails and Spa Calgary',
+      siteName: siteConfig.name,
       images: [
         {
           url: fullImageUrl,
@@ -64,7 +65,7 @@ export function generateMetaTags({
       title: fullTitle,
       description,
       images: [fullImageUrl],
-      creator: '@Victoria Park Nails and Spahealth',
+      creator: siteConfig.creator,
     },
     
     // Additional meta tags
@@ -111,29 +112,10 @@ export function generateServiceMetaTags(service: {
       service.name.toLowerCase(),
       `${service.name.toLowerCase()} Calgary`,
       'Calgary aesthetic treatment',
-      'Victoria Park Nails and Spa Calgary',
+      `${siteConfig.name} ${siteConfig.business.address.city}`,
     ],
     image: service.image,
     url: `${siteConfig.url}/services/${service.slug}`,
     type: 'article',
-  });
-}
-
-// Location-specific meta tags for area pages
-export function generateAreaMetaTags(area: string): Metadata {
-  const formattedArea = area.split('-').map(word =>
-    word.charAt(0).toUpperCase() + word.slice(1)
-  ).join(' ');
-
-  return generateMetaTags({
-    title: `${formattedArea} Nail Salon`,
-    description: `Professional nail salon and spa services in ${formattedArea}. Manicures, pedicures, nail extensions, and custom nail art at Victoria Park Nails and Spa.`,
-    keywords: [
-      `${formattedArea} nail salon`,
-      `${formattedArea} manicure`,
-      `${formattedArea} pedicure`,
-      'nail services Calgary',
-    ],
-    url: `${siteConfig.url}/areas/${area}`,
   });
 }

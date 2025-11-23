@@ -6,41 +6,29 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
-import { H2, H3, Lead, Small } from '@/components/ui/typography'
 
 export function FaqsSection() {
   return (
     <Section variant="muted" size="lg">
       <Container>
         <div className="text-center mb-16">
-          <Container size="sm">
-            <div className="space-y-4">
-              <Small className="text-primary uppercase tracking-[0.3em]">
-                {faqsData.subtitle}
-              </Small>
-              <H2>{faqsData.title}</H2>
-              <Lead>{faqsData.description}</Lead>
-            </div>
-          </Container>
+          <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">{faqsData.title}</h2>
         </div>
 
         <div className="space-y-12">
           {faqsData.categories.map((category) => (
             <div key={category.id}>
-              <H3 className="mb-6">{category.title}</H3>
-              <Accordion type="single" collapsible className="space-y-4">
+              <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight mb-6">{category.title}</h3>
+              <Accordion type="single" collapsible>
                 {category.faqs.map((faq) => (
                   <AccordionItem
                     key={faq.id}
                     value={faq.id}
-                    className="bg-card border rounded-lg px-6 focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2"
                   >
-                    <AccordionTrigger className="text-left hover:no-underline py-6 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:rounded-md">
-                      <span className="font-semibold">
-                        {faq.question}
-                      </span>
+                    <AccordionTrigger>
+                      {faq.question}
                     </AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground leading-relaxed pb-6">
+                    <AccordionContent>
                       {faq.answer}
                     </AccordionContent>
                   </AccordionItem>

@@ -1,126 +1,240 @@
-import Link from 'next/link'
-import { MapPin, Phone, Mail, Instagram, Facebook } from 'lucide-react'
-import { Separator } from '@/components/ui/separator'
+import Image from 'next/image'
+import { ArrowUpRight, Facebook, Instagram } from 'lucide-react'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
+import { Item, ItemActions, ItemContent, ItemDescription, ItemGroup, ItemMedia, ItemTitle } from '@/components/ui/item'
 import { siteConfig, CONTACT_INFO, SOCIAL_LINKS } from '@/lib/config/site.config'
-import { footerNav } from '@/lib/config/nav.config'
-import { ROUTES } from '@/lib/constants/routes'
 
 import { Container } from './container'
 
 export function Footer({ id }: { id?: string }) {
   return (
-    <footer id={id} className="border-t bg-muted/30">
-      <Container className="py-12 pb-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
-          {/* Brand & Description */}
-          <section className="lg:col-span-2">
-            <h3 className="font-bold text-lg mb-4">{siteConfig.business.name}</h3>
-            <p className="text-sm text-muted-foreground mb-4 max-w-sm">
-              Calgary&apos;s premier nail salon and spa in Victoria Park. Book online 24/7 or walk-ins welcome.
-            </p>
+    <footer id={id} className="border-t bg-background">
+      <Container className="py-12 pb-20">
+        <div className="flex flex-col gap-10">
 
-            {/* Social Links */}
-            <div className="flex gap-4">
-              <a
-                href={SOCIAL_LINKS.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors"
-                aria-label="Follow us on Instagram"
+          <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
+            <section aria-label="Visit and contact" className="space-y-4">
+              <ItemGroup className="space-y-2">
+                <Item asChild variant="muted" size="sm">
+                  <a href={siteConfig.links.booking} target="_blank" rel="noopener noreferrer">
+                    <ItemMedia>
+                      <Avatar className="h-12 w-12 bg-primary/10 rounded-xl">
+                        <AvatarFallback className="bg-primary/10 text-primary">
+                          <Image
+                            src="/geist-icons/calendar.svg"
+                            alt=""
+                            width={24}
+                            height={24}
+                            className="h-6 w-6 text-primary"
+                          />
+                        </AvatarFallback>
+                      </Avatar>
+                    </ItemMedia>
+                    <ItemContent>
+                      <ItemTitle>Book online</ItemTitle>
+                      <ItemDescription>Reserve your appointment in seconds.</ItemDescription>
+                    </ItemContent>
+                    <ItemActions>
+                      <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
+                    </ItemActions>
+                  </a>
+                </Item>
+
+                <Item asChild variant="muted" size="sm">
+                  <a href={siteConfig.business.address.mapUrl} target="_blank" rel="noopener noreferrer">
+                    <ItemMedia>
+                      <Avatar className="h-12 w-12 bg-primary/10 rounded-xl">
+                        <AvatarFallback className="bg-primary/10 text-primary">
+                          <Image
+                            src="/geist-icons/location.svg"
+                            alt=""
+                            width={24}
+                            height={24}
+                            className="h-6 w-6 text-primary"
+                          />
+                        </AvatarFallback>
+                      </Avatar>
+                    </ItemMedia>
+                    <ItemContent>
+                      <ItemTitle>Visit us</ItemTitle>
+                      <ItemDescription>
+                        {CONTACT_INFO.fullAddress.street}, {CONTACT_INFO.fullAddress.city}{' '}
+                        {CONTACT_INFO.fullAddress.province} {CONTACT_INFO.fullAddress.postalCode}
+                      </ItemDescription>
+                    </ItemContent>
+                    <ItemActions>
+                      <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
+                    </ItemActions>
+                  </a>
+                </Item>
+
+                <Item asChild variant="muted" size="sm">
+                  <a href={SOCIAL_LINKS.phone}>
+                    <ItemMedia>
+                      <Avatar className="h-12 w-12 bg-primary/10 rounded-xl">
+                        <AvatarFallback className="bg-primary/10 text-primary">
+                          <Image
+                            src="/geist-icons/phone.svg"
+                            alt=""
+                            width={24}
+                            height={24}
+                            className="h-6 w-6 text-primary"
+                          />
+                        </AvatarFallback>
+                      </Avatar>
+                    </ItemMedia>
+                    <ItemContent>
+                      <ItemTitle>Call or text</ItemTitle>
+                      <ItemDescription>{CONTACT_INFO.phone}</ItemDescription>
+                    </ItemContent>
+                    <ItemActions>
+                      <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
+                    </ItemActions>
+                  </a>
+                </Item>
+
+                <Item asChild variant="muted" size="sm">
+                  <a href={SOCIAL_LINKS.email}>
+                    <ItemMedia>
+                      <Avatar className="h-12 w-12 bg-primary/10 rounded-xl">
+                        <AvatarFallback className="bg-primary/10 text-primary">
+                          <Image
+                            src="/geist-icons/email.svg"
+                            alt=""
+                            width={24}
+                            height={24}
+                            className="h-6 w-6 text-primary"
+                          />
+                        </AvatarFallback>
+                      </Avatar>
+                    </ItemMedia>
+                    <ItemContent>
+                      <ItemTitle>Email</ItemTitle>
+                      <ItemDescription>{CONTACT_INFO.email}</ItemDescription>
+                    </ItemContent>
+                    <ItemActions>
+                      <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
+                    </ItemActions>
+                  </a>
+                </Item>
+              </ItemGroup>
+            </section>
+
+            <section aria-label="Follow" className="space-y-4">
+              <ItemGroup className="space-y-2">
+                <Item asChild variant="muted" size="sm">
+                  <a href={SOCIAL_LINKS.instagram} target="_blank" rel="noopener noreferrer">
+                    <ItemMedia>
+                      <Avatar className="h-12 w-12 bg-primary/10 rounded-xl">
+                        <AvatarFallback className="bg-primary/10 text-primary">
+                          <Image
+                            src="/geist-icons/camera.svg"
+                            alt=""
+                            width={24}
+                            height={24}
+                            className="h-6 w-6 text-primary"
+                          />
+                        </AvatarFallback>
+                      </Avatar>
+                    </ItemMedia>
+                    <ItemContent>
+                      <ItemTitle>Instagram</ItemTitle>
+                    </ItemContent>
+                    <ItemActions>
+                      <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
+                    </ItemActions>
+                  </a>
+                </Item>
+
+                <Item asChild variant="muted" size="sm">
+                  <a href={SOCIAL_LINKS.facebook} target="_blank" rel="noopener noreferrer">
+                    <ItemMedia>
+                      <Avatar className="h-12 w-12 bg-primary/10 rounded-xl">
+                        <AvatarFallback className="bg-primary/10 text-primary">
+                          <Image
+                            src="/geist-icons/logo-facebook.svg"
+                            alt=""
+                            width={24}
+                            height={24}
+                            className="h-6 w-6 text-primary"
+                          />
+                        </AvatarFallback>
+                      </Avatar>
+                    </ItemMedia>
+                    <ItemContent>
+                      <ItemTitle>Facebook</ItemTitle>
+                    </ItemContent>
+                    <ItemActions>
+                      <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
+                    </ItemActions>
+                  </a>
+                </Item>
+              </ItemGroup>
+            </section>
+          </div>
+
+          <div className="flex flex-col items-center gap-4 text-xs text-muted-foreground md:flex-row md:justify-between">
+            <p className="order-1 md:order-1">© {new Date().getFullYear()} {siteConfig.name}</p>
+
+            <div className="order-2 flex items-center gap-2">
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                asChild
+                className="h-8 w-8"
               >
-                <Instagram className="h-5 w-5" />
-              </a>
-              <a
-                href={SOCIAL_LINKS.facebook}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors"
-                aria-label="Follow us on Facebook"
-              >
-                <Facebook className="h-5 w-5" />
-              </a>
-            </div>
-          </section>
-
-          {/* Footer Navigation */}
-          {footerNav.map((section) => (
-            <nav key={section.title} aria-label={section.title}>
-              <h4 className="font-semibold mb-4">{section.title}</h4>
-              <ul className="space-y-2 text-sm">
-                {section.links.map((link) => (
-                  <li key={link.href}>
-                    <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors">
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          ))}
-
-          {/* Contact Information */}
-          <section aria-label="Contact Information">
-            <h4 className="font-semibold mb-4">Contact</h4>
-            <ul className="space-y-3 text-sm">
-              <li>
                 <a
-                  href={SOCIAL_LINKS.phone}
-                  className="flex items-start gap-2 text-muted-foreground hover:text-primary transition-colors"
-                >
-                  <Phone className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                  <span>{CONTACT_INFO.phone}</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href={SOCIAL_LINKS.email}
-                  className="flex items-start gap-2 text-muted-foreground hover:text-primary transition-colors"
-                >
-                  <Mail className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                  <span>{CONTACT_INFO.email}</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href={siteConfig.business.address.mapUrl}
+                  href={SOCIAL_LINKS.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-start gap-2 text-muted-foreground hover:text-primary transition-colors"
+                  aria-label="Follow us on Facebook"
                 >
-                  <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                  <span className="text-xs leading-relaxed">
-                    {CONTACT_INFO.fullAddress.street}<br />
-                    {CONTACT_INFO.fullAddress.city}, {CONTACT_INFO.fullAddress.province}<br />
-                    {CONTACT_INFO.fullAddress.postalCode}
-                  </span>
+                  <Facebook className="h-4 w-4" />
                 </a>
-              </li>
-            </ul>
-          </section>
-        </div>
+              </Button>
 
-        {/* Bottom Bar */}
-        <Separator className="my-8" />
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-sm text-muted-foreground">
-          <p className="text-center md:text-left">© {new Date().getFullYear()} {siteConfig.name}. All rights reserved.</p>
-          <a
-            href="https://zss.ca"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-center md:text-left hover:text-primary transition-colors"
-          >
-            Website built by <span className="font-semibold text-primary">zss.ca</span>
-          </a>
-          <div className="flex gap-4">
-            <Link href={ROUTES.ACCESSIBILITY} className="hover:text-primary transition-colors">
-              Accessibility
-            </Link>
-            <Link href={ROUTES.PRIVACY} className="hover:text-primary transition-colors">
-              Privacy
-            </Link>
-            <Link href={ROUTES.TERMS} className="hover:text-primary transition-colors">
-              Terms
-            </Link>
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                asChild
+                className="h-8 w-8"
+              >
+                <a
+                  href={SOCIAL_LINKS.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Follow us on Instagram"
+                >
+                  <Instagram className="h-4 w-4" />
+                </a>
+              </Button>
+
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                asChild
+                className="h-8 w-8"
+              >
+                <a
+                  href={SOCIAL_LINKS.tiktok}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Follow us on TikTok"
+                >
+                  <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
+                  </svg>
+                </a>
+              </Button>
+            </div>
+
+            <p className="order-3 font-mono">
+              Built by{' '}
+              <a href="https://zss.ca" target="_blank" rel="noopener noreferrer" className="text-foreground hover:text-primary">
+                zss.ca
+              </a>
+            </p>
           </div>
         </div>
       </Container>

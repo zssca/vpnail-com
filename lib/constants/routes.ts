@@ -5,11 +5,8 @@
 
 export const ROUTES = {
   HOME: '/',
-  ABOUT: '/about',
   SERVICES: '/services',
-  AREAS: '/areas',
   ARTICLES: '/articles',
-  CONSULTATION: '/consultation',
   CONTACT: '/contact',
   GALLERY: '/gallery',
   PRIVACY: '/privacy',

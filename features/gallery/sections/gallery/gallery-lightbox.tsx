@@ -1,10 +1,10 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { Skeleton } from '@/components/ui/skeleton'
-import type { GalleryImage } from '@/lib/gallery'
+import { LightboxNavigation } from './lightbox-navigation'
+import type { GalleryImage } from '@/lib/utils/gallery'
 
 interface GalleryLightboxProps {
   image: GalleryImage | null
@@ -14,7 +14,6 @@ interface GalleryLightboxProps {
 }
 
 export function GalleryLightbox({ image, allImages, onClose, onNavigate }: GalleryLightboxProps) {
-  const [isLoading, setIsLoading] = useState(true)
   const [imageError, setImageError] = useState(false)
   const touchStartX = useRef<number>(0)
   const touchStartY = useRef<number>(0)
@@ -23,21 +22,29 @@ export function GalleryLightbox({ image, allImages, onClose, onNavigate }: Galle
   const canNavigatePrevious = currentIndex > 0
   const canNavigateNext = currentIndex < allImages.length - 1
 
-  const navigatePrevious = () => {
-    if (canNavigatePrevious) {
-      onNavigate(allImages[currentIndex - 1])
-      setIsLoading(true)
-      setImageError(false)
+  const navigatePrevious = useCallback(() => {
+    if (!canNavigatePrevious) {
+      return
     }
-  }
 
-  const navigateNext = () => {
-    if (canNavigateNext) {
-      onNavigate(allImages[currentIndex + 1])
-      setIsLoading(true)
+    const previousImage = allImages[currentIndex - 1]
+    if (previousImage) {
+      onNavigate(previousImage)
       setImageError(false)
     }
-  }
+  }, [allImages, canNavigatePrevious, currentIndex, onNavigate])
+
+  const navigateNext = useCallback(() => {
+    if (!canNavigateNext) {
+      return
+    }
+
+    const nextImage = allImages[currentIndex + 1]
+    if (nextImage) {
+      onNavigate(nextImage)
+      setImageError(false)
+    }
+  }, [allImages, canNavigateNext, currentIndex, onNavigate])
 
   // Keyboard navigation
   useEffect(() => {
@@ -55,7 +62,7 @@ export function GalleryLightbox({ image, allImages, onClose, onNavigate }: Galle
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [image, allImages, currentIndex])
+  }, [image, navigateNext, navigatePrevious])
 
   // Touch swipe gestures
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -83,7 +90,7 @@ export function GalleryLightbox({ image, allImages, onClose, onNavigate }: Galle
 
   return (
     <Dialog open={!!image} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-5xl overflow-hidden p-0">
+      <DialogContent className="max-w-[95vw] overflow-hidden p-0 sm:max-w-5xl max-h-[85vh] sm:max-h-[90vh]">
         <DialogHeader className="sr-only">
           <DialogTitle>Gallery image preview</DialogTitle>
           <DialogDescription>
@@ -92,15 +99,13 @@ export function GalleryLightbox({ image, allImages, onClose, onNavigate }: Galle
         </DialogHeader>
         {image && (
           <div
-            className="relative h-[75vh] w-full bg-background"
+            className="relative h-[65vh] w-full bg-background sm:h-[75vh]"
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
             role="region"
             aria-label="Image viewer"
+            style={{ viewTransitionName: `gallery-lightbox` }}
           >
-            {isLoading && (
-              <Skeleton className="absolute inset-0 h-full w-full" />
-            )}
             <figure
               className="relative h-full w-full"
               itemScope
@@ -112,14 +117,10 @@ export function GalleryLightbox({ image, allImages, onClose, onNavigate }: Galle
                 title={image.title}
                 fill
                 itemProp="contentUrl"
-                className={`object-contain transition-opacity duration-300 ${
-                  isLoading ? 'opacity-0' : 'opacity-100'
-                }`}
+                className="object-contain"
                 sizes="(max-width: 768px) 100vw, 70vw"
                 priority
-                onLoad={() => setIsLoading(false)}
                 onError={() => {
-                  setIsLoading(false)
                   setImageError(true)
                 }}
               />
@@ -131,61 +132,29 @@ export function GalleryLightbox({ image, allImages, onClose, onNavigate }: Galle
                   </div>
                 </div>
               )}
+              {/* Image counter badge */}
+              {allImages.length > 1 && (
+                <div className="absolute right-4 top-4 rounded bg-black/50 px-3 py-1.5 text-sm text-white backdrop-blur-sm">
+                  {currentIndex + 1} / {allImages.length}
+                </div>
+              )}
+
               <figcaption className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent px-4 py-3 text-sm text-white">
                 <div>{image.caption}</div>
-                {allImages.length > 1 && (
-                  <div className="mt-1 text-xs text-gray-300">
-                    {currentIndex + 1} of {allImages.length}
-                  </div>
-                )}
               </figcaption>
               <meta itemProp="name" content={image.title} />
               <meta itemProp="description" content={image.description} />
             </figure>
 
-            {/* Navigation hints for keyboard and touch */}
-            {allImages.length > 1 && (
-              <>
-                <div
-                  className={`absolute left-0 top-1/2 -translate-y-1/2 transform p-4 text-white/40 transition-colors ${
-                    canNavigatePrevious ? 'cursor-pointer hover:text-white/80' : 'cursor-not-allowed opacity-25'
-                  }`}
-                  onClick={navigatePrevious}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault()
-                      navigatePrevious()
-                    }
-                  }}
-                  role="button"
-                  tabIndex={canNavigatePrevious ? 0 : -1}
-                  aria-label={canNavigatePrevious ? 'Previous image' : 'No previous image'}
-                >
-                  <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                  </svg>
-                </div>
-                <div
-                  className={`absolute right-0 top-1/2 -translate-y-1/2 transform p-4 text-white/40 transition-colors ${
-                    canNavigateNext ? 'cursor-pointer hover:text-white/80' : 'cursor-not-allowed opacity-25'
-                  }`}
-                  onClick={navigateNext}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault()
-                      navigateNext()
-                    }
-                  }}
-                  role="button"
-                  tabIndex={canNavigateNext ? 0 : -1}
-                  aria-label={canNavigateNext ? 'Next image' : 'No next image'}
-                >
-                  <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </div>
-              </>
-            )}
+            {/* Navigation controls */}
+            <LightboxNavigation
+              currentIndex={currentIndex}
+              totalImages={allImages.length}
+              canNavigatePrevious={canNavigatePrevious}
+              canNavigateNext={canNavigateNext}
+              onNavigatePrevious={navigatePrevious}
+              onNavigateNext={navigateNext}
+            />
           </div>
         )}
       </DialogContent>

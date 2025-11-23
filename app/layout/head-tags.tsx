@@ -17,7 +17,6 @@ export function HeadTags() {
       {/* Prefetch likely navigation */}
       <link rel="prefetch" href="/services" />
       <link rel="prefetch" href="/contact" />
-      <link rel="prefetch" href="/consultation" />
 
       {/* Geo & Local business meta for local SEO */}
       <meta name="geo.region" content="CA-AB" />

@@ -2,9 +2,9 @@ import { buildMetadata } from '@/lib/seo/metadata'
 import { siteConfig } from '@/lib/config/site.config'
 
 export const contactMetadata = buildMetadata({
-  title: 'Contact Victoria Park Nails & Spa | Calgary Appointments',
+  title: 'Contact Victoria Park Nails & Spa | Book Calgary Appointments',
   description:
-    `Call ${siteConfig.business.phone} or message our Victoria Park Calgary team for appointments, directions and parking tips. Free parking at ${siteConfig.business.address.street} steps from Stampede.`,
+    `Call ${siteConfig.business.phone} or message our Victoria Park Calgary team for appointments, parking help, and directions. Free parking at ${siteConfig.business.address.street} steps from the Stampede grounds.`,
   path: '/contact',
   keywords: [
     'contact Victoria Park Nails and Spa',
@@ -24,7 +24,7 @@ export const contactMetadata = buildMetadata({
     'walk-in nail salon Calgary',
   ],
   openGraphDescription:
-    `Reach Victoria Park Nails & Spa for bookings, parking guidance, and same-day availability at our ${siteConfig.business.address.street} Calgary studio with free client parking.`,
+    `Reach Victoria Park Nails & Spa for bookings, parking guidance, and same-day availability at ${siteConfig.business.address.street} in Calgary with free client parking.`,
   twitterDescription:
-    `Questions about availability? Call ${siteConfig.business.phone} for Victoria Park Nails & Spa - free parking, CTrain access, and friendly booking support.`,
+    `Questions about availability? Call ${siteConfig.business.phone} or book online for Victoria Park Nails & Spa—free parking, CTrain access, and quick support.`,
 })

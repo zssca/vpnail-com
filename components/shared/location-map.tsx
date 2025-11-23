@@ -1,6 +1,7 @@
 'use client'
 
 import { MapPin, Phone } from 'lucide-react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { siteConfig } from '@/lib/config/site.config'
 
@@ -9,21 +10,130 @@ interface LocationMapProps {
 }
 
 export function LocationMap({ className }: LocationMapProps) {
+  const mapRef = useRef<HTMLDivElement>(null)
+  const [isMounted, setIsMounted] = useState(false)
+
+  // Only mount on client side - this is intentional for SSR/CSR hydration
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsMounted(true)
+  }, [])
+
+  const initMap = useCallback(() => {
+    if (!isMounted || !mapRef.current || typeof window === 'undefined' || !window.google) return
+
+    // Initialize map
+    const map = new google.maps.Map(mapRef.current, {
+      center: siteConfig.location.coordinates,
+      zoom: 17,
+      disableDefaultUI: false,
+      zoomControl: true,
+      mapTypeControl: false,
+      streetViewControl: false,
+      fullscreenControl: true,
+    })
+
+    // Business marker (red - default)
+    const businessMarker = new google.maps.Marker({
+      map,
+      position: siteConfig.location.coordinates,
+      title: siteConfig.name,
+      icon: {
+        url: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+        scaledSize: new google.maps.Size(40, 40),
+      },
+    })
+
+    // Parking marker (blue with P)
+    const parkingMarker = new google.maps.Marker({
+      map,
+      position: siteConfig.location.parking,
+      title: 'Parking',
+      icon: {
+        url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+        scaledSize: new google.maps.Size(40, 40),
+      },
+      label: {
+        text: 'P',
+        color: 'white',
+        fontSize: '16px',
+        fontWeight: 'bold',
+      },
+    })
+
+    // Business info window
+    const businessInfoWindow = new google.maps.InfoWindow({
+      content: `
+        <div style="padding: 8px; min-width: 200px;">
+          <strong style="font-size: 14px; display: block; margin-bottom: 4px;">
+            ${siteConfig.name}
+          </strong>
+          <p style="margin: 0; font-size: 12px; color: #666;">
+            ${siteConfig.business.address.street}
+          </p>
+        </div>
+      `,
+    })
+
+    // Parking info window
+    const parkingInfoWindow = new google.maps.InfoWindow({
+      content: `
+        <div style="padding: 8px; min-width: 150px;">
+          <strong style="font-size: 14px; display: block; margin-bottom: 4px;">
+            🅿️ Parking
+          </strong>
+          <p style="margin: 0; font-size: 12px; color: #666;">
+            Customer parking available
+          </p>
+        </div>
+      `,
+    })
+
+    // Add click listeners
+    businessMarker.addListener('click', () => {
+      parkingInfoWindow.close()
+      businessInfoWindow.open(map, businessMarker)
+    })
+
+    parkingMarker.addListener('click', () => {
+      businessInfoWindow.close()
+      parkingInfoWindow.open(map, parkingMarker)
+    })
+
+    // Auto-open business info on load
+    businessInfoWindow.open(map, businessMarker)
+  }, [isMounted])
+
+  useEffect(() => {
+    if (!isMounted || typeof window === 'undefined') return
+
+    // Check if Google Maps is already loaded
+    if (window.google?.maps) {
+      initMap()
+      return
+    }
+
+    // Load Google Maps script
+    const script = document.createElement('script')
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${siteConfig.googleMapsApiKey}&v=weekly`
+    script.async = true
+    script.defer = true
+    script.onload = () => {
+      initMap()
+    }
+    document.head.appendChild(script)
+
+    return () => {
+      // Cleanup if needed
+    }
+  }, [isMounted, initMap])
+
   return (
     <div className={className}>
-      <div className="rounded-lg overflow-hidden border border-border">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2508.777223694119!2d-114.06388202340791!3d51.03873517171058!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x537170049b78cad1%3A0xf36de94f8f653d9a!2sVictoria%20Park%20Nails%20and%20Spa!5e0!3m2!1sen!2sca!4v1749870644294!5m2!1sen!2sca"
-          width="100%"
-          height="300"
-          style={{ border: 0 }}
-          allowFullScreen={true}
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-          title={`${siteConfig.name} Location`}
-          className="w-full"
-        />
-      </div>
+      <div
+        ref={mapRef}
+        className="w-full h-[300px] rounded-lg overflow-hidden border border-border bg-muted"
+      />
 
       <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
         <Button variant="outline" size="lg" asChild>

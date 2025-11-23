@@ -1,18 +1,14 @@
 import { siteConfig } from '@/lib/config/site.config'
+import type { DualCtaContent } from '@/components/shared/dual-cta-section'
 
-export const ctaData = {
-  title: 'Bring Your Pinterest Board to Life',
-  subtitle: "Tell us the vibe and we'll plan every colour, finish, and accent",
-  description:
-    'From Stampede chrome to wedding neutrals, our artists sketch your look in advance and keep notes for future visits. Secure your seat before prime evening slots fill up.',
-  cta: {
-    primary: {
-      text: 'Schedule Your Nail Art Session',
-      href: '/consultation',
-    },
-    secondary: {
-      text: `Call ${siteConfig.business.phone}`,
-      href: siteConfig.social.phone,
-    },
+export const ctaData: DualCtaContent = {
+  title: 'Book Your Appointment',
+  primary: {
+    text: 'Book nail art online',
+    href: siteConfig.links.booking,
   },
-} as const
+  secondary: {
+    text: 'Call now',
+    href: siteConfig.social.phone,
+  },
+}

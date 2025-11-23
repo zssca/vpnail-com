@@ -1,10 +1,7 @@
-import { Crown, Award, Star, Gem } from 'lucide-react'
+import type { PackageCarouselContent } from '@/components/shared/packages-carousel'
 
 export const combinationsData = {
-  badge: 'Nail Care Packages',
-  title: 'Service Combinations That Save You More',
-  description:
-    'Choose from our curated service combinations designed to give you the perfect nail care experience at unbeatable value. Each package combines complementary services for maximum savings and beauty.',
+  title: 'Service Packages',
   packages: [
     {
       name: 'Deluxe',
@@ -12,14 +9,14 @@ export const combinationsData = {
       originalPrice: '90',
       duration: '2 hrs',
       popular: true,
-      icon: Crown,
+      icon: 'crown',
       bookingUrl:
         'https://victoriaparknailsspa.setmore.com/book?step=staff&products=33278099-dbf1-454a-b169-30b2ff093286&type=service',
       services: [
         { name: 'Shellac Manicure', included: true },
         { name: 'Deluxe Spa Pedicure', included: true },
       ],
-      description: 'Your ultimate spa retreat to melt away stress.',
+      description: 'Chip-resistant hands plus a deluxe hot stone pedicure—perfect before events or Stampede weekends.',
     },
     {
       name: 'Refresh',
@@ -27,14 +24,14 @@ export const combinationsData = {
       originalPrice: '65',
       duration: '1 hr 15 mins',
       popular: false,
-      icon: Award,
+      icon: 'award',
       bookingUrl:
         'https://victoriaparknailsspa.setmore.com/book?step=staff&products=d95a021e-d7ca-4e44-b065-f22a634955ea&type=service',
       services: [
         { name: 'Manicure with regular polish', included: true },
         { name: 'Pedicure with regular polish', included: true },
       ],
-      description: 'The essential for a timeless, elegant look.',
+      description: 'Classic polish on hands and feet when you want a quick reset between meetings.',
     },
     {
       name: 'Essential',
@@ -42,14 +39,14 @@ export const combinationsData = {
       originalPrice: '75',
       duration: '1 hr 35 mins',
       popular: false,
-      icon: Star,
+      icon: 'star',
       bookingUrl:
         'https://victoriaparknailsspa.setmore.com/book?step=staff&products=e23a8336-3303-4193-a9dc-47025c307144&type=service',
       services: [
         { name: 'Shellac Manicure', included: true },
         { name: 'Pedicure with regular polish', included: true },
       ],
-      description: 'The smart choice for long-lasting hands and beautiful feet.',
+      description: 'Long-wear shellac for hands plus a fresh pedicure that still fits a lunch break.',
     },
     {
       name: 'Perfection',
@@ -57,14 +54,14 @@ export const combinationsData = {
       originalPrice: '80',
       duration: '1 hr 45 mins',
       popular: false,
-      icon: Gem,
+      icon: 'gem',
       bookingUrl:
         'https://victoriaparknailsspa.setmore.com/book?step=staff&products=cae22bc2-9fa6-4555-a560-67adb65db4ae&type=service',
       services: [
         { name: 'Shellac Manicure', included: true },
         { name: 'Shellac Pedicure', included: true },
       ],
-      description: 'Worry-free, chip-proof shine from head to toe.',
+      description: 'Matching, chip-proof shine on hands and feet for vacations, weddings, or photo days.',
     },
   ],
-}
+} satisfies PackageCarouselContent

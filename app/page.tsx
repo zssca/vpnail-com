@@ -4,4 +4,7 @@ export const metadata = homeMetadata
 export const dynamic = 'force-static'
 export const revalidate = false
 
-export default HomePage
+export default async function HomeRoute() {
+  'use cache'
+  return <HomePage />
+}

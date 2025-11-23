@@ -1,8 +1,14 @@
+import Image from 'next/image'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import { Phone, Mail, MapPin } from 'lucide-react'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { Item, ItemContent, ItemDescription, ItemGroup, ItemMedia, ItemTitle } from '@/components/ui/item'
 import { contactInfoData } from './data'
 
-const iconMap = { Phone, Mail, MapPin } as const
+const iconMap = {
+  Phone: '/geist-icons/phone.svg',
+  Mail: '/geist-icons/email.svg',
+  MapPin: '/geist-icons/location.svg',
+} as const
 
 export function ContactInfoSection() {
   return (
@@ -10,28 +16,35 @@ export function ContactInfoSection() {
       <CardHeader className="flex-shrink-0">
         <CardTitle>{contactInfoData.title}</CardTitle>
       </CardHeader>
-      <CardContent className="flex-grow space-y-6">
-        <p className="text-muted-foreground">
-          {contactInfoData.description}
-        </p>
-        <div className="space-y-4">
+      <CardContent className="flex-grow">
+        <ItemGroup className="space-y-2">
           {contactInfoData.methods.map((method, index) => {
-            const IconComponent = iconMap[method.icon as keyof typeof iconMap]
+            const iconSrc = iconMap[method.icon as keyof typeof iconMap]
             return (
-              <a
-                key={index}
-                href={method.href}
-                className="flex items-start gap-3 p-3 rounded-md border bg-card hover:bg-accent transition-colors"
-              >
-                <IconComponent className="h-5 w-5 text-primary mt-0.5" />
-                <div className="flex-1">
-                  <div className="text-sm font-medium">{method.label}</div>
-                  <div className="text-sm text-muted-foreground">{method.value}</div>
-                </div>
-              </a>
+              <Item key={index} asChild variant="muted" size="sm">
+                <a href={method.href}>
+                  <ItemMedia>
+                    <Avatar className="h-10 w-10 bg-primary/10 rounded-lg">
+                      <AvatarFallback className="bg-primary/10">
+                        <Image
+                          src={iconSrc}
+                          alt=""
+                          width={20}
+                          height={20}
+                          className="h-5 w-5 text-primary"
+                        />
+                      </AvatarFallback>
+                    </Avatar>
+                  </ItemMedia>
+                  <ItemContent>
+                    <ItemTitle>{method.label}</ItemTitle>
+                    <ItemDescription>{method.value}</ItemDescription>
+                  </ItemContent>
+                </a>
+              </Item>
             )
           })}
-        </div>
+        </ItemGroup>
       </CardContent>
     </Card>
   )

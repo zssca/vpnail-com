@@ -1,0 +1,18 @@
+import type { <TypeName> } from '@/lib/types/<path>'
+
+export const <sectionName>Data: <TypeName> = {
+  title: '',
+  subtitle: '',
+  description: '',
+  items: [
+    {
+      title: '',
+      description: '',
+      icon: '',
+    },
+  ],
+  cta: {
+    label: 'Book a Consultation',
+    href: '/contact',
+  },
+}

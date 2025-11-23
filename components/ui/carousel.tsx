@@ -175,32 +175,29 @@ function CarouselPrevious({
   className,
   variant = "outline",
   size = "icon",
-  ...buttonProps
+  ...props
 }: React.ComponentProps<typeof Button>) {
   const { orientation, scrollPrev, canScrollPrev } = useCarousel()
 
   return (
-    <div
+    <Button
+      data-slot="carousel-previous"
+      variant={variant}
+      size={size}
       className={cn(
-        "absolute",
+        "absolute size-8 rounded-full",
         orientation === "horizontal"
           ? "top-1/2 -left-12 -translate-y-1/2"
           : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
         className
       )}
+      disabled={!canScrollPrev}
+      onClick={scrollPrev}
+      {...props}
     >
-      <Button
-        data-slot="carousel-previous"
-        variant={variant}
-        size={size}
-        disabled={!canScrollPrev}
-        onClick={scrollPrev}
-        {...buttonProps}
-      >
-        <ArrowLeft className="h-4 w-4" />
-        <span className="sr-only">Previous slide</span>
-      </Button>
-    </div>
+      <ArrowLeft />
+      <span className="sr-only">Previous slide</span>
+    </Button>
   )
 }
 
@@ -208,79 +205,29 @@ function CarouselNext({
   className,
   variant = "outline",
   size = "icon",
-  ...buttonProps
+  ...props
 }: React.ComponentProps<typeof Button>) {
   const { orientation, scrollNext, canScrollNext } = useCarousel()
 
   return (
-    <div
+    <Button
+      data-slot="carousel-next"
+      variant={variant}
+      size={size}
       className={cn(
-        "absolute",
+        "absolute size-8 rounded-full",
         orientation === "horizontal"
           ? "top-1/2 -right-12 -translate-y-1/2"
           : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
         className
       )}
-    >
-      <Button
-        data-slot="carousel-next"
-        variant={variant}
-        size={size}
-        disabled={!canScrollNext}
-        onClick={scrollNext}
-        {...buttonProps}
-      >
-        <ArrowRight className="h-4 w-4" />
-        <span className="sr-only">Next slide</span>
-      </Button>
-    </div>
-  )
-}
-
-function CarouselDots({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
-  const { api } = useCarousel()
-  const [current, setCurrent] = React.useState(0)
-  const [count, setCount] = React.useState(0)
-
-  React.useEffect(() => {
-    if (!api) return
-
-    setCount(api.scrollSnapList().length)
-    setCurrent(api.selectedScrollSnap())
-
-    const onSelect = () => {
-      setCurrent(api.selectedScrollSnap())
-    }
-
-    api.on("select", onSelect)
-    return () => {
-      api.off("select", onSelect)
-    }
-  }, [api])
-
-  return (
-    <div
-      className={cn("flex justify-center gap-1.5 mt-6", className)}
+      disabled={!canScrollNext}
+      onClick={scrollNext}
       {...props}
     >
-      {Array.from({ length: count }).map((_, index) => (
-        <button
-          key={index}
-          type="button"
-          onClick={() => api?.scrollTo(index)}
-          className={cn(
-            "h-2 w-2 rounded-full transition-all",
-            current === index
-              ? "bg-primary scale-125"
-              : "bg-primary/30 hover:bg-primary/50"
-          )}
-          aria-label={`Go to slide ${index + 1}`}
-        />
-      ))}
-    </div>
+      <ArrowRight />
+      <span className="sr-only">Next slide</span>
+    </Button>
   )
 }
 
@@ -291,5 +238,4 @@ export {
   CarouselItem,
   CarouselPrevious,
   CarouselNext,
-  CarouselDots,
 }

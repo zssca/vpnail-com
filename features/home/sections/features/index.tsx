@@ -2,7 +2,6 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/com
 import { Section, Container } from '@/components/layouts'
 import { Heart, Sparkles, Shield, Microscope, Users, Leaf, Award } from 'lucide-react'
 import { featuresData } from './data'
-import { H2, Lead, P, Small } from '@/components/ui/typography'
 
 const iconMap = { Heart, Sparkles, Shield, Microscope, Users, Leaf, Award } as const
 
@@ -11,13 +10,7 @@ export function FeaturesSection() {
     <Section variant="muted">
       <Container>
         <div className="text-center mb-16">
-          <Container size="sm">
-            <div className="space-y-4">
-              <H2>{featuresData.title}</H2>
-              <Lead>{featuresData.subtitle}</Lead>
-              <P className="text-muted-foreground">{featuresData.description}</P>
-            </div>
-          </Container>
+          <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">{featuresData.title}</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {featuresData.features.map((feature, index) => {
@@ -31,12 +24,12 @@ export function FeaturesSection() {
                 </div>
                 <div>
                   <CardTitle>
-                    <Small className="text-base font-semibold">{feature.title}</Small>
+                    <small className="text-sm font-medium leading-none text-base font-semibold">{feature.title}</small>
                   </CardTitle>
                 </div>
-                <P className="text-sm text-muted-foreground">
+                <p className="leading-7 text-sm text-muted-foreground">
                   {feature.description}
-                </P>
+                </p>
               </Card>
             )
           })}

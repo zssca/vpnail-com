@@ -9,18 +9,19 @@ import { StickyBottomNav } from '@/components/layouts/sticky-bottom-nav'
 import { GoogleTagManager } from '@/components/seo'
 import { rootMetadata, rootViewport } from '@/lib/config/metadata.config'
 import { analyticsConfig } from '@/lib/config/analytics.config'
-import { lato, playfair } from '@/lib/config/fonts.config'
+import { lato, cormorant } from '@/lib/config/fonts.config'
 import { HeadTags } from './layout/head-tags'
 import { SkipLinks } from './layout/skip-links'
 
 export const metadata = rootMetadata
 export const viewport = rootViewport
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  'use cache'
   return (
     <html lang="en-CA" suppressHydrationWarning>
       <head>
@@ -29,7 +30,7 @@ export default function RootLayout({
       <body className={cn(
         'min-h-screen bg-background antialiased',
         lato.variable,
-        playfair.variable
+        cormorant.variable
       )}>
         {/* Google Tag Manager */}
         {analyticsConfig.shouldLoadAnalytics && analyticsConfig.gtmId && (

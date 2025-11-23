@@ -1,39 +1,36 @@
-# Manna Health - Quick Reference
+# AI Delivery Playbook – Static Marketing Pattern
 
-> **💡 Not sure?** Read `/docs/rules/` (01 → 08) for detailed guidance.
+> **Mandatory:** All AI collaborators must treat this document as the baseline contract. If a task request appears to conflict with these rules, pause and consult `/docs/rules/` (sections 01–08) plus the relevant task playbook before continuing. Always document which rule you followed when escalating decisions.
 
-## 📚 Full Documentation
-
-**Core Rules:** `/docs/rules/01-start-here.md` through `08-task-guide.md`
-**Task Playbooks:** `/docs/rules/tasks/{setup,development,optimization,deployment}/`
-**When uncertain:** Always check `/docs/rules/` before making architectural decisions
+## Documentation Protocol
+- **Primary reference:** `/docs/rules/`
+- **Task playbooks:** `/docs/rules/tasks/{setup,development,optimization,deployment}/`
+- **Escalation:** When requirements are ambiguous or structural changes are requested, cite the applicable rule from `/docs/rules/` before proceeding.
 
 ---
 
-## ⚠️ PROJECT TYPE: SSG + Forms (Static + Minimal Server)
+## Platform Model
 
-All display data from `.ts` files (build time). Server Actions ONLY for forms/email.
+- **Runtime contract:** Server Actions exist solely to process forms/email and live under `features/[feature]/actions/*.action.ts` with `'use server'` scoped to the action file.
+- **Outcomes:** 10–30 ms loads, strong SEO, low hosting overhead, minimized attack surface.
 
 ```typescript
-// All pages (build time rendering)
+// Page-level requirement
 export const dynamic = 'force-static'
 export const revalidate = false
 
-// Server Actions (runtime, forms only)
-'use server'  // ONLY in features/marketing/[feature]/actions/*.action.ts
+// Server Actions (forms only)
+'use server' // inside features/[feature]/actions/*.action.ts
 ```
-
-**Benefits**: 10-30ms load times, perfect SEO, minimal hosting costs, high security
 
 ---
 
-## 🏗️ PROJECT ARCHITECTURE
-
+## Architecture Blueprint (Immutable Pattern)
 ```
 project-root/
-├── lib/                           ← Core infrastructure (FIXED)
+├── lib/
 │   ├── config/
-│   │   ├── site.config.ts         ← 🔥 MAIN CONFIG (business, branding, nav, analytics)
+│   │   ├── site.config.ts         ← Canonical business + branding data
 │   │   ├── nav.config.ts
 │   │   ├── seo.config.ts
 │   │   └── email.config.ts
@@ -42,200 +39,159 @@ project-root/
 │   ├── utils/
 │   └── validations/
 │
-├── components/                    ← Reusable components (FIXED)
-│   ├── ui/                        ← shadcn/ui components
-│   ├── layouts/                   ← Layout components
-│   └── shared/                    ← Shared business components
+├── components/
+│   ├── ui/                        ← shadcn/ui primitives
+│   ├── layouts/
+│   └── shared/                    ← Reusable business components
 │
-├── features/                      ← Feature-based pages
-│   ├── marketing/
-│   │   ├── [page]/                ← Feature folder structure
-│   │   │   ├── page.tsx           ← Page assembly (Server Component)
-│   │   │   ├── seo.ts             ← SEO metadata (feature root only)
-│   │   │   ├── index.ts           ← Barrel exports
-│   │   │   ├── sections/          ← All sections here (REQUIRED)
-│   │   │   │   └── [section]/
-│   │   │   │       ├── index.tsx  ← UI component
-│   │   │   │       ├── data.ts    ← Content data
-│   │   │   │       └── types.ts   ← Types (optional)
-│   │   │   ├── actions/           ← Server Actions (forms only)
-│   │   │   │   └── *.action.ts
-│   │   │   ├── schemas/           ← Zod validation (forms only)
-│   │   │   │   └── *.schema.ts
-│   │   │   └── data/              ← Complex data (services/articles only)
-│   │   │       └── */
-│   │   │
-│   │   │   ⚠️  NO OTHER FOLDERS - Only: sections/, actions/, schemas/, data/
-│   │   │   ⚠️  NO components/, utils/, hooks/, lib/ at feature level
-│   │   │
-│   │   ├── home/
-│   │   ├── about/
-│   │   ├── services/
-│   │   ├── contact/
-│   │   ├── consultation/
-│   │   ├── gallery/
-│   │   ├── areas/
-│   │   ├── articles/
-│   │   ├── privacy/
-│   │   ├── terms/
-│   │   └── accessibility/
-│   └── shared/                    ← Shared sections across features
-│       └── faqs/
+├── features/
+│   ├── 
+       └── [page]/
+│   │       ├── page.tsx
+│   │       ├── seo.ts
+│   │       ├── index.ts
+│   │       ├── sections/
+│   │       │   └── [section]/
+│   │       │       ├── index.tsx
+│   │       │       ├── data.ts
+│   │       │       └── types.ts (optional)
+│   │       ├── actions/           ← Forms/email only
+│   │       ├── schemas/           ← Zod validation for forms
+│   │       └── data/              ← Only for complex service/article modules
+│   │
+│   │       ⚠ Allowed folders: sections/, actions/, schemas/, data/
+│   │       ⚠ Forbidden folders: components/, utils/, hooks/, lib/, helpers/
 │
-├── emails/                        ← Email templates (Resend)
+│   └── shared/                    ← Sections reusable across features
+│
+├── emails/
 │   ├── templates/
 │   └── styles/
 │
-├── app/                           ← Next.js routes (thin layer)
-│   ├── page.tsx                   ← Imports HomePage from features
+├── app/
+│   ├── page.tsx                   ← Imports feature pages only
 │   └── ...
 │
-└── public/                        ← Static assets
+└── public/
     └── images/
 ```
 
+For any deviation from this tree, acquire written approval referencing the appropriate rule in `/docs/rules/`.
+
 ---
 
-## 🔑 GOLDEN RULES
+## Golden Controls
+1. **Single source of business truth:** `lib/config/site.config.ts`. Never hardcode names, addresses, URLs, or branding elsewhere.
+2. **Page content lives in section `data.ts` files.** Marketing copy, lists, testimonials, pricing, FAQs, etc.
+3. **Static-first discipline:** No runtime `fetch` for display data. Server Actions exist only for forms/email.
+4. **Immutable core directories:** Do not restructure `lib/` or `components/`. Extend functionality through sections or shared components only.
+5. **Managed assets remain untouched:** Never edit `app/globals.css` or any file under `components/ui/` unless a rule explicitly directs it.
+6. **Feature-per-page contract:** Each `features/[page]/page.tsx` composes sections only; no extra logic.
+7. **Sections stay inside `sections/`.** React components, hooks, and helpers are forbidden at the feature root.
+8. **SEO stays at the feature root (`seo.ts`).** Do not embed metadata inside sections.
+9. **Sections are self-contained modules.** They may not import other sections’ data or components.
+10. **App routes pass through features.** All composition happens inside `features/*`.
 
-### Architecture Rules (DO NOT BREAK)
-1. **All config in `lib/config/site.config.ts`** - Business info, branding, navigation, analytics
-2. **Page content in section data.ts files** - Hero text, services, testimonials
-3. **Never hardcode business info** - Always reference site.config.ts
-4. **Static first** - Server Actions ONLY for forms
-5. **Never modify lib/, components/ structure** - These are fixed
+### Size Caps
+- Section components ≤150 lines.
+- Feature pages ≤200 lines.
+- Individual data files ≤500 lines (split when approaching the limit).
 
-### File Organization Rules (MUST FOLLOW)
-6. **Each page = one feature** in `features/marketing/[page]/`
-7. **All sections under `sections/` folder** - Never at feature root
-8. **SEO at feature root** - `seo.ts` not in sections
-9. **Self-contained sections** - Each has `index.tsx`, `data.ts`, optional `types.ts`
-10. **App routes ONLY render features** - No composition in routes
+Always cite `/docs/rules/01-architecture.md` when enforcing these controls during reviews.
 
-### File Patterns (ENFORCE)
+---
+
+## Compliance Patterns
 ```
-✅ features/marketing/about/page.tsx
-✅ features/marketing/about/sections/hero/index.tsx
-✅ features/marketing/about/sections/hero/data.ts
-✅ features/marketing/about/seo.ts
+✅ features/[page]/page.tsx
+✅ features/[page]/sections/[section]/index.tsx
+✅ features/[page]/sections/[section]/data.ts
+✅ features/[page]/seo.ts
 
-❌ features/marketing/about-page.tsx
-❌ features/marketing/about/hero/
-❌ features/marketing/about/data/hero.data.ts
-❌ features/marketing/about/hero.seo.ts
+❌ features/[page]-page.tsx
+❌ features/[page]/[section]/index.tsx (missing sections/)
+❌ features/[page]/data/[section].data.ts (wrong naming)
+❌ features/[page]/sections/[section]/seo.ts (SEO misplaced)
 ```
 
-### Import Rules (STRICT)
+### Import Policy
 ```typescript
-// ✅ DO
-import { heroData } from './data'                      // Same section
-import { HeroSection } from './sections/hero'          // Page composing sections
-import { siteConfig } from '@/lib/config/site.config'  // Global config
+// Permitted
+import { sectionData } from './data'
+import { Section } from './sections/section'
+import { siteConfig } from '@/lib/config/site.config'
+import { SharedSection } from '@/features/shared/example'
 
-// ❌ DON'T
-import { heroData } from '../hero/data'                // Cross-section
-import { heroData } from '@/features/marketing/about/sections/hero/data' // Cross-feature
-const heroData = { title: "Hardcoded" }               // Hardcoded data
+// Rejected
+import { sectionData } from '../other-section/data'
+import { heroData } from '@/features/other-page/sections/hero/data'
+const sectionData = { title: 'Hardcoded' }
 ```
 
-### Size Limits (ENFORCE)
-- Components: 150 lines → Split if larger
-- Page Components: 200 lines → Extract sections
-- Data Files: 500 lines → Organize into modules
+When policing imports, reference `/docs/rules/03-imports.md` (or equivalent) so decisions are transparent.
 
 ---
 
-## 📝 COMMON WORKFLOWS
+## Operational Playbooks (Always cite when acting)
+- **Update business profile:** Modify `lib/config/site.config.ts`. Reference `/docs/rules/tasks/development/update-business-info.md` if available.
+- **Update page content:** Edit `features/[page]/sections/[section]/data.ts`. Cite the relevant content-update playbook.
+- **Add feature/page:** Follow `/docs/rules/tasks/development/add-new-page.md` step-by-step.
+- **Add section:** Use `/docs/rules/tasks/development/add-new-section.md`.
+- **Add complex content modules (services/articles):** Consult `/docs/rules/tasks/development/update-content.md` before modifying `data/` directories.
 
-> **Detailed task guides:** See `/docs/rules/tasks/{development,setup,optimization}/`
-
-**Update Business Info:** Edit `lib/config/site.config.ts` (never hardcode)
-**Update Page Content:** Edit `features/marketing/[page]/sections/[name]/data.ts`
-**Add New Page:** See `/docs/rules/tasks/development/add-new-page.md`
-**Add Section:** See `/docs/rules/tasks/development/add-new-section.md`
-**Add Service/Article:** See `/docs/rules/tasks/development/update-content.md`
-
----
-
-## ❌ ANTI-PATTERNS (STOP IF YOU SEE)
-
-### SSG Violations
-- `'use server'` anywhere except `features/marketing/[page]/actions/`
-- `app/api/` routes (use Server Actions instead)
-- `await fetch()` for display data (use data.ts files)
-- Database setup (this is file-based)
-- `export const revalidate = 3600` (should be false)
-
-### Architecture Violations
-- Hardcoded business names/addresses/phone numbers
-- Cross-section imports (`import from '../other-section'`)
-- Cross-feature imports (except shared)
-- Config in feature folders
-- Sections at feature root (must be in `sections/`)
-- SEO files in sections (must be at feature root)
-- **❌ ILLEGAL FOLDERS in features:** `components/`, `utils/`, `hooks/`, `lib/`, `helpers/`
-- Data centralization folder (`data/` allowed ONLY for services/articles complex data)
-
-### File Naming Violations
-- `home-page.tsx` instead of `page.tsx`
-- `hero.data.ts` instead of `data.ts`
-- `home.seo.ts` instead of `seo.ts`
-- Section folders at feature root instead of in `sections/`
+AI agents must document which playbook was used in task notes or pull-request descriptions.
 
 ---
 
-## 🚀 QUICK REFERENCE
+## Anti-Patterns (Stop + Escalate)
+- `'use server'` declared outside `features/[page]/actions/`.
+- `app/api/` routes or any ad-hoc API surfaces.
+- Runtime data fetching for static content.
+- Introducing databases, ORMs, or persistent backends.
+- Changing `revalidate` to a non-`false` value.
+- Hardcoding business data anywhere.
+- Cross-section imports or cross-feature imports (except from `features/shared/`).
+- Creating feature-level `components/`, `hooks/`, `utils/`, or `lib/` directories.
+- Placing sections outside `sections/` or nesting SEO files within sections.
+- Violating naming conventions established in `/docs/rules/`.
 
-### Key File Locations
-| Type | Location | Example |
-|------|----------|---------|
-| **Config** | `lib/config/site.config.ts` | Business info, branding, nav |
-| **Page** | `features/marketing/[page]/page.tsx` | Page assembly |
-| **SEO** | `features/marketing/[page]/seo.ts` | Metadata (feature root) |
-| **Section** | `features/[page]/sections/[name]/` | `index.tsx`, `data.ts` |
-| **Action** | `features/[page]/actions/*.action.ts` | Server Actions only |
-| **Email** | `emails/templates/[name].tsx` | Resend templates |
-
-### Data Flow Pattern
-```
-lib/config/site.config.ts → Global config (footer, header, nav)
-features/[page]/sections/[name]/data.ts → Section component → Page → App route
-```
-
-### Import Rules
-```typescript
-// ✅ Allowed
-import { heroData } from './data'                       // Same section
-import { HeroSection } from './sections/hero'           // Page → Section
-import { siteConfig } from '@/lib/config/site.config'   // Global config
-import { SharedFaqsSection } from '@/features/shared/faqs' // Shared features
-
-// ❌ Forbidden
-import { heroData } from '../other-section/data'        // Cross-section
-import { heroData } from '@/features/about/sections/hero/data' // Cross-feature
-```
+When any anti-pattern is detected, halt work and reference the exact rule in `/docs/rules/` within your escalation message.
 
 ---
 
-## 💡 CORE PRINCIPLE
+## Quick Reference Table
+| Artifact | Location | Purpose |
+|---------|----------|---------|
+| Config | `lib/config/site.config.ts` | Business + branding source of truth |
+| Page | `features/[page]/page.tsx` | Composes sections |
+| SEO | `features/[page]/seo.ts` | Metadata per feature |
+| Section | `features/[page]/sections/[section]/` | `index.tsx`, `data.ts`, `types.ts` |
+| Action | `features/[page]/actions/*.action.ts` | Forms/email workflows |
+| Email | `emails/templates/[name].tsx` | Transactional templates |
 
-> **"Structure is FIXED. Content changes via `site.config.ts` and `data.ts` files."**
-
-- **Business info?** → Edit `lib/config/site.config.ts` (never hardcode)
-- **Page content?** → Edit `features/[page]/sections/[name]/data.ts`
-- **New feature?** → Follow existing patterns exactly (check `/docs/rules/`)
-- **Bug fix?** → Preserve the architecture
-- **Need component?** → Use from `components/` first, never create in features
+**Data Flow Template:** `site.config.ts → sections/[section]/data.ts → sections/[section]/index.tsx → features/[page]/page.tsx → app route`. When diagramming flows, always link to `/docs/rules/02-data-flow.md` (or nearest equivalent) for confirmation.
 
 ---
 
-## 🎯 PROJECT CONTEXT
+## Core Principle
+> **Structure is fixed; content resides in configuration and section data modules.**
+- Business update? Modify `site.config.ts`.
+- Content change? Update the corresponding `data.ts`.
+- New experience? Duplicate the existing feature/section pattern exactly, guided by the playbooks.
+- Bug fix? Preserve architecture boundaries unless `/docs/rules/` authorizes a structural change.
+- Need UI? Reuse `components/` or `features/shared/` before introducing new primitives.
 
-**Business:** Manna Health - Mobile regenerative clinic in Calgary
-**Services:** Hair restoration, facials, microneedling, neuromodulators, dermal fillers (8 total)
-**Target:** Busy professionals, parents, caregivers
-**Differentiator:** Mobile service + nurse-led + faith-based care
+Document any deviations along with the rule ID that justifies them.
 
-**Pages:** Home, About, Services (8), Consultation, Contact, Gallery, Articles (25), Areas (10 Calgary neighborhoods), Privacy, Terms, Accessibility
+---
 
-**Tech Stack:** Next.js 16 (SSG), React Server Components, Tailwind CSS, shadcn/ui, Resend (email), Vercel (hosting)
+## Engagement Context Template (Only editable section)
+Populate these bullets at project kickoff so every AI agent has context without renaming this file:
+- **Client / Brand overview:** _Add a concise summary referencing `/docs/rules/` section if applicable._
+- **Primary offerings:** _List core products/services._
+- **Target audience:** _Describe the personas served._
+- **Differentiators:** _Document what sets the brand apart._
+- **Required pages/sections:** _Link to the backlog or specification; avoid naming inside the architecture diagram._
+- **Tech stack extensions:** _Note integrations beyond the baseline stack._
+
+All other sections stay constant across projects; only update this template with explicit approval and cross-reference the supporting documentation.

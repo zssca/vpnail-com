@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { Calendar, Phone } from 'lucide-react'
 
@@ -12,7 +12,7 @@ import { Container } from './container'
 
 export function StickyBottomNav() {
   const [isVisible, setIsVisible] = useState(true)
-  const [lastScrollY, setLastScrollY] = useState(0)
+  const lastScrollY = useRef(0)
 
   useEffect(() => {
     const controlNavbar = () => {
@@ -20,15 +20,13 @@ export function StickyBottomNav() {
 
       if (currentScrollY < 100) {
         setIsVisible(true)
-      } else if (currentScrollY > lastScrollY) {
-        // Scrolling down - hide nav
+      } else if (currentScrollY > lastScrollY.current) {
         setIsVisible(false)
       } else {
-        // Scrolling up - show nav
         setIsVisible(true)
       }
 
-      setLastScrollY(currentScrollY)
+      lastScrollY.current = currentScrollY
     }
 
     window.addEventListener('scroll', controlNavbar, { passive: true })
@@ -36,7 +34,7 @@ export function StickyBottomNav() {
     return () => {
       window.removeEventListener('scroll', controlNavbar)
     }
-  }, [lastScrollY])
+  }, [])
 
   return (
     <div

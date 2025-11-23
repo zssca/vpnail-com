@@ -1,76 +1,109 @@
 "use client"
 
-import * as React from "react"
+import { useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
+import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler"
-import { Container } from "./container"
-import { primaryNav, headerCTA, type NavItem } from "@/lib/config/nav.config"
+import { ParkingDialog } from "@/components/shared/parking-dialog"
+import { primaryNav } from "@/lib/config/nav.config"
 import { siteConfig } from "@/lib/config/site.config"
-import { HeaderLogo } from "./header/header-logo"
-import { DesktopNav } from "./header/desktop-nav"
-import { MobileMenu } from "./header/mobile-menu"
 
 interface HeaderProps {
-  items?: NavItem[]
+  items?: typeof primaryNav
 }
 
 export function Header({ items = primaryNav }: HeaderProps) {
-  const [isVisible, setIsVisible] = React.useState(true)
-  const [lastScrollY, setLastScrollY] = React.useState(0)
+  const pathname = usePathname()
+  const [isParkingDialogOpen, setIsParkingDialogOpen] = useState(false)
 
-  React.useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY
-      if (currentScrollY < 10) {
-        setIsVisible(true)
-      } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setIsVisible(false)
-      } else if (currentScrollY < lastScrollY) {
-        setIsVisible(true)
-      }
+  // Filter nav items to only those with href
+  const navLinks = items.filter(item => item.href)
 
-      setLastScrollY(currentScrollY)
+  // Check if a nav item is active
+  const isActive = (href: string) => {
+    if (href === '/') {
+      return pathname === '/'
     }
-
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [lastScrollY])
+    return pathname.startsWith(href)
+  }
 
   return (
-    <header className={cn(
-      "sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-transform duration-300",
-      !isVisible && "-translate-y-full"
-    )}>
-      <Container className="flex h-16 items-center justify-between gap-3">
-        <HeaderLogo name={siteConfig.name} />
-
-        {/* Desktop Navigation */}
-        <div className="hidden lg:flex flex-1 justify-center">
-          <DesktopNav items={items} />
-        </div>
-
-        {/* Desktop Actions */}
-        <div className="hidden lg:flex items-center gap-2">
-          <AnimatedThemeToggler variant="secondary" />
-          <Button asChild>
-            <Link href={headerCTA.href}>
-              {headerCTA.label}
-            </Link>
+    <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      {/* Mobile Layout: Navigation only (no logo) */}
+      <div className="md:hidden">
+        <nav className="flex h-12 items-center justify-center gap-1 px-2">
+          {navLinks.map((item) => (
+            <Button
+              key={item.href}
+              variant="secondary"
+              asChild
+              className={cn(isActive(item.href!) && "text-primary")}
+            >
+              <Link href={item.href!}>{item.label}</Link>
+            </Button>
+          ))}
+          <Button
+            variant="secondary"
+            onClick={() => setIsParkingDialogOpen(true)}
+          >
+            Parking
           </Button>
-        </div>
-
-        {/* Mobile Menu Button */}
-        <div className="flex items-center gap-2 lg:hidden">
           <AnimatedThemeToggler variant="secondary" />
-          <MobileMenu
-            items={items}
-            ctaHref={headerCTA.href}
-            ctaLabel={headerCTA.label}
-          />
+        </nav>
+      </div>
+
+      {/* Desktop Layout: Logo on left, navigation centered */}
+      <div className="hidden md:block">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="flex h-14 items-center justify-between">
+            <Link
+              href="/"
+              className="flex items-center transition-opacity hover:opacity-80 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm"
+              aria-label="Go to homepage"
+            >
+              <Image
+                src="/Victoria_Park_Nails_Spa_Logo_Primary_small.png"
+                alt={siteConfig.name}
+                width={110}
+                height={36}
+                className="h-9 w-auto"
+                priority
+              />
+            </Link>
+
+            <nav className="absolute left-1/2 -translate-x-1/2 flex gap-1">
+              {navLinks.map((item) => (
+                <Button
+                  key={item.href}
+                  variant="secondary"
+                  asChild
+                  className={cn(isActive(item.href!) && "text-primary")}
+                >
+                  <Link href={item.href!}>{item.label}</Link>
+                </Button>
+              ))}
+            </nav>
+
+            <div className="flex gap-1">
+              <Button
+                variant="secondary"
+                onClick={() => setIsParkingDialogOpen(true)}
+              >
+                Parking
+              </Button>
+              <AnimatedThemeToggler variant="secondary" />
+            </div>
+          </div>
         </div>
-      </Container>
+      </div>
+
+      <ParkingDialog
+        open={isParkingDialogOpen}
+        onOpenChange={setIsParkingDialogOpen}
+      />
     </header>
   )
 }

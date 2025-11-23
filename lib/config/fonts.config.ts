@@ -1,4 +1,5 @@
-import { Lato, Playfair_Display } from 'next/font/google'
+import { Lato } from 'next/font/google'
+import localFont from 'next/font/local'
 
 export const lato = Lato({
   subsets: ['latin'],
@@ -9,13 +10,23 @@ export const lato = Lato({
   fallback: ['system-ui', '-apple-system', 'sans-serif'],
 })
 
-export const playfair = Playfair_Display({
-  subsets: ['latin'],
+export const cormorant = localFont({
+  src: [
+    {
+      path: '../../public/fonts/Cormorant_Garamond/CormorantGaramond-VariableFont_wght.ttf',
+      weight: '400 700',
+      style: 'normal',
+    },
+    {
+      path: '../../public/fonts/Cormorant_Garamond/CormorantGaramond-Italic-VariableFont_wght.ttf',
+      weight: '400 700',
+      style: 'italic',
+    },
+  ],
   variable: '--font-playfair',
-  weight: ['400', '700'],
   display: 'swap',
-  preload: false,
+  preload: true,
   fallback: ['Georgia', 'serif'],
 })
 
-export const fontVariables = [lato.variable, playfair.variable]
+export const fontVariables = [lato.variable, cormorant.variable]

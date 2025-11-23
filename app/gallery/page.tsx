@@ -4,4 +4,7 @@ export const metadata = galleryMetadata
 export const dynamic = 'force-static'
 export const revalidate = false
 
-export default GalleryPage
+export default async function GalleryRoute() {
+  'use cache'
+  return <GalleryPage />
+}

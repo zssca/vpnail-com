@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useSyncExternalStore } from 'react'
 
 /**
  * Hook for matching media queries
@@ -16,43 +16,27 @@ import { useEffect, useState } from 'react'
  * const isLandscape = useMediaQuery('(orientation: landscape)')
  */
 export function useMediaQuery(query: string): boolean {
-  const [matches, setMatches] = useState(false)
-  const [mounted, setMounted] = useState(false)
+  const subscribe = (callback: () => void) => {
+    if (typeof window === 'undefined') {
+      return () => {}
+    }
 
-  useEffect(() => {
-    setMounted(true)
-
-    // Create media query list
     const mediaQuery = window.matchMedia(query)
+    const handler = () => callback()
 
-    // Set initial value
-    setMatches(mediaQuery.matches)
+    mediaQuery.addEventListener('change', handler)
+    return () => mediaQuery.removeEventListener('change', handler)
+  }
 
-    // Listen for changes
-    const handleChange = (e: MediaQueryListEvent) => {
-      setMatches(e.matches)
+  const getSnapshot = () => {
+    if (typeof window === 'undefined') {
+      return false
     }
 
-    // Modern browsers
-    if (mediaQuery.addEventListener) {
-      mediaQuery.addEventListener('change', handleChange)
+    return window.matchMedia(query).matches
+  }
 
-      return () => {
-        mediaQuery.removeEventListener('change', handleChange)
-      }
-    }
-    // Legacy browsers (IE11 and below)
-    else if (mediaQuery.addListener) {
-      mediaQuery.addListener(handleChange)
-
-      return () => {
-        mediaQuery.removeListener(handleChange)
-      }
-    }
-  }, [query])
-
-  // Return false until component is mounted (prevent hydration mismatch)
-  return mounted ? matches : false
+  return useSyncExternalStore(subscribe, getSnapshot, () => false)
 }
 
 /**

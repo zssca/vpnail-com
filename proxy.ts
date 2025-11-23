@@ -1,21 +1,16 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { siteConfig } from '@/lib/config/site.config';
 
-const areaSlugRedirects: Record<string, string> = {
-  '/areas/victoria-park': '/areas/victoria-park-calgary',
-  '/areas/downtown': '/areas/downtown-calgary',
-  '/areas/beltline': '/areas/beltline-calgary',
-  '/areas/mission': '/areas/mission-calgary',
-  '/areas/mount-royal': '/areas/mount-royal-calgary',
-  '/areas/inglewood': '/areas/inglewood-calgary',
-  '/areas/east-village': '/areas/east-village-calgary',
-  '/areas/erlton': '/areas/erlton-calgary',
-};
+const siteUrl = new URL(siteConfig.url);
+const canonicalHostname = siteUrl.hostname.toLowerCase();
+const bareHostname = canonicalHostname.replace(/^www\./, '');
+const localLikeHosts = new Set(['localhost', '127.0.0.1']);
 
 export function proxy(request: NextRequest) {
   const url = request.nextUrl.clone();
   const hostname = url.hostname.toLowerCase();
-  const isLocalLikeHost = hostname === 'localhost' || hostname.endsWith('.vercel.app');
+  const isLocalLikeHost = localLikeHosts.has(hostname) || hostname.endsWith('.vercel.app');
 
   if (!isLocalLikeHost) {
     const forwardedProto = request.headers.get('x-forwarded-proto') ?? url.protocol.replace(':', '');
@@ -27,8 +22,8 @@ export function proxy(request: NextRequest) {
     }
 
     // Canonical host redirect to www.vpnail.com
-    if (hostname === 'vpnail.com') {
-      url.hostname = 'www.vpnail.com';
+    if (hostname === bareHostname) {
+      url.hostname = canonicalHostname;
       return NextResponse.redirect(url, 308);
     }
 
@@ -37,12 +32,6 @@ export function proxy(request: NextRequest) {
       url.pathname = url.pathname.replace(/\/+$/, '');
       return NextResponse.redirect(url, 308);
     }
-  }
-
-  const areaRedirectTarget = areaSlugRedirects[url.pathname];
-  if (areaRedirectTarget) {
-    url.pathname = areaRedirectTarget;
-    return NextResponse.redirect(url, 308);
   }
 
   // Handle plural to singular redirects
@@ -56,10 +45,12 @@ export function proxy(request: NextRequest) {
 
   // Security headers
   response.headers.set('X-DNS-Prefetch-Control', 'on');
+  response.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload');
   response.headers.set('X-Frame-Options', 'DENY');
   response.headers.set('X-Content-Type-Options', 'nosniff');
-  response.headers.set('Referrer-Policy', 'origin-when-cross-origin');
+  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
   response.headers.set('X-XSS-Protection', '1; mode=block');
+  response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(self), browsing-topics=()');
 
   // Content Security Policy - mirror next.config.ts for consistency
   const csp = [

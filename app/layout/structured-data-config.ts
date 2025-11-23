@@ -18,7 +18,7 @@ export const localBusinessStructuredDataOverrides = {
   },
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
-    name: 'Victoria Park Nails & Spa Services',
+    name: `${siteConfig.name} Services`,
     itemListElement: [
       {
         '@type': 'Offer',

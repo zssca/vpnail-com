@@ -4,12 +4,29 @@
  */
 
 import type { Metadata } from 'next'
+import { primaryNav } from './nav.config'
 import { siteConfig } from './site.config'
 
-export const defaultSEO: Partial<Metadata> = {
-  metadataBase: new URL(siteConfig.url),
-  authors: [...siteConfig.authors],
-  creator: siteConfig.creator,
+export const SEO_BASE_URL = siteConfig.url
+export const SEO_BRAND_NAME = siteConfig.name
+export const SEO_DEFAULT_DESCRIPTION = siteConfig.description
+export const SEO_DEFAULT_OG_IMAGE = siteConfig.ogImage
+export const SEO_DEFAULT_CREATOR = siteConfig.creator
+export const SEO_AUTHORS = [...siteConfig.authors]
+export const SEO_DEFAULT_KEYWORDS = [...siteConfig.keywords]
+export const SEO_SOCIAL_LINKS = siteConfig.social
+export const SEO_BUSINESS = siteConfig.business
+export const SEO_NAVIGATION_ITEMS = primaryNav
+  .filter((item) => Boolean(item.href))
+  .map((item) => ({
+    name: item.label,
+    url: item.href ?? '/',
+  }))
+
+export const defaultSEO = {
+  metadataBase: new URL(SEO_BASE_URL),
+  authors: [...SEO_AUTHORS],
+  creator: SEO_DEFAULT_CREATOR,
   robots: {
     index: true,
     follow: true,
@@ -24,10 +41,10 @@ export const defaultSEO: Partial<Metadata> = {
   openGraph: {
     type: 'website',
     locale: 'en_CA',
-    siteName: siteConfig.name,
+    siteName: SEO_BRAND_NAME,
   },
   twitter: {
     card: 'summary_large_image',
-    creator: siteConfig.creator,
+    creator: SEO_DEFAULT_CREATOR,
   },
-} as const
+} satisfies Partial<Metadata>

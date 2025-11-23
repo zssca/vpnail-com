@@ -2,28 +2,27 @@ import { Section, Container } from '@/components/layouts'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { accessibilityContentData } from './data'
-import { H2, H3, P } from '@/components/ui/typography'
 
 export function AccessibilityContentSection() {
   return (
-    <Section>
+    <Section variant="muted">
       <Container>
         <Card>
           <CardHeader>
             <CardTitle>
-              <H2 className="text-balance">{accessibilityContentData.title}</H2>
+              <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0 text-balance">{accessibilityContentData.title}</h2>
             </CardTitle>
-            <P className="text-xs sm:text-sm text-muted-foreground">
+            <p className="leading-7 text-xs sm:text-sm text-muted-foreground">
               Last updated: {accessibilityContentData.lastUpdated}
-            </P>
+            </p>
           </CardHeader>
           <CardContent className="space-y-6">
             {accessibilityContentData.sections.map((section, index) => (
               <div key={index}>
                 {index > 0 && <Separator className="mb-6" />}
                 <section className="space-y-3">
-                  <H3 className="text-balance">{section.heading}</H3>
-                  <P className="text-muted-foreground">{section.content}</P>
+                  <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight text-balance">{section.heading}</h3>
+                  <p className="leading-7 text-muted-foreground">{section.content}</p>
                 </section>
               </div>
             ))}

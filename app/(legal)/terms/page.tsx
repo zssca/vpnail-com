@@ -4,4 +4,7 @@ export const metadata = termsMetadata
 export const dynamic = 'force-static'
 export const revalidate = false
 
-export default TermsPage
+export default async function TermsRoute() {
+  'use cache'
+  return <TermsPage />
+}

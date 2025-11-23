@@ -1,15 +1,15 @@
+import { siteConfig } from '@/lib/config/site.config'
+
 export const heroData = {
-  title: 'Calgary Nail Art & Manicure Gallery',
-  subtitle: 'A Showcase of Our Artistry in Victoria Park',
-  description: 'Browse our gallery to see examples of our beautiful nail art, perfect manicures, relaxing pedicures, and stunning nail transformations created by Calgary\'s go-to custom nail design specialists.',
-  badge: 'Our Gallery',
+  title: 'Calgary nail art gallery',
+  description: 'See real manicures, pedicures, and custom designs crafted at our Victoria Park studio for Calgary clients. Browse our work and book your appointment with confidence.',
   cta: {
     primary: {
-      text: 'Request a Design Consultation',
-      href: '/consultation',
+      text: 'Book nail art online',
+      href: siteConfig.links.booking,
     },
     secondary: {
-      text: 'Browse Service Pricing',
+      text: 'View services & pricing',
       href: '/services',
     },
   },

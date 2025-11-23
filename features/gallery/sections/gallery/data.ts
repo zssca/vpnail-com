@@ -1,6 +1,6 @@
 export const galleryData = {
-  title: 'Our Work Speaks for Itself',
-  subtitle: 'From Elegant Classics to Bold Custom Designs',
+  title: 'See what we create every week',
+  subtitle: 'From clean classics to bold custom art',
   description:
-    "Browse our gallery to explore recent examples of our custom nail art, luxury manicures, and relaxing pedicures crafted in Victoria Park, Calgary.",
+    "Browse recent custom nail art, structured gel sets, and spa pedicures crafted in Victoria Park, Calgary.",
 } as const

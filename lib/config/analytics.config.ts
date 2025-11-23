@@ -1,3 +1,5 @@
+import type { AnalyticsConfig } from '@/lib/types/config.types'
+
 // Google Tag Manager (GTM) configuration
 const gtmId = process.env.NEXT_PUBLIC_GTM_ID?.trim() ?? ''
 const dataLayerName = 'dataLayer'
@@ -12,6 +14,4 @@ export const analyticsConfig = {
   allowInDevelopment,
   isProduction,
   shouldLoadAnalytics,
-} as const
-
-export type AnalyticsConfig = typeof analyticsConfig
+} satisfies AnalyticsConfig

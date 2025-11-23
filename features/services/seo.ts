@@ -1,9 +1,11 @@
 import { buildMetadata } from '@/lib/seo/metadata'
 
+import { siteConfig } from '@/lib/config/site.config'
+
 export const servicesMetadata = buildMetadata({
-  title: 'Services & Pricing | Victoria Park Nails Calgary | Manicures from $25',
+  title: `Nail Services & Pricing Calgary | ${siteConfig.business.name}`,
   description:
-    'Transparent pricing for manicures from $25, spa pedicures, gel & acrylic enhancements, massage and waxing at Victoria Park Nails Calgary with free parking.',
+    `See pricing for manicures, gel and acrylic extensions, spa pedicures, waxing, and massage at ${siteConfig.business.name} in Calgary. Free parking and online booking.`,
   path: '/services',
   keywords: [
     'Victoria Nails Calgary',
@@ -33,5 +35,5 @@ export const servicesMetadata = buildMetadata({
     'best pedicure Calgary',
   ],
   openGraphDescription:
-    'Review every manicure, pedicure, gel or acrylic enhancement, massage treatment and waxing option with upfront pricing at Victoria Park Nails Calgary.',
+    `Browse every manicure, pedicure, gel or acrylic enhancement, massage, and waxing option with upfront pricing at ${siteConfig.business.name} in Calgary.`,
 })

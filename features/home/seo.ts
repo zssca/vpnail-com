@@ -1,9 +1,11 @@
 import { buildMetadata } from '@/lib/seo/metadata'
 
+import { siteConfig } from '@/lib/config/site.config'
+
 export const homeMetadata = buildMetadata({
-  title: 'Flawless Nails in Victoria Park Calgary | Top-Rated Nail Salon | Free Parking',
+  title: `Nail Salon Calgary | ${siteConfig.business.name} | Book Online`,
   description:
-    'Flawless gel, acrylic & spa nail care in Victoria Park Calgary. Top-rated team with free parking & same-day bookings steps from Stampede.',
+    `Book gel manicures, spa pedicures, extensions, waxing, and massage at ${siteConfig.business.name} in Victoria Park, Calgary. Free parking, CTrain access, and same-day appointments when available.`,
   path: '/',
   keywords: [
     'Victoria Park Nails and Spa',
@@ -27,7 +29,7 @@ export const homeMetadata = buildMetadata({
     'hot stone massage Calgary',
   ],
   openGraphDescription:
-    'Experience top-rated manicures, pedicures, gel and acrylic enhancements, relaxing spa pedicures, massage and waxing just steps from the Stampede grounds with complimentary parking.',
+    'Victoria Park Calgary nail salon for long-wear manicures, pedicures, gel and acrylic extensions, waxing, and massage with free parking near the Stampede grounds.',
   twitterDescription:
-    'Top-rated Victoria Park Calgary nail studio for long-lasting manicures, pedicures, gel & acrylic upgrades, massage and waxing with free parking and same-day bookings.',
+    'Calgary nail salon with online booking, free parking, and long-wear manicures, pedicures, extensions, and waxing in Victoria Park.',
 })
