@@ -183,13 +183,16 @@ export function ParkingDialog({ open, onOpenChange }: ParkingDialogProps) {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <MapPin className="h-5 w-5 text-primary" />
-            Customer Parking
+            Free customer parking
           </DialogTitle>
-          <DialogDescription>
-            Free parking available for {siteConfig.name} customers
-          </DialogDescription>
         </DialogHeader>
         <div className="space-y-4">
+          <div
+            ref={mapRef}
+            className="w-full h-[350px] sm:h-[450px] rounded-lg overflow-hidden border border-border bg-muted"
+            aria-label="Map showing parking location"
+          />
+
           <div className="w-full overflow-hidden rounded-lg border border-border bg-muted">
             <iframe
               src="https://www.google.com/maps/embed?pb=!4v1763887397939!6m8!1m7!1s_EkkOWxZK4eChv4gkC4R3Q!2m2!1d51.03873346378575!2d-114.0609939510665!3f309.1331154682398!4f0.9946950430054073!5f2.278747367825379"
@@ -201,12 +204,6 @@ export function ParkingDialog({ open, onOpenChange }: ParkingDialogProps) {
             />
           </div>
 
-          <div
-            ref={mapRef}
-            className="w-full h-[350px] sm:h-[450px] rounded-lg overflow-hidden border border-border bg-muted"
-            aria-label="Map showing parking location"
-          />
-
           <div className="flex flex-col sm:flex-row gap-2 pt-2">
             <Button variant="default" size="lg" className="flex-1" asChild>
               <a
@@ -215,7 +212,6 @@ export function ParkingDialog({ open, onOpenChange }: ParkingDialogProps) {
                 rel="noopener noreferrer"
                 className="gap-2"
               >
-                <MapPin className="h-4 w-4" />
                 Get Directions
               </a>
             </Button>

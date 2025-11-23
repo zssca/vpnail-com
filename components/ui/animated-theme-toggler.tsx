@@ -95,7 +95,11 @@ export function AnimatedThemeToggler({
       {...props}
     >
       <span aria-hidden className="flex items-center justify-center">
-        {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
+        {theme === "dark" ? (
+          <Sun className={size === "icon-sm" ? "size-3.5" : "size-4"} />
+        ) : (
+          <Moon className={size === "icon-sm" ? "size-3.5" : "size-4"} />
+        )}
       </span>
       <span className="sr-only">Toggle theme</span>
     </Button>

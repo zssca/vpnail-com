@@ -72,7 +72,7 @@ export const siteConfig = {
       province: 'AB',
       postalCode: 'T2G 2J3',
       country: 'Canada',
-      mapUrl: 'https://maps.google.com/?q=1411+1st+Street+SE+Calgary+AB+T2G+2J3',
+      mapUrl: 'https://maps.app.goo.gl/GU1sKoYod4EjEQp56',
     },
     phone: '(403) 719-3600',
     email: 'calgaryvpark@gmail.com',
@@ -110,8 +110,8 @@ export const siteConfig = {
   },
   location: {
     coordinates: {
-      lat: 51.03873517171058,
-      lng: -114.06388202340791,
+      lat: 51.038759655101806,
+      lng: -114.0613124644176,
     },
     parking: {
       lat: 51.038970063563234,

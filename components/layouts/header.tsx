@@ -39,6 +39,7 @@ export function Header({ items = primaryNav }: HeaderProps) {
             <Button
               key={item.href}
               variant="secondary"
+              size="sm"
               asChild
               className={cn(isActive(item.href!) && "text-primary")}
             >
@@ -47,11 +48,12 @@ export function Header({ items = primaryNav }: HeaderProps) {
           ))}
           <Button
             variant="secondary"
+            size="sm"
             onClick={() => setIsParkingDialogOpen(true)}
           >
             Parking
           </Button>
-          <AnimatedThemeToggler variant="secondary" />
+          <AnimatedThemeToggler variant="secondary" size="icon-sm" />
         </nav>
       </div>
 
@@ -79,6 +81,7 @@ export function Header({ items = primaryNav }: HeaderProps) {
                 <Button
                   key={item.href}
                   variant="secondary"
+                  size="sm"
                   asChild
                   className={cn(isActive(item.href!) && "text-primary")}
                 >
@@ -90,11 +93,12 @@ export function Header({ items = primaryNav }: HeaderProps) {
             <div className="flex gap-1">
               <Button
                 variant="secondary"
+                size="sm"
                 onClick={() => setIsParkingDialogOpen(true)}
               >
                 Parking
               </Button>
-              <AnimatedThemeToggler variant="secondary" />
+              <AnimatedThemeToggler variant="secondary" size="icon-sm" />
             </div>
           </div>
         </div>
