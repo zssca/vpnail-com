@@ -118,7 +118,7 @@ export const siteConfig = {
       lng: -114.06128717486601,
     },
   },
-  googleMapsApiKey: 'AIzaSyBXWRem4S42DdV9NIDziNZ-vhqqNChWevo',
+  googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
 } satisfies SiteConfig
 
 // Derived constants for easy access
