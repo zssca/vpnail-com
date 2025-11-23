@@ -109,39 +109,14 @@ export function ParkingDialog({ open, onOpenChange }: ParkingDialogProps) {
       zIndex: 1000,
     })
 
-    // Create parking marker with smooth animation using HTML element
-    const parkingContent = document.createElement('div')
-    parkingContent.style.cssText = `
-      background-image: url('/free-parking-sign.svg');
-      background-size: contain;
-      background-repeat: no-repeat;
-      width: 140px;
-      height: 60px;
-      cursor: pointer;
-      animation: smoothFloat 2.5s ease-in-out infinite;
-    `
-
-    // Add animation keyframes to document if not already present
-    const styleId = 'parking-dialog-float-animation'
-    if (!document.getElementById(styleId)) {
-      const style = document.createElement('style')
-      style.id = styleId
-      style.textContent = `
-        @keyframes smoothFloat {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-8px); }
-        }
-      `
-      document.head.appendChild(style)
-    }
-
-    // Use AdvancedMarkerElement for smooth CSS animations
-    const { AdvancedMarkerElement } = google.maps.marker as any
-    const parkingMarker = new AdvancedMarkerElement({
+    // Parking marker with simple drop animation
+    const parkingMarker = new google.maps.Marker({
       map,
       position: parkingPosition,
-      content: parkingContent,
       title: 'Customer Parking',
+      icon: parkingIcon,
+      animation: google.maps.Animation.DROP,
+      zIndex: 500,
     })
 
     const businessInfoWindow = new google.maps.InfoWindow({
