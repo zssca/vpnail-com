@@ -13,166 +13,112 @@ export function Footer({ id }: { id?: string }) {
       <Container className="py-12 pb-20">
         <div className="flex flex-col gap-10">
 
-          <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
-            <section aria-label="Visit and contact" className="space-y-4">
-              <ItemGroup className="space-y-2">
-                <Item asChild variant="muted" size="sm">
-                  <a href={siteConfig.links.booking} target="_blank" rel="noopener noreferrer">
-                    <ItemMedia>
-                      <Avatar className="h-12 w-12 bg-primary/10 rounded-xl">
-                        <AvatarFallback className="bg-primary/10 text-primary">
-                          <Image
-                            src="/geist-icons/calendar.svg"
-                            alt=""
-                            width={24}
-                            height={24}
-                            className="h-6 w-6 text-primary"
-                          />
-                        </AvatarFallback>
-                      </Avatar>
-                    </ItemMedia>
-                    <ItemContent>
-                      <ItemTitle>Book online</ItemTitle>
-                      <ItemDescription>Reserve your appointment in seconds.</ItemDescription>
-                    </ItemContent>
-                    <ItemActions>
-                      <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
-                    </ItemActions>
-                  </a>
-                </Item>
+          <section aria-label="Visit and contact" className="space-y-4">
+            <ItemGroup className="space-y-2">
+              <Item asChild variant="muted" size="sm">
+                <a href={siteConfig.links.booking} target="_blank" rel="noopener noreferrer">
+                  <ItemMedia>
+                    <Avatar className="h-12 w-12 bg-primary/10 rounded-xl">
+                      <AvatarFallback className="bg-primary/10 text-primary">
+                        <Image
+                          src="/geist-icons/calendar.svg"
+                          alt=""
+                          width={24}
+                          height={24}
+                          className="h-6 w-6 text-primary"
+                        />
+                      </AvatarFallback>
+                    </Avatar>
+                  </ItemMedia>
+                  <ItemContent>
+                    <ItemTitle>Book online</ItemTitle>
+                    <ItemDescription>Reserve your appointment in seconds.</ItemDescription>
+                  </ItemContent>
+                  <ItemActions>
+                    <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
+                  </ItemActions>
+                </a>
+              </Item>
 
-                <Item asChild variant="muted" size="sm">
-                  <a href={siteConfig.business.address.mapUrl} target="_blank" rel="noopener noreferrer">
-                    <ItemMedia>
-                      <Avatar className="h-12 w-12 bg-primary/10 rounded-xl">
-                        <AvatarFallback className="bg-primary/10 text-primary">
-                          <Image
-                            src="/geist-icons/location.svg"
-                            alt=""
-                            width={24}
-                            height={24}
-                            className="h-6 w-6 text-primary"
-                          />
-                        </AvatarFallback>
-                      </Avatar>
-                    </ItemMedia>
-                    <ItemContent>
-                      <ItemTitle>Visit us</ItemTitle>
-                      <ItemDescription>
-                        {CONTACT_INFO.fullAddress.street}, {CONTACT_INFO.fullAddress.city}{' '}
-                        {CONTACT_INFO.fullAddress.province} {CONTACT_INFO.fullAddress.postalCode}
-                      </ItemDescription>
-                    </ItemContent>
-                    <ItemActions>
-                      <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
-                    </ItemActions>
-                  </a>
-                </Item>
+              <Item asChild variant="muted" size="sm">
+                <a href={siteConfig.business.address.mapUrl} target="_blank" rel="noopener noreferrer">
+                  <ItemMedia>
+                    <Avatar className="h-12 w-12 bg-primary/10 rounded-xl">
+                      <AvatarFallback className="bg-primary/10 text-primary">
+                        <Image
+                          src="/geist-icons/location.svg"
+                          alt=""
+                          width={24}
+                          height={24}
+                          className="h-6 w-6 text-primary"
+                        />
+                      </AvatarFallback>
+                    </Avatar>
+                  </ItemMedia>
+                  <ItemContent>
+                    <ItemTitle>Visit us</ItemTitle>
+                    <ItemDescription>
+                      {CONTACT_INFO.fullAddress.street}, {CONTACT_INFO.fullAddress.city}{' '}
+                      {CONTACT_INFO.fullAddress.province} {CONTACT_INFO.fullAddress.postalCode}
+                    </ItemDescription>
+                  </ItemContent>
+                  <ItemActions>
+                    <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
+                  </ItemActions>
+                </a>
+              </Item>
 
-                <Item asChild variant="muted" size="sm">
-                  <a href={SOCIAL_LINKS.phone}>
-                    <ItemMedia>
-                      <Avatar className="h-12 w-12 bg-primary/10 rounded-xl">
-                        <AvatarFallback className="bg-primary/10 text-primary">
-                          <Image
-                            src="/geist-icons/phone.svg"
-                            alt=""
-                            width={24}
-                            height={24}
-                            className="h-6 w-6 text-primary"
-                          />
-                        </AvatarFallback>
-                      </Avatar>
-                    </ItemMedia>
-                    <ItemContent>
-                      <ItemTitle>Call or text</ItemTitle>
-                      <ItemDescription>{CONTACT_INFO.phone}</ItemDescription>
-                    </ItemContent>
-                    <ItemActions>
-                      <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
-                    </ItemActions>
-                  </a>
-                </Item>
+              <Item asChild variant="muted" size="sm">
+                <a href={SOCIAL_LINKS.phone}>
+                  <ItemMedia>
+                    <Avatar className="h-12 w-12 bg-primary/10 rounded-xl">
+                      <AvatarFallback className="bg-primary/10 text-primary">
+                        <Image
+                          src="/geist-icons/phone.svg"
+                          alt=""
+                          width={24}
+                          height={24}
+                          className="h-6 w-6 text-primary"
+                        />
+                      </AvatarFallback>
+                    </Avatar>
+                  </ItemMedia>
+                  <ItemContent>
+                    <ItemTitle>Call or text</ItemTitle>
+                    <ItemDescription>{CONTACT_INFO.phone}</ItemDescription>
+                  </ItemContent>
+                  <ItemActions>
+                    <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
+                  </ItemActions>
+                </a>
+              </Item>
 
-                <Item asChild variant="muted" size="sm">
-                  <a href={SOCIAL_LINKS.email}>
-                    <ItemMedia>
-                      <Avatar className="h-12 w-12 bg-primary/10 rounded-xl">
-                        <AvatarFallback className="bg-primary/10 text-primary">
-                          <Image
-                            src="/geist-icons/email.svg"
-                            alt=""
-                            width={24}
-                            height={24}
-                            className="h-6 w-6 text-primary"
-                          />
-                        </AvatarFallback>
-                      </Avatar>
-                    </ItemMedia>
-                    <ItemContent>
-                      <ItemTitle>Email</ItemTitle>
-                      <ItemDescription>{CONTACT_INFO.email}</ItemDescription>
-                    </ItemContent>
-                    <ItemActions>
-                      <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
-                    </ItemActions>
-                  </a>
-                </Item>
-              </ItemGroup>
-            </section>
-
-            <section aria-label="Follow" className="space-y-4">
-              <ItemGroup className="space-y-2">
-                <Item asChild variant="muted" size="sm">
-                  <a href={SOCIAL_LINKS.instagram} target="_blank" rel="noopener noreferrer">
-                    <ItemMedia>
-                      <Avatar className="h-12 w-12 bg-primary/10 rounded-xl">
-                        <AvatarFallback className="bg-primary/10 text-primary">
-                          <Image
-                            src="/geist-icons/camera.svg"
-                            alt=""
-                            width={24}
-                            height={24}
-                            className="h-6 w-6 text-primary"
-                          />
-                        </AvatarFallback>
-                      </Avatar>
-                    </ItemMedia>
-                    <ItemContent>
-                      <ItemTitle>Instagram</ItemTitle>
-                    </ItemContent>
-                    <ItemActions>
-                      <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
-                    </ItemActions>
-                  </a>
-                </Item>
-
-                <Item asChild variant="muted" size="sm">
-                  <a href={SOCIAL_LINKS.facebook} target="_blank" rel="noopener noreferrer">
-                    <ItemMedia>
-                      <Avatar className="h-12 w-12 bg-primary/10 rounded-xl">
-                        <AvatarFallback className="bg-primary/10 text-primary">
-                          <Image
-                            src="/geist-icons/logo-facebook.svg"
-                            alt=""
-                            width={24}
-                            height={24}
-                            className="h-6 w-6 text-primary"
-                          />
-                        </AvatarFallback>
-                      </Avatar>
-                    </ItemMedia>
-                    <ItemContent>
-                      <ItemTitle>Facebook</ItemTitle>
-                    </ItemContent>
-                    <ItemActions>
-                      <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
-                    </ItemActions>
-                  </a>
-                </Item>
-              </ItemGroup>
-            </section>
-          </div>
+              <Item asChild variant="muted" size="sm">
+                <a href={SOCIAL_LINKS.email}>
+                  <ItemMedia>
+                    <Avatar className="h-12 w-12 bg-primary/10 rounded-xl">
+                      <AvatarFallback className="bg-primary/10 text-primary">
+                        <Image
+                          src="/geist-icons/email.svg"
+                          alt=""
+                          width={24}
+                          height={24}
+                          className="h-6 w-6 text-primary"
+                        />
+                      </AvatarFallback>
+                    </Avatar>
+                  </ItemMedia>
+                  <ItemContent>
+                    <ItemTitle>Email</ItemTitle>
+                    <ItemDescription>{CONTACT_INFO.email}</ItemDescription>
+                  </ItemContent>
+                  <ItemActions>
+                    <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
+                  </ItemActions>
+                </a>
+              </Item>
+            </ItemGroup>
+          </section>
 
           <div className="flex flex-col items-center gap-4 text-xs text-muted-foreground md:flex-row md:justify-between">
             <p className="order-1 md:order-1">© {new Date().getFullYear()} {siteConfig.name}</p>

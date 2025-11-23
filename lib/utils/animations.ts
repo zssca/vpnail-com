@@ -49,13 +49,14 @@ export const animations = {
 /**
  * Common hover effects for interactive elements
  * Apply these to buttons, links, and other interactive components
+ * Uses CSS variables from globals.css for consistent theming
  */
 export const hoverEffects = {
   // Lift effect - card rises on hover
   lift: 'transition-all duration-300 hover:shadow-lg hover:-translate-y-1',
 
-  // Glow effect - element glows on hover
-  glow: 'transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.15)]',
+  // Glow effect - element glows on hover using foreground color
+  glow: 'transition-all duration-300 hover:shadow-[0_0_20px_hsl(var(--foreground)/0.15)]',
 
   // Scale effect - element grows on hover
   scale: 'transition-transform duration-300 hover:scale-105',

@@ -5,6 +5,12 @@ const brandCity = siteConfig.business.address.city
 const tagline = siteConfig.business.tagline || 'Premier Nail Salon & Spa'
 const locationLabel = brandCity || siteConfig.business.name
 
+// OpenGraph gradient colors - custom brand colors
+// These are intentionally different from globals.css for visual impact
+// Based on sage/olive green theme to match brand identity
+const gradientStart = '#8b9a7c' // Muted olive green
+const gradientEnd = '#a1b08c'   // Lighter sage green
+
 export const alt = `${siteConfig.name} - ${brandCity ? `${brandCity} ` : ''}${tagline}`
 export const size = {
   width: 1200,
@@ -18,7 +24,7 @@ export default async function Image() {
     (
       <div
         style={{
-          background: 'linear-gradient(135deg, #8b9a7c 0%, #a1b08c 100%)',
+          background: `linear-gradient(135deg, ${gradientStart} 0%, ${gradientEnd} 100%)`,
           width: '100%',
           height: '100%',
           display: 'flex',

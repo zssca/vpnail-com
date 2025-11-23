@@ -58,6 +58,9 @@ export function ParkingDialog({ open, onOpenChange }: ParkingDialogProps) {
     }
 
     const createBusinessPin = () => {
+      // SVG data URI colors: CSS variables not supported in data URIs
+      // Colors map to globals.css: #dc2626 = destructive, #ffffff = background (light)
+      // To update: modify lib/utils/colors.ts and update these hex values
       const svg = `
         <svg xmlns="http://www.w3.org/2000/svg" width="200" height="80" viewBox="0 0 200 80">
           <!-- Shadow -->
@@ -119,6 +122,8 @@ export function ParkingDialog({ open, onOpenChange }: ParkingDialogProps) {
       zIndex: 500,
     })
 
+    // InfoWindow colors: Using hex values that map to globals.css variables
+    // #dc2626 = destructive, #111827 = foreground, #6b7280 = muted-foreground
     const businessInfoWindow = new google.maps.InfoWindow({
       content: `
         <div style="padding:12px 16px;min-width:220px;font-family:system-ui,-apple-system,sans-serif;">
@@ -210,7 +215,7 @@ export function ParkingDialog({ open, onOpenChange }: ParkingDialogProps) {
                 href={siteConfig.business.address.mapUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="gap-2"
+                className="flex h-10 items-center justify-center gap-2"
               >
                 Get Directions
               </a>

@@ -11,11 +11,11 @@ interface IconColoredProps extends React.SVGAttributes<SVGElement> {
   icon: LucideIcon
   /**
    * Semantic color variant
-   * - success: Green (HSL var --color-success)
-   * - warning: Amber (HSL var --color-warning)
-   * - error: Red (HSL var --color-error)
-   * - info: Blue (HSL var --color-info)
-   * - primary: Brand color (HSL var --color-primary)
+   * - success: Uses --chart-2
+   * - warning: Uses --chart-4
+   * - error: Uses --destructive
+   * - info: Uses --chart-1
+   * - primary: Uses --primary
    */
   color?: SemanticColor
   /**
@@ -31,19 +31,19 @@ interface IconColoredProps extends React.SVGAttributes<SVGElement> {
 }
 
 const colorMap: Record<SemanticColor, string> = {
-  success: 'text-[oklch(var(--color-success))] fill-[oklch(var(--color-success))]',
-  warning: 'text-[oklch(var(--color-warning))] fill-[oklch(var(--color-warning))]',
-  error: 'text-[oklch(var(--color-error))] fill-[oklch(var(--color-error))]',
-  info: 'text-[oklch(var(--color-info))] fill-[oklch(var(--color-info))]',
-  primary: 'text-[oklch(var(--color-primary))] fill-[oklch(var(--color-primary))]',
+  success: 'text-chart-2 fill-chart-2',
+  warning: 'text-chart-4 fill-chart-4',
+  error: 'text-destructive fill-destructive',
+  info: 'text-chart-1 fill-chart-1',
+  primary: 'text-primary fill-primary',
 }
 
 const bgColorMap: Record<SemanticColor, string> = {
-  success: 'bg-[oklch(var(--color-success)/0.1)]',
-  warning: 'bg-[oklch(var(--color-warning)/0.1)]',
-  error: 'bg-[oklch(var(--color-error)/0.1)]',
-  info: 'bg-[oklch(var(--color-info)/0.1)]',
-  primary: 'bg-[oklch(var(--color-primary)/0.1)]',
+  success: 'bg-chart-2/10',
+  warning: 'bg-chart-4/10',
+  error: 'bg-destructive/10',
+  info: 'bg-chart-1/10',
+  primary: 'bg-primary/10',
 }
 
 /**

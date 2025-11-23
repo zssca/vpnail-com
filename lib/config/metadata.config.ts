@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { siteConfig } from './site.config'
 import { getRandomGalleryImage } from '@/lib/seo/og-image'
+import { lightColors, darkColors } from '@/lib/utils/colors'
 
 function getAbsoluteOgImage(): string {
   const image = getRandomGalleryImage()
@@ -34,8 +35,8 @@ export const rootViewport = {
   colorScheme: 'light dark',
   interactiveWidget: 'resizes-content',
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#09090b' },
+    { media: '(prefers-color-scheme: light)', color: lightColors.background },
+    { media: '(prefers-color-scheme: dark)', color: darkColors.background },
   ],
 } satisfies Viewport
 
@@ -64,7 +65,7 @@ export const rootMetadata = {
     shortcut: ['/favicons/favicon.ico'],
   },
   other: {
-    'msapplication-TileColor': '#ffffff',
+    'msapplication-TileColor': lightColors.background,
     'msapplication-TileImage': '/favicons/ms-icon-144x144.png',
   },
   appleWebApp: {

@@ -1,12 +1,16 @@
 import { emailConfig } from './config';
+import { lightColors } from '@/lib/utils/colors';
 
 /**
  * Email Template for Contact Form Submissions
  *
  * This template can be customized per client by:
- * 1. Changing colors (update brandColor in config.ts)
+ * 1. Changing colors (update in lib/utils/colors.ts to match globals.css)
  * 2. Modifying layout/structure here
  * 3. Adding client logo (update logoUrl)
+ *
+ * Note: Email templates use hex colors from lib/utils/colors.ts since
+ * CSS variables are not supported in email clients.
  */
 
 interface ContactFormData {
@@ -20,6 +24,16 @@ interface ContactFormData {
 export function generateContactEmail(data: ContactFormData): string {
   const { name, email, phone, message, submittedAt } = data;
   const { clientName, websiteDomain, brandColor } = emailConfig;
+
+  // Email-safe colors from globals.css color system
+  const colors = {
+    background: lightColors.muted,           // #f5f5f5
+    cardBackground: lightColors.background,   // #ffffff
+    border: lightColors.border,               // #e4e4e7
+    textPrimary: lightColors.foreground,      // #18181b
+    textSecondary: lightColors.mutedForeground, // #71717a
+    textMuted: lightColors.secondaryForeground, // #3f3f46
+  };
 
   return `
     <!DOCTYPE html>
@@ -48,7 +62,7 @@ export function generateContactEmail(data: ContactFormData): string {
         body {
           margin: 0 !important;
           padding: 0 !important;
-          background-color: #f3f4f6;
+          background-color: ${colors.background};
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
         }
         table {
@@ -97,19 +111,19 @@ export function generateContactEmail(data: ContactFormData): string {
         }
       </style>
     </head>
-    <body style="margin: 0; padding: 0; background-color: #f3f4f6;">
-      <center style="width: 100%; background-color: #f3f4f6; padding: 20px 0;">
+    <body style="margin: 0; padding: 0; background-color: ${colors.background};">
+      <center style="width: 100%; background-color: ${colors.background}; padding: 20px 0;">
 
         <!-- Email Container -->
-        <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" width="600" class="email-container" style="margin: auto; background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden;">
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" width="600" class="email-container" style="margin: auto; background-color: ${colors.cardBackground}; border: 1px solid ${colors.border}; border-radius: 8px; overflow: hidden;">
 
           <!-- Header -->
           <tr>
             <td style="background-color: ${brandColor}; padding: 32px 30px; text-align: center;">
-              <h1 style="margin: 0; font-size: 24px; font-weight: 600; color: #ffffff;">
+              <h1 style="margin: 0; font-size: 24px; font-weight: 600; color: ${lightColors.primaryForeground};">
                 ${clientName}
               </h1>
-              <p style="margin: 10px 0 0 0; font-size: 15px; color: #ffffff; opacity: 0.95;">
+              <p style="margin: 10px 0 0 0; font-size: 15px; color: ${lightColors.primaryForeground}; opacity: 0.95;">
                 New Contact Form Submission
               </p>
             </td>
@@ -122,20 +136,20 @@ export function generateContactEmail(data: ContactFormData): string {
               <!-- Contact Details -->
               <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin-bottom: 30px;">
                 <tr>
-                  <td style="background: #ffffff; border: 1px solid #e5e7eb; padding: 24px; border-radius: 6px;">
+                  <td style="background: ${colors.cardBackground}; border: 1px solid ${colors.border}; padding: 24px; border-radius: 6px;">
 
                     <!-- Contact Details Table -->
                     <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                       <tr>
-                        <td style="padding: 8px 0; font-weight: 600; color: #6b7280; font-size: 14px; width: 80px; vertical-align: top;">
+                        <td style="padding: 8px 0; font-weight: 600; color: ${colors.textSecondary}; font-size: 14px; width: 80px; vertical-align: top;">
                           Name
                         </td>
-                        <td style="padding: 8px 0; color: #111827; font-size: 15px;">
+                        <td style="padding: 8px 0; color: ${colors.textPrimary}; font-size: 15px;">
                           ${name}
                         </td>
                       </tr>
                       <tr>
-                        <td style="padding: 8px 0; font-weight: 600; color: #6b7280; font-size: 14px; vertical-align: top;">
+                        <td style="padding: 8px 0; font-weight: 600; color: ${colors.textSecondary}; font-size: 14px; vertical-align: top;">
                           Email
                         </td>
                         <td style="padding: 8px 0;">
@@ -146,7 +160,7 @@ export function generateContactEmail(data: ContactFormData): string {
                       </tr>
                       ${phone ? `
                       <tr>
-                        <td style="padding: 8px 0; font-weight: 600; color: #6b7280; font-size: 14px; vertical-align: top;">
+                        <td style="padding: 8px 0; font-weight: 600; color: ${colors.textSecondary}; font-size: 14px; vertical-align: top;">
                           Phone
                         </td>
                         <td style="padding: 8px 0;">
@@ -165,11 +179,11 @@ export function generateContactEmail(data: ContactFormData): string {
               <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin-bottom: 24px;">
                 <tr>
                   <td>
-                    <h3 style="margin: 0 0 12px 0; font-size: 15px; font-weight: 600; color: #111827;">
+                    <h3 style="margin: 0 0 12px 0; font-size: 15px; font-weight: 600; color: ${colors.textPrimary};">
                       Message
                     </h3>
-                    <div style="background: #ffffff; padding: 20px; border-radius: 6px; border: 1px solid #e5e7eb;">
-                      <p style="margin: 0; line-height: 1.6; color: #374151; font-size: 15px; white-space: pre-wrap;">${message.replace(/\n/g, '<br>')}</p>
+                    <div style="background: ${colors.cardBackground}; padding: 20px; border-radius: 6px; border: 1px solid ${colors.border};">
+                      <p style="margin: 0; line-height: 1.6; color: ${colors.textMuted}; font-size: 15px; white-space: pre-wrap;">${message.replace(/\n/g, '<br>')}</p>
                     </div>
                   </td>
                 </tr>
@@ -177,11 +191,11 @@ export function generateContactEmail(data: ContactFormData): string {
 
               <!-- Timestamp -->
               ${submittedAt ? `
-              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="border-top: 1px solid #e5e7eb; padding-top: 20px;">
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="border-top: 1px solid ${colors.border}; padding-top: 20px;">
                 <tr>
                   <td>
-                    <p style="margin: 0; font-size: 13px; color: #6b7280;">
-                      <strong style="color: #374151;">Submitted:</strong> ${submittedAt}
+                    <p style="margin: 0; font-size: 13px; color: ${colors.textSecondary};">
+                      <strong style="color: ${colors.textMuted};">Submitted:</strong> ${submittedAt}
                     </p>
                   </td>
                 </tr>
@@ -193,8 +207,8 @@ export function generateContactEmail(data: ContactFormData): string {
 
           <!-- Footer -->
           <tr>
-            <td style="background: #f9fafb; padding: 24px 30px; text-align: center; border-top: 1px solid #e5e7eb;">
-              <p style="margin: 0; font-size: 13px; color: #6b7280; line-height: 1.6;">
+            <td style="background: ${colors.background}; padding: 24px 30px; text-align: center; border-top: 1px solid ${colors.border};">
+              <p style="margin: 0; font-size: 13px; color: ${colors.textSecondary}; line-height: 1.6;">
                 This email was sent from the contact form at
                 <a href="https://${websiteDomain}" style="color: ${brandColor}; text-decoration: none; font-weight: 500;">
                   ${websiteDomain}
