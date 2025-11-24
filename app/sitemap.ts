@@ -21,6 +21,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/services': ['features', 'services', 'page.tsx'],
     '/contact': ['features', 'contact', 'page.tsx'],
     '/gallery': ['features', 'gallery', 'page.tsx'],
+    '/parking': ['features', 'parking', 'page.tsx'],
     '/privacy': ['features', 'privacy', 'page.tsx'],
     '/terms': ['features', 'terms', 'page.tsx'],
     '/accessibility': ['features', 'accessibility', 'page.tsx'],

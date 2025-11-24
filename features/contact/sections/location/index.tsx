@@ -1,6 +1,7 @@
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import { LocationMap } from '@/components/shared/location-map'
 import { locationData } from './data'
+
+import { LocationMapClient as LocationMap } from '@/components/shared/location-map-client'
 
 export function LocationSection() {
   return (
@@ -12,7 +13,7 @@ export function LocationSection() {
         <p className="text-muted-foreground mb-6">
           {locationData.description}
         </p>
-        <LocationMap />
+        <LocationMap showInfoWindow={false} className="min-h-[360px] sm:min-h-[420px]" />
       </CardContent>
     </Card>
   )

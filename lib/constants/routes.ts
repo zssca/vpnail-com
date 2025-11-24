@@ -9,6 +9,7 @@ export const ROUTES = {
   ARTICLES: '/articles',
   CONTACT: '/contact',
   GALLERY: '/gallery',
+  PARKING: '/parking',
   PRIVACY: '/privacy',
   TERMS: '/terms',
   ACCESSIBILITY: '/accessibility',

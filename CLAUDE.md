@@ -1,118 +1,213 @@
-# Victoria Park Nails - Project Guide
+# Development Guide
 
-## Architecture Pattern
+**Reference**: Full documentation in `dev/docs/`
 
-This project follows a **feature-based architecture** for a Next.js marketing website.
+## Architecture
 
-### Core Structure
+Feature-first structure with isolated sections and colocated data.
+
+### Project Tree
 
 ```
-project-root/
-├── lib/
-│   ├── config/          ← All business data and configuration
-│   ├── constants/
-│   ├── types/
-│   ├── utils/
-│   └── validations/
-│
+project/
+├── app/                          # Routes (import features, export metadata)
 ├── components/
-│   ├── ui/              ← shadcn/ui components
-│   ├── layouts/
-│   └── shared/
-│
+│   ├── ui/                       # shadcn/ui primitives (never edit)
+│   ├── layouts/                  # Layout wrappers
+│   └── shared/                   # Shared components
 ├── features/
-│   └── [page]/
-│       ├── page.tsx
-│       ├── seo.ts
-│       ├── sections/    ← Page sections with data.ts files
-│       ├── actions/     ← Server actions for forms
-│       └── schemas/     ← Form validation
-│
-├── emails/
-│   └── templates/
-│
-├── app/
-│   └── page.tsx
-│
-└── public/
-    └── images/
+│   └── [feature]/
+│       ├── page.tsx              # Page component (Server Component)
+│       ├── seo.ts                # Metadata
+│       ├── sections/             # Page sections
+│       │   └── [section]/
+│       │       ├── index.tsx     # UI component
+│       │       ├── data.ts       # Content
+│       │       └── types.ts      # Types (optional)
+│       ├── actions/              # Server Actions
+│       ├── schemas/              # Validation
+│       └── data/                 # Additional data
+├── lib/
+│   ├── config/                   # Site, nav, SEO config
+│   ├── constants/                # Constants
+│   ├── types/                    # TypeScript types
+│   ├── utils/                    # Utilities
+│   └── validations/              # Shared validation
+├── public/
+│   └── images/
+│       └── content/
+│           └── [feature]/        # Feature-specific images
+└── dev/docs/                     # Documentation
 ```
 
-## Key Rules
+## Core Rules
 
-### 1. Configuration First
-- **Single source of truth:** `lib/config/site.config.ts`
-- Never hardcode business info (name, address, phone, hours, etc.)
-- All branding, contact info, and business data lives in config files
+**Single Source of Truth**
+- Content comes from config/data files, never literals in components
+- Business info lives in `lib/config/`, feature content in `features/[name]/sections/*/data.ts`
 
-### 2. Content Organization
-- Page content belongs in `features/[page]/sections/[section]/data.ts`
-- Each section has: `index.tsx` (component), `data.ts` (content), optional `types.ts`
-- SEO metadata stays in `features/[page]/seo.ts`
+**Isolation**
+- No cross-feature imports (share via `components/shared/`, `features/shared/`, `lib/*`)
+- Sections read only their own `./data.ts` (never import sibling section data)
+- **Never edit**: `globals.css` and `components/ui/*` (shadcn/ui managed files — always exclude from modifications)
 
-### 3. Feature Structure
-**Allowed in features/[page]/**
-- ✅ `sections/` - Page sections
-- ✅ `actions/` - Server actions (forms only)
-- ✅ `schemas/` - Zod validation
-- ✅ `data/` - Complex data modules
+**Cache Boundaries**
+- Add `'use cache'` at page/file level for Full Route Cache
+- Use `cacheLife('hours')` for data with known TTL
+- Use `'use cache: remote'` + `cacheTag`/`cacheLife` for shared DB/API lookups
+- Call `revalidatePath`/`revalidateTag` after mutations
 
-**Forbidden in features/[page]/**
-- ❌ `components/` - Use `components/shared/` instead
-- ❌ `utils/` - Use `lib/utils/` instead
-- ❌ `hooks/` - Use `lib/` or `components/` instead
-- ❌ `lib/` - Use root `lib/` instead
+**File Limits**
+- Pages: ≤ 200 lines
+- Sections/Components: ≤ 150 lines
+- Data files: ≤ 500 lines
 
-### 4. Server Actions
-- Only for form submissions and email processing
-- Must use `'use server'` directive
-- Located in `features/[page]/actions/*.action.ts`
+## Naming Conventions
 
-### 5. Import Rules
+| Type | Convention | Example |
+|------|-----------|---------|
+| Directories | `kebab-case` | `contact-form/` |
+| Components | `PascalCase.tsx` | `HeroSection.tsx` |
+| Pages | `page.tsx` | Always `page.tsx` |
+| Data | `data.ts` | Always `data.ts` |
+| Actions | `[name].action.ts` | `submit.action.ts` |
+| Schemas | `[name].schema.ts` | `contact.schema.ts` |
+
+## Common Tasks
+
+### Add Page
+
+1. Create feature shell: `mkdir -p features/[name]/sections`
+2. Build page component with `'use cache'`
+3. Add metadata in `seo.ts`
+4. Wire route in `app/[slug]/page.tsx`
+5. For dynamic routes, implement `generateStaticParams`
+
+### Add Section
+
+1. Create folder: `features/[feature]/sections/[section]/`
+2. Add `data.ts` with typed content
+3. Build `index.tsx` (Server Component by default)
+4. Import into parent page
+
+### Add Form
+
+1. Create schema in `features/[feature]/schemas/[name].schema.ts` (Zod)
+2. Build Server Action in `actions/[name].action.ts` (start with `'use server'`)
+3. Create form component with `'use client'` + `useActionState` or `react-hook-form`
+4. Return structured state: `{ success, errors, values }`
+5. Call `revalidatePath`/`revalidateTag` after successful mutation
+
+## Component Guidelines
+
+**Server Components (Default)**
+- Use for static content, data fetching, SEO
+- No `'use client'` directive needed
+
+**Client Components**
+- Add `'use client'` only when interaction required
+- Forms, modals, interactive UI
+
+**Styling**
+- Use Tailwind utilities
+- Prefer shadcn/ui primitives (`Button`, `Form`, `Input`, `Badge`)
+- Maintain responsive spacing and heading hierarchy
+- Use semantic HTML
+
+## Data Patterns
+
+**Simple Data**
 ```typescript
-// ✅ Allowed
-import { sectionData } from './data'
-import { siteConfig } from '@/lib/config/site.config'
-import { SharedSection } from '@/features/shared/example'
-
-// ❌ Not allowed
-import { data } from '../other-section/data'  // No cross-section imports
-const data = { title: 'Hardcoded' }           // No hardcoded content
+// data.ts
+export const heroData = {
+  title: 'Welcome',
+  subtitle: 'Description',
+}
 ```
 
-## Anti-Patterns
+**Lists**
+```typescript
+// types.ts
+export interface Item {
+  id: number
+  title: string
+}
 
-Stop and ask before:
-- Creating `app/api/` routes
-- Adding databases or ORMs
-- Hardcoding business data anywhere
-- Cross-section or cross-feature imports (except `features/shared/`)
-- Creating feature-level `components/`, `utils/`, or `hooks/` folders
-- Placing sections outside `sections/` folder
-- Editing `app/globals.css` or `components/ui/` files
-
-## Quick Actions
-
-| Task | Location |
-|------|----------|
-| Update business info | `lib/config/site.config.ts` |
-| Update page content | `features/[page]/sections/[section]/data.ts` |
-| Update SEO | `features/[page]/seo.ts` |
-| Add form action | `features/[page]/actions/*.action.ts` |
-| Add email template | `emails/templates/[name].tsx` |
-
-## Data Flow
-
-```
-site.config.ts → sections/[section]/data.ts → sections/[section]/index.tsx
-→ features/[page]/page.tsx → app route
+// data.ts
+import type { Item } from './types'
+export const items: Item[] = [
+  { id: 1, title: 'Item 1' },
+]
 ```
 
-## Core Principle
+## Configuration
 
-**Structure is fixed; content lives in configuration and data files.**
+**Site Config**: `lib/config/site.config.ts`
+- Name, URL, contact info, social links
 
-- Business update? → Edit `site.config.ts`
-- Content change? → Edit `data.ts`
-- New page? → Copy existing feature pattern
-- New section? → Add to `sections/` folder
+**Navigation**: `lib/config/nav.config.ts`
+- Main nav, footer nav
+
+**SEO**: `lib/config/seo.config.ts`
+- Default metadata, title templates
+
+**Environment**: `.env.local`
+- API keys (server-only)
+- Public vars (prefix with `NEXT_PUBLIC_`)
+
+## Best Practices
+
+**Performance**
+- Enable `cacheComponents: true` in `next.config.ts`
+- Use `Link` for navigation (router prefetch)
+- Avoid `dynamic`/`revalidate` exports unless opting out of caching
+- Add `generateStaticParams` for dynamic routes
+
+**Security**
+- Validate on server (never trust client state)
+- Configure `experimental.serverActions.allowedOrigins`
+- Add rate limiting and honeypot for public forms
+- Guard Server Actions like public endpoints
+
+**Accessibility**
+- Use semantic HTML
+- Maintain heading hierarchy (h1 → h2 → h3)
+- Add `aria-invalid`, `aria-describedby` for form fields
+- Include descriptive labels and error messages
+
+**Code Quality**
+- Extract shared UI to `components/shared/`
+- Keep components focused and small
+- Use TypeScript for type safety
+- Follow import order: React → Next → External → Internal → Relative
+
+## Quick Reference
+
+**Path Aliases**
+```typescript
+import { config } from '@/lib/config/site.config'
+import { Button } from '@/components/ui/button'
+```
+
+**Cache Directives**
+```typescript
+'use cache'                              // Static cache
+cacheLife('hours')                       // TTL cache
+'use cache: remote'                      // Shared cache
+cacheTag(['tag'])                        // Tag for invalidation
+```
+
+**Revalidation**
+```typescript
+revalidatePath('/path')                  // Revalidate specific path
+revalidateTag('tag')                     // Revalidate tagged fetches
+```
+
+---
+
+**For detailed guides**: See `dev/docs/`
+- Getting started: `dev/docs/getting-started.md`
+- Architecture: `dev/docs/architecture.md`
+- Development: `dev/docs/development/`
+- Playbooks: `dev/docs/guides/`
+- Reference: `dev/docs/reference/`

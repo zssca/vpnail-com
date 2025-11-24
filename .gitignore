@@ -44,3 +44,8 @@ next-env.d.ts
 scripts/reviews-output.json
 scripts/reviews-summary.txt
 .mcp.json
+
+# local-only assets and developer workspace
+/developer/
+/.claude/
+/.vscode/

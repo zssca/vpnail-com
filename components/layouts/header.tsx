@@ -1,13 +1,11 @@
 "use client"
 
-import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler"
-import { ParkingDialog } from "@/components/shared/parking-dialog"
 import { primaryNav } from "@/lib/config/nav.config"
 import { siteConfig } from "@/lib/config/site.config"
 
@@ -17,7 +15,6 @@ interface HeaderProps {
 
 export function Header({ items = primaryNav }: HeaderProps) {
   const pathname = usePathname()
-  const [isParkingDialogOpen, setIsParkingDialogOpen] = useState(false)
 
   // Filter nav items to only those with href
   const navLinks = items.filter(item => item.href)
@@ -46,13 +43,6 @@ export function Header({ items = primaryNav }: HeaderProps) {
               <Link href={item.href!}>{item.label}</Link>
             </Button>
           ))}
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={() => setIsParkingDialogOpen(true)}
-          >
-            Parking
-          </Button>
           <AnimatedThemeToggler variant="secondary" size="icon-sm" />
         </nav>
       </div>
@@ -91,23 +81,11 @@ export function Header({ items = primaryNav }: HeaderProps) {
             </nav>
 
             <div className="flex gap-1">
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={() => setIsParkingDialogOpen(true)}
-              >
-                Parking
-              </Button>
               <AnimatedThemeToggler variant="secondary" size="icon-sm" />
             </div>
           </div>
         </div>
       </div>
-
-      <ParkingDialog
-        open={isParkingDialogOpen}
-        onOpenChange={setIsParkingDialogOpen}
-      />
     </header>
   )
 }

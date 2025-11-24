@@ -5,15 +5,23 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { siteConfig } from '@/lib/config/site.config'
 
-interface LocationMapProps {
+/**
+ * Locked map widget.
+ * Do not modify this file with automated/AI editors. Changes require human review and approval.
+ */
+export interface LocationMapProps {
   className?: string
+  showInfoWindow?: boolean
 }
 
-export function LocationMap({ className }: LocationMapProps) {
+export function LocationMap({ className, showInfoWindow = true }: LocationMapProps) {
+  const MAPS_SCRIPT_ID = 'google-maps-sdk'
   const mapRef = useRef<HTMLDivElement>(null)
   const [isMounted, setIsMounted] = useState(false)
+  const [loadError, setLoadError] = useState(false)
   const businessPosition = siteConfig.location.coordinates
   const parkingPosition = siteConfig.location.parking
+  const hasApiKey = Boolean(siteConfig.googleMapsApiKey)
 
   // Only mount on client side - this is intentional for SSR/CSR hydration
   useEffect(() => {
@@ -27,12 +35,12 @@ export function LocationMap({ className }: LocationMapProps) {
     // Initialize map with 45-degree imagery
     const map = new google.maps.Map(mapRef.current, {
       center: businessPosition,
-      zoom: 19,
-      mapTypeId: 'satellite',
+      zoom: 17,
+      mapTypeId: 'hybrid', // show satellite imagery with street/road labels
       tilt: 45,
-      heading: 90,
+      heading: 0,
       disableDefaultUI: true,
-      zoomControl: false,
+      zoomControl: true,
       mapTypeControl: false,
       streetViewControl: false,
       fullscreenControl: false,
@@ -49,8 +57,13 @@ export function LocationMap({ className }: LocationMapProps) {
     const createLabeledPin = (fill: string, text: string) => {
       const svg = `
         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="64" viewBox="0 0 48 64">
+          <defs>
+            <path id="arc" d="M10 18 A14 14 0 0 1 38 18" />
+          </defs>
           <path d="M24 0C10.75 0 0 10.745 0 24c0 16.914 24 40 24 40s24-23.086 24-40C48 10.745 37.25 0 24 0Z" fill="${fill}" />
-          <text x="24" y="28" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" fill="#fff">${text}</text>
+          <text font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#fff" letter-spacing="0.5">
+            <textPath href="#arc" startOffset="50%" text-anchor="middle">${text}</textPath>
+          </text>
         </svg>
       `
       return {
@@ -67,48 +80,46 @@ export function LocationMap({ className }: LocationMapProps) {
     }
 
     const createBusinessPin = () => {
-      // SVG data URI colors: CSS variables not supported in data URIs
-      // Colors map to globals.css: #dc2626 = destructive, #ffffff = background (light)
-      // To update: modify lib/utils/colors.ts and update these hex values
+      // Business pin with distinct badge below the marker
+      // Colors: #dc2626 (brand), #111827 (foreground), #ffffff (contrast)
       const svg = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="80" viewBox="0 0 200 80">
+        <svg xmlns="http://www.w3.org/2000/svg" width="180" height="120" viewBox="0 0 180 120">
           <!-- Shadow -->
-          <ellipse cx="100" cy="72" rx="28" ry="4" fill="#000000" opacity="0.2" />
+          <ellipse cx="90" cy="110" rx="26" ry="6" fill="#000" opacity="0.16" />
 
-          <!-- Modern pin shape -->
-          <path d="M100 10 C85 10 73 22 73 37 C73 52 85 65 100 65 C115 65 127 52 127 37 C127 22 115 10 100 10 Z"
+          <!-- Pin -->
+          <path d="M90 14 C71 14 56 29 56 48 C56 72 90 104 90 104 C90 104 124 72 124 48 C124 29 109 14 90 14 Z"
                 fill="#dc2626" stroke="#ffffff" stroke-width="3" />
 
-          <!-- Inner circle -->
-          <circle cx="100" cy="37" r="18" fill="#ffffff" opacity="0.95" />
+          <!-- Inner highlight -->
+          <circle cx="90" cy="48" r="16" fill="#ffffff" opacity="0.96" />
+          <circle cx="90" cy="48" r="10" fill="#dc2626" opacity="0.9" />
 
-          <!-- Modern nail icon -->
-          <g transform="translate(100, 37)">
-            <path d="M-8 -6 L-8 6 C-8 8 -6 10 -4 10 L4 10 C6 10 8 8 8 6 L8 -6 C8 -8 6 -10 4 -10 L-4 -10 C-6 -10 -8 -8 -8 -6 Z"
+          <!-- Nail motif -->
+          <g transform="translate(90, 48)">
+            <path d="M-7 -5 L-7 7 C-7 9 -5 11 -3 11 L3 11 C5 11 7 9 7 7 L7 -5 C7 -7 5 -9 3 -9 L-3 -9 C-5 -9 -7 -7 -7 -5 Z"
                   fill="#dc2626" />
-            <ellipse cx="0" cy="-6" rx="7" ry="4" fill="#ef4444" opacity="0.8" />
+            <ellipse cx="0" cy="-5" rx="6" ry="3.5" fill="#ef4444" opacity="0.85" />
           </g>
 
-          <!-- Label background with gradient -->
+          <!-- Label badge below the pin, separated from the marker -->
           <defs>
-            <linearGradient id="labelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" style="stop-color:#1f2937;stop-opacity:0.95" />
-              <stop offset="100%" style="stop-color:#111827;stop-opacity:0.98" />
+            <linearGradient id="labelGradBusiness" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#111827" stop-opacity="0.98" />
+              <stop offset="100%" stop-color="#0b1220" stop-opacity="0.98" />
             </linearGradient>
           </defs>
-          <rect x="20" y="52" width="160" height="24" rx="12" ry="12" fill="url(#labelGrad)" />
-
-          <!-- Label text -->
-          <text x="100" y="68" text-anchor="middle" font-family="Inter, -apple-system, sans-serif"
-                font-size="13" font-weight="700" fill="#ffffff" letter-spacing="0.5">
+          <rect x="25" y="104" width="130" height="26" rx="13" ry="13" fill="url(#labelGradBusiness)" />
+          <text x="90" y="121" text-anchor="middle" font-family="Inter, -apple-system, sans-serif"
+                font-size="12.5" font-weight="700" fill="#ffffff" letter-spacing="0.6">
             Victoria Park Nails
           </text>
         </svg>
       `
       return {
         url: `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`,
-        scaledSize: new google.maps.Size(140, 56),
-        anchor: new google.maps.Point(70, 56),
+        scaledSize: new google.maps.Size(120, 96),
+        anchor: new google.maps.Point(60, 86),
       }
     }
 
@@ -135,38 +146,42 @@ export function LocationMap({ className }: LocationMapProps) {
     // InfoWindow colors: Using hex values that map to globals.css variables
     // #dc2626 = destructive, #111827 = foreground, #6b7280 = muted-foreground
     // #fef2f2 = destructive background tint, #991b1b = dark destructive
-    const businessInfoWindow = new google.maps.InfoWindow({
-      content: `
-        <div style="padding:12px 16px;min-width:240px;font-family:system-ui,-apple-system,sans-serif;">
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-            <div style="width:10px;height:10px;background:#dc2626;border-radius:50%;box-shadow:0 0 8px rgba(220,38,38,0.5);"></div>
-            <strong style="font-size:16px;color:#111827;">
-              ${siteConfig.name}
-            </strong>
-          </div>
-          <p style="margin:0 0 8px 0;font-size:13px;color:#6b7280;line-height:1.6;">
-            ${siteConfig.business.address.street}<br/>
-            ${siteConfig.business.address.city}, ${siteConfig.business.address.province} ${siteConfig.business.address.postalCode}
-          </p>
-          <div style="display:flex;align-items:center;gap:4px;padding:6px 10px;background:#fef2f2;border-radius:6px;border-left:3px solid #dc2626;">
-            <span style="font-size:12px;color:#991b1b;font-weight:600;">
-              📍 Main Location
-            </span>
-          </div>
-        </div>
-      `,
-    })
+    let businessInfoWindow: google.maps.InfoWindow | null = null
 
-    // Add click listeners with smooth transitions
-    businessMarker.addListener('click', () => {
-      businessInfoWindow.open(map, businessMarker)
-      businessMarker.setAnimation(google.maps.Animation.BOUNCE)
-      setTimeout(() => businessMarker.setAnimation(null), 1400)
-    })
+    if (showInfoWindow) {
+      businessInfoWindow = new google.maps.InfoWindow({
+        content: `
+          <div style="padding:12px 16px;min-width:240px;font-family:system-ui,-apple-system,sans-serif;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+              <div style="width:10px;height:10px;background:#dc2626;border-radius:50%;box-shadow:0 0 8px rgba(220,38,38,0.5);"></div>
+              <strong style="font-size:16px;color:#111827;">
+                ${siteConfig.name}
+              </strong>
+            </div>
+            <p style="margin:0 0 8px 0;font-size:13px;color:#6b7280;line-height:1.6;">
+              ${siteConfig.business.address.street}<br/>
+              ${siteConfig.business.address.city}, ${siteConfig.business.address.province} ${siteConfig.business.address.postalCode}
+            </p>
+            <div style="display:flex;align-items:center;gap:4px;padding:6px 10px;background:#fef2f2;border-radius:6px;border-left:3px solid #dc2626;">
+              <span style="font-size:12px;color:#991b1b;font-weight:600;">
+                📍 Main Location
+              </span>
+            </div>
+          </div>
+        `,
+      })
 
-    parkingMarker.addListener('click', () => {
-      businessInfoWindow.close()
-    })
+      // Add click listeners with smooth transitions
+      businessMarker.addListener('click', () => {
+        businessInfoWindow?.open(map, businessMarker)
+        businessMarker.setAnimation(google.maps.Animation.BOUNCE)
+        setTimeout(() => businessMarker.setAnimation(null), 1400)
+      })
+
+      parkingMarker.addListener('click', () => {
+        businessInfoWindow?.close()
+      })
+    }
 
     // Fit both markers without over-zooming
     const bounds = new google.maps.LatLngBounds()
@@ -181,61 +196,77 @@ export function LocationMap({ className }: LocationMapProps) {
       }
       // Ensure 45-degree view is applied after bounds
       map.setTilt(45)
+      map.setHeading(0)
     })
 
     // Auto-open business info on load
-    businessInfoWindow.open(map, businessMarker)
-  }, [isMounted, businessPosition, parkingPosition])
+    if (showInfoWindow && businessInfoWindow) {
+      businessInfoWindow.open(map, businessMarker)
+    }
+  }, [isMounted, businessPosition, parkingPosition, showInfoWindow])
 
   useEffect(() => {
     if (!isMounted || typeof window === 'undefined') return
+    if (!hasApiKey) {
+      setLoadError(true)
+      return
+    }
 
-    // Check if Google Maps is already loaded
+    // If already loaded, initialize immediately
     if (window.google?.maps) {
       initMap()
       return
     }
 
-    // Load Google Maps script
-    const script = document.createElement('script')
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${siteConfig.googleMapsApiKey}&v=weekly`
-    script.async = true
-    script.defer = true
-    script.onload = () => {
+    const existingScript = document.getElementById(MAPS_SCRIPT_ID) as HTMLScriptElement | null
+    const script =
+      existingScript ??
+      Object.assign(document.createElement('script'), {
+        id: MAPS_SCRIPT_ID,
+        src: `https://maps.googleapis.com/maps/api/js?key=${siteConfig.googleMapsApiKey}&v=weekly`,
+        async: true,
+        defer: true,
+      })
+
+    const handleLoad = () => {
       initMap()
     }
-    document.head.appendChild(script)
-  }, [isMounted, initMap])
+
+    const handleError = () => {
+      setLoadError(true)
+    }
+
+    script.addEventListener('load', handleLoad)
+    script.addEventListener('error', handleError)
+
+    if (!existingScript) {
+      document.head.appendChild(script)
+    }
+
+    return () => {
+      script.removeEventListener('load', handleLoad)
+      script.removeEventListener('error', handleError)
+    }
+  }, [isMounted, hasApiKey, initMap, MAPS_SCRIPT_ID])
+
+  const showFallback = loadError || !hasApiKey
 
   return (
     <div className={className}>
-      <div
-        ref={mapRef}
-        className="w-full h-[350px] sm:h-[450px] rounded-lg overflow-hidden border border-border bg-muted shadow-sm"
-      />
-
-      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <Button variant="outline" size="lg" asChild>
-          <a
-            href={siteConfig.business.address.mapUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex w-full items-center justify-center gap-2 text-sm"
-          >
-            <MapPin className="h-4 w-4" />
-            Get Directions
-          </a>
-        </Button>
-        <Button variant="outline" size="lg" asChild>
-          <a
-            href={`tel:${siteConfig.business.phone}`}
-            className="flex w-full items-center justify-center gap-2 text-sm"
-          >
-            <Phone className="h-4 w-4" />
-            Call Us
-          </a>
-        </Button>
+      <div className="relative w-full overflow-hidden border border-border bg-muted min-h-[360px] sm:min-h-[420px]">
+        <div ref={mapRef} className="absolute inset-0 h-full w-full" />
+        {showFallback ? (
+          <iframe
+            title="Victoria Park Nails and Spa map"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2508.7772221623454!2d-114.0613071!3d51.0387352!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x537170049b78cad1%3A0xf36de94f8f653d9a!2sVictoria%20Park%20Nails%20and%20Spa!5e0!3m2!1sen!2sca!4v1763939836429!5m2!1sen!2sca"
+            className="absolute inset-0 h-full w-full border-0"
+            loading="lazy"
+            allowFullScreen
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+        ) : null}
       </div>
+
     </div>
   )
 }

@@ -10,11 +10,12 @@ import { Item, ItemContent, ItemDescription, ItemGroup, ItemMedia, ItemTitle } f
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
-import { LocationMap } from '@/components/shared/location-map'
 import { ContactFormFields } from '../form/form-fields'
 import { useFormSubmission } from '../form/use-form-submission'
 import { contactFormSchema, formatPhoneNumber, type ContactFormData } from '../../schemas/contact.schema'
 import { mainData } from './data'
+
+import { LocationMapClient as LocationMap } from '@/components/shared/location-map-client'
 
 const iconMap = {
   Phone: '/geist-icons/phone.svg',
@@ -124,13 +125,15 @@ export function MainSection() {
       {/* Location - Bottom Left */}
       <Card id="location" className="flex flex-col">
         <CardHeader className="flex-shrink-0">
-          <CardTitle>{mainData.location.title}</CardTitle>
+          <CardTitle className="flex items-center justify-between">
+            <span>{mainData.location.title}</span>
+            <span className="text-sm font-normal text-muted-foreground">
+              {mainData.location.description}
+            </span>
+          </CardTitle>
         </CardHeader>
         <CardContent className="flex-grow">
-          <p className="text-muted-foreground mb-6">
-            {mainData.location.description}
-          </p>
-          <LocationMap />
+          <LocationMap showInfoWindow={false} className="min-h-[360px] sm:min-h-[420px]" />
         </CardContent>
       </Card>
 

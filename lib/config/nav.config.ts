@@ -68,6 +68,7 @@ export const primaryNav: NavItem[] = [
     ],
   },
   { label: 'Gallery', href: ROUTES.GALLERY },
+  { label: 'Parking', href: ROUTES.PARKING },
   { label: 'Contact', href: ROUTES.CONTACT },
 ]
 
@@ -84,6 +85,7 @@ export const footerNav: NavSection[] = [
     links: [
       { label: 'Services', href: ROUTES.SERVICES },
       { label: 'Gallery', href: ROUTES.GALLERY },
+      { label: 'Parking', href: ROUTES.PARKING },
       { label: 'Contact', href: ROUTES.CONTACT },
     ],
   },
