@@ -106,7 +106,7 @@ export const TestimonialCard = React.forwardRef<
         ref={ref}
         className={cn(
           'flex flex-col gap-4 p-6 h-full',
-          interactive && 'hover:shadow-lg hover:border-primary/50 transition-all duration-200',
+          interactive && 'hover: hover:border-primary/50 transition-all duration-200',
           className
         )}
         {...props}

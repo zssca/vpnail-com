@@ -42,7 +42,7 @@ export function StickyBottomNav() {
         isVisible ? 'translate-y-0' : 'translate-y-full'
       }`}
     >
-      <div className="bg-background/95 backdrop-blur-sm border-t border-border shadow-none">
+      <div className="bg-background/95 backdrop-blur-sm border-t border-border ">
         <Container className="max-w-screen-2xl px-3 py-3 md:px-4" noPaddingMobile>
           <div className="grid grid-cols-2 gap-3">
             <Button asChild size="lg">

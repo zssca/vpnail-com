@@ -49,7 +49,7 @@ export function ComparisonSection() {
                 {category.services.map((service, serviceIdx) => (
                   <Card
                     key={`${category.name}-${service.name}`}
-                    className="group relative flex flex-col overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+                    className="group relative flex flex-col overflow-hidden transition-all duration-300 hover: hover:-translate-y-1"
                   >
                     {/* Featured Badge for Most Popular */}
                     {serviceIdx === 1 && (
