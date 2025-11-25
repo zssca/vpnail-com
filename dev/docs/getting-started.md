@@ -18,7 +18,7 @@ features/     # Page implementations (sections, actions, schemas)
 components/   # Shared UI (shadcn/ui lives here)
 lib/          # Config, utilities, validation
 public/       # Static assets
-developer/    # Docs (this folder)
+dev/    # Docs (this folder)
 ```
 
 ## Core Principles

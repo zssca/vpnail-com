@@ -1,7 +1,6 @@
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { LocationMapClient as LocationMap } from '@/features/shared/location-map-client'
 import { locationData } from './data'
-
-import { LocationMapClient as LocationMap } from '@/components/shared/location-map-client'
 
 export function LocationSection() {
   return (

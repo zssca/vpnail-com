@@ -1,79 +1,120 @@
-# Architecture Analysis Prompt
+# Architecture Fix Prompt
 
-## Setup
+Fix architectural issues step by step, working through each category systematically.
 
-First, generate and read the project tree for reference:
+## Step 1: Generate Project Tree
+
+First, generate and analyze the project structure:
+
+```bash
+python3 dev/scripts/generate_tree.py --show-info
+```
+
+Read `dev/project-tree.md` and identify structural issues before proceeding.
+
+## Step 2: Fix Naming Conventions
+
+Check and fix naming issues:
+- Folders must be `kebab-case`
+- Components must be `kebab-case.tsx`
+- Standard files: `data.ts`, `page.tsx`, `[name].action.ts`, `[name].schema.ts`
+
+**Action**: Rename any files/folders that don't follow conventions.
+
+## Step 3: Fix Feature Structure
+
+Ensure all features follow the standard pattern:
+- Required: `page.tsx`, `seo.ts`, `sections/`
+- Each section needs: `index.tsx` + `data.ts`
+- No forbidden folders: `components/`, `utils/`, `hooks/`
+
+**Action**: Add missing files, remove forbidden folders, move misplaced code.
+
+## Step 4: Fix Component Organization
+
+Move components to correct locations:
+- Domain-specific components → `features/[name]/sections/`
+- Truly universal components → `components/shared/`
+- Single-use components → Inline or move to feature
+
+**Action**: Relocate components and update imports.
+
+## Step 5: Fix Data & Logic Separation
+
+Extract hardcoded content to data files:
+- Business info → `lib/config/`
+- Feature content → `features/[name]/sections/*/data.ts`
+- No literals in components
+
+**Action**: Create/update `data.ts` files, remove hardcoded content.
+
+## Step 6: Fix Import Patterns
+
+Standardize imports:
+- Use `@/` aliases (not relative paths across features)
+- No cross-feature imports (share via `components/shared/`, `lib/`)
+- Import order: React → Next → External → Internal → Relative
+
+**Action**: Update import statements throughout codebase.
+
+## Step 7: Fix Cross-Feature Dependencies
+
+Remove cross-feature imports:
+- Sections read only their own `./data.ts`
+- Shared code goes to `components/shared/`, `features/shared/`, or `lib/`
+
+**Action**: Extract shared code, update imports.
+
+## Step 8: Fix Code Duplication
+
+Consolidate duplicated code:
+- Extract repeated patterns to `components/shared/`
+- Create utility functions in `lib/utils/`
+- Split overly complex components (>150 lines)
+
+**Action**: Refactor duplicated code into shared modules.
+
+## Step 9: Fix File Size Violations
+
+Split large files:
+- Sections/Components: ≤150 lines
+- Pages: ≤200 lines
+- Data: ≤500 lines
+
+**Action**: Break down oversized files into smaller modules.
+
+## Step 10: Fix SEO & Metadata
+
+Ensure proper SEO setup:
+- Each feature has `seo.ts` with metadata export
+- Routes in `app/` wire metadata correctly
+- Follow config in `lib/config/seo.config.ts`
+
+**Action**: Add missing metadata, standardize structure.
+
+## Step 11: Verify Architecture Rules
+
+Final verification against CLAUDE.md:
+- No forbidden folders in `features/`
+- Sections only in `sections/` folder
+- No cross-feature imports
+- Single source of truth for data
+
+**Action**: Run final checks, fix any remaining violations.
+
+## Step 12: Regenerate Tree
+
+After all fixes, regenerate tree to verify structure:
 
 ```bash
 python3 dev/scripts/project-tree/generate_tree.py --show-info
 ```
 
-Read the generated tree at `developer/project-tree.md`. Rerun this command anytime you need updated structure information.
+Compare with ideal structure from CLAUDE.md.
 
-## Analysis Scope
+## Notes
 
-Examine all folders under `components/`, `features/`, `lib/`, `app/`, and `emails/` to identify structural issues, inconsistencies, and anti-patterns.
-
-## Checks to Perform
-
-### 1. Component Organization
-- Check if `components/shared/` components are truly universal vs domain-specific
-- Identify components that belong in `features/` instead
-
-### 2. Feature Structure
-- Verify all features follow the standard pattern: `page.tsx`, `seo.ts`, `sections/`
-- Check sections have `index.tsx` + `data.ts`
-- Find missing standard files or inconsistent structures
-
-### 3. Data & Logic Separation
-- Identify hardcoded data or business logic in UI components
-- Verify content lives in `data.ts` or `lib/config/`
-
-### 4. Code Duplication
-- Find duplicated code that could be consolidated
-- Identify overly complex components that should be split
-
-### 5. Import Patterns
-- Check for inconsistent import paths (relative vs absolute)
-- Verify imports follow allowed patterns
-
-### 6. Architecture Rules (CLAUDE.md)
-- No forbidden folders within `features/` (components/, utils/, hooks/)
-- Sections only in `sections/` folder
-- SEO files in correct locations
-- No cross-feature imports
-
-### 7. Component Usage
-- Single-use components that could be inlined
-- Repeated code that should be extracted
-
-### 8. Data Location
-- Shared data not in page-specific folders
-- Page-specific data not in shared locations
-
-### 9. Naming Conventions
-- Folders: `kebab-case`
-- Components: `PascalCase.tsx`
-- Files: `data.ts`, `page.tsx`, `[name].action.ts`, `[name].schema.ts`
-
-### 10. Code Quality
-- Circular dependencies
-- Excessive nesting (>4 levels)
-- File size violations:
-  - Sections: ≤150 lines
-  - Pages: ≤200 lines
-  - Data: ≤500 lines
-
-## Report Structure
-
-Create `ARCHITECTURE-ISSUES-REPORT.md` with:
-
-1. **Table of Contents**
-2. **Executive Summary** - High-level overview
-3. **Detailed Findings** - Organized by category above
-   - File paths and line numbers
-   - Severity: Critical/High/Medium/Low
-   - Before/after code examples
-4. **Action Plan** - Prioritized with effort estimates
-5. **Ideal Structure** - Proposed directory tree after fixes
-6. **Recommendations** - Best practices going forward
+- Work through steps sequentially
+- Test after each major change
+- Commit logical groups of fixes
+- Update documentation if patterns change

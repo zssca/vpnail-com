@@ -54,6 +54,8 @@ export interface Coordinates {
 export interface LocationConfig {
   coordinates: Coordinates
   parking: Coordinates
+  mapEmbedUrl: string
+  streetViewEmbedUrl: string
 }
 
 export interface SiteConfig {
@@ -87,5 +89,4 @@ export interface EmailConfig {
   fromEmail: string
   fromName: string
   brandColor: string
-  bccEmail?: string
 }

@@ -12,7 +12,7 @@ This script performs a complete clean reinstall:
 7. Opens browser in Chrome
 
 Usage:
-    python developer/scripts/fresh-install.py
+    python dev/scripts/fresh-install.py
 """
 
 import json

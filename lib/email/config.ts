@@ -33,7 +33,4 @@ export const emailConfig = {
 
   // Branding - primary brand color
   brandColor: '#8b9a7c', // Sage green (matches --primary CSS variable)
-
-  // Optional: BCC yourself for monitoring
-  bccEmail: 'info@contact.zss.ca',  // ✅ Also using verified domain
 } satisfies EmailConfig

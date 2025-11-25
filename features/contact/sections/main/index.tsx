@@ -10,12 +10,11 @@ import { Item, ItemContent, ItemDescription, ItemGroup, ItemMedia, ItemTitle } f
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
+import { LocationMapClient as LocationMap } from '@/features/shared/location-map-client'
 import { ContactFormFields } from '../form/form-fields'
 import { useFormSubmission } from '../form/use-form-submission'
 import { contactFormSchema, formatPhoneNumber, type ContactFormData } from '../../schemas/contact.schema'
 import { mainData } from './data'
-
-import { LocationMapClient as LocationMap } from '@/components/shared/location-map-client'
 
 const iconMap = {
   Phone: '/geist-icons/phone.svg',

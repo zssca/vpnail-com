@@ -57,7 +57,6 @@ export async function sendContactFormEmail(formData: {
     console.log('📧 Sending email with Resend...');
     console.log('From:', `${emailConfig.fromName} <${emailConfig.fromEmail}>`);
     console.log('To:', emailConfig.recipientEmail);
-    console.log('BCC:', emailConfig.bccEmail);
 
     // Send email via Resend
     const result = await resend.emails.send({
@@ -67,8 +66,6 @@ export async function sendContactFormEmail(formData: {
       subject: `New Contact Form - ${emailConfig.clientName}`,
       html: htmlContent,
       text: textContent,
-      // Optional: BCC yourself for monitoring
-      ...(emailConfig.bccEmail && { bcc: emailConfig.bccEmail }),
     });
 
     // Log the full result for debugging

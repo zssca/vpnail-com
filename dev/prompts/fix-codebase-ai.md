@@ -1,16 +1,9 @@
 # Prompt: Fix This Codebase Using repo docs/kb
 
-You are an expert Next.js 16 + shadcn/ui engineer. Your task is to diagnose and fix issues in this repo while strictly following the local rules under `docs/kb`.
+You are an expert Next.js 16 + shadcn/ui engineer. Your task is to diagnose and fix issues in this repo while strictly following the local rules under `dev/docs/`.
 
 ## Must-Read Docs (local)
-- `docs/kb/stack/00-overview.md` – stack, static-first, cacheComponents, `use cache` placement.
-- `docs/kb/stack/01-architecture.md` – feature/section directory contract.
-- `docs/kb/stack/02-content-data.md` – data modules, media locations.
-- `docs/kb/stack/03-components-ui.md` – shared UI/layouts expectations.
-- `docs/kb/stack/04-actions-runtime.md` – Server Actions, shadcn form stack (RHF + Zod), `useActionState` guidance.
-- `docs/kb/stack/05-configuration.md` – config files, cacheComponents/reactCompiler, fetch logging.
-- `docs/kb/stack/06-performance-seo.md` – caching, PPR
-- `docs/kb/stack/checklists.md` – guardrails before shipping.
+
 
 ## Repo Structure to Preserve
 - Routes live in `app/`; each route is a thin wrapper that imports its feature’s `page.tsx`.

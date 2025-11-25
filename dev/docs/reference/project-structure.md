@@ -9,7 +9,7 @@ project/
 ├── features/         # Feature pages (sections, actions, schemas, data)
 ├── lib/              # Config & utilities
 ├── public/           # Static files
-└── developer/        # Documentation
+└── dev/        # Documentation
 ```
 
 ## Features
@@ -62,7 +62,7 @@ public/
 | Type | Convention | Example |
 |------|-----------|---------|
 | Directories | `kebab-case` | `contact-form/` |
-| Components | `PascalCase.tsx` | `HeroSection.tsx` |
+| Components | `kebab-case.tsx` | `hero-section.tsx` |
 | Pages | `page.tsx` | Always `page.tsx` |
 | Data | `data.ts` | Always `data.ts` |
 | Actions | `[name].action.ts` | `contact.action.ts` |

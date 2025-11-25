@@ -136,7 +136,7 @@ def main() -> None:
         "--output",
         type=Path,
         default=None,
-        help="Output markdown file (default: developer/project-tree.md under the root)",
+        help="Output markdown file (default: dev/project-tree.md under the root)",
     )
     parser.add_argument(
         "--show-hidden",

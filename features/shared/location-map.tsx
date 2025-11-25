@@ -112,7 +112,7 @@ export function LocationMap({ className, showInfoWindow = true }: LocationMapPro
           <rect x="25" y="104" width="130" height="26" rx="13" ry="13" fill="url(#labelGradBusiness)" />
           <text x="90" y="121" text-anchor="middle" font-family="Inter, -apple-system, sans-serif"
                 font-size="12.5" font-weight="700" fill="#ffffff" letter-spacing="0.6">
-            Victoria Park Nails
+            ${siteConfig.name}
           </text>
         </svg>
       `
@@ -257,8 +257,8 @@ export function LocationMap({ className, showInfoWindow = true }: LocationMapPro
         <div ref={mapRef} className="absolute inset-0 h-full w-full" />
         {showFallback ? (
           <iframe
-            title="Victoria Park Nails and Spa map"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2508.7772221623454!2d-114.0613071!3d51.0387352!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x537170049b78cad1%3A0xf36de94f8f653d9a!2sVictoria%20Park%20Nails%20and%20Spa!5e0!3m2!1sen!2sca!4v1763939836429!5m2!1sen!2sca"
+            title={`${siteConfig.name} map`}
+            src={siteConfig.location.mapEmbedUrl}
             className="absolute inset-0 h-full w-full border-0"
             loading="lazy"
             allowFullScreen
