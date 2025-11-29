@@ -16,7 +16,7 @@ export function Footer({ id }: { id?: string }) {
           <section aria-label="Visit and contact" className="space-y-4">
             <ItemGroup className="space-y-2 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-4 md:space-y-0">
               <Item asChild variant="muted" size="sm">
-                <a href={siteConfig.links.booking} target="_blank" rel="noopener noreferrer">
+                <a href={siteConfig.links.booking}>
                   <ItemMedia>
                     <Avatar className="h-12 w-12 bg-primary/10 rounded-lg">
                       <AvatarFallback className="bg-primary/10 text-primary rounded-lg">
