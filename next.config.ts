@@ -32,6 +32,8 @@ const securityHeaders = [
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
   { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(self), browsing-topics=()' },
   { key: 'Content-Security-Policy', value: CONTENT_SECURITY_POLICY },
+  { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
+  { key: 'Cross-Origin-Resource-Policy', value: 'same-origin' },
 ]
 
 const staticAssetCache = { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }

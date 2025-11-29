@@ -12,6 +12,8 @@ import { analyticsConfig } from '@/lib/config/analytics.config'
 import { lato, cormorant } from '@/lib/config/fonts.config'
 import { HeadTags } from './layout/head-tags'
 import { SkipLinks } from './layout/skip-links'
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 export const metadata = rootMetadata
 export const viewport = rootViewport
@@ -46,6 +48,8 @@ export default async function RootLayout({
               <Suspense fallback={null}>
                 <AnalyticsEvents />
                 <WebVitals />
+                <Analytics />
+                <SpeedInsights />
               </Suspense>
               <Header />
               <Breadcrumbs />
