@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
 import './globals.css'
 import { cn } from '@/lib/utils'
-import { ThemeProvider, ToastProvider, AnalyticsEvents } from '@/components/providers'
+import { ThemeProvider, ToastProvider, AnalyticsEvents, WebVitals } from '@/components/providers'
 import { Header } from '@/components/layouts/header'
 import { Breadcrumbs } from '@/components/layouts/breadcrumbs'
 import { Footer } from '@/components/layouts/footer'
@@ -45,6 +45,7 @@ export default async function RootLayout({
             <div className="min-h-screen flex flex-col w-full">
               <Suspense fallback={null}>
                 <AnalyticsEvents />
+                <WebVitals />
               </Suspense>
               <Header />
               <Breadcrumbs />
