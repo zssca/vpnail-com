@@ -8,7 +8,7 @@ import { servicesData } from './data'
 
 export function ServicesSection() {
   return (
-    <Section variant="muted-light">
+    <Section variant="default">
       <Container>
         <div className="text-center mb-16">
           <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">{servicesData.title}</h2>

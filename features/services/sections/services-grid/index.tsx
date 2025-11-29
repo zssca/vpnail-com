@@ -24,7 +24,7 @@ export function ServicesGridSection() {
   const [activeTab, setActiveTab] = React.useState(servicesGridData.categories[0].id)
 
   return (
-    <Section id="services" size="lg" variant="muted-light">
+    <Section id="services" size="lg" variant="default">
       <Container className="px-0">
         {/* Detailed Services Tabs */}
         <Tabs

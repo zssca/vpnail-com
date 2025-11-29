@@ -6,7 +6,7 @@ export const heroData = {
     'Call, message, or book online for Victoria Park appointments. Need a same-day spot, parking directions, or help choosing a service? Reach the team directly and get clear answers fast.',
   cta: {
     primary: {
-      text: 'Book online',
+      text: 'Book Now',
       href: siteConfig.links.booking,
     },
     secondary: {

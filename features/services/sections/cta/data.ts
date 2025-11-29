@@ -4,7 +4,7 @@ import type { DualCtaContent } from '@/components/shared/dual-cta-section'
 export const ctaData: DualCtaContent = {
   title: 'Book Your Appointment',
   primary: {
-    text: 'Book online',
+    text: 'Book Now',
     href: siteConfig.links.booking,
   },
   secondary: {

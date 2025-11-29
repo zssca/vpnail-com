@@ -101,7 +101,7 @@ export function ComparisonSection() {
               </div>
 
               {/* Additional Information */}
-              <div className="mt-12 p-6 bg-muted rounded-lg border">
+              <div className="mt-12 p-6 bg-background rounded-lg border">
                 <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight mb-3">Need Help Choosing?</h3>
                 <p className="text-muted-foreground leading-relaxed">
                   {category.name === "Manicures"

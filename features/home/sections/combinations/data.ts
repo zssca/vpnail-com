@@ -5,7 +5,7 @@ export const combinationsData = {
   packages: [
     {
       name: 'Deluxe',
-      price: '80',
+      price: '85',
       originalPrice: '90',
       duration: '2 hrs',
       popular: true,

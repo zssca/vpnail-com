@@ -92,7 +92,7 @@ export const footerNav: NavSection[] = [
   {
     title: 'Book Online',
     links: [
-      { label: 'Book Appointment', href: ROUTES.SERVICES },
+      { label: 'Book Now', href: ROUTES.SERVICES },
       { label: 'Call Us', href: siteConfig.social.phone, external: true },
     ],
   },

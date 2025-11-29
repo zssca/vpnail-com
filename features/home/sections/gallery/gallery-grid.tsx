@@ -53,7 +53,7 @@ export function HomeGalleryGrid({ images }: HomeGalleryGridProps) {
                   placeholder="blur"
                   blurDataURL={imagePlaceholders.default}
                 />
-                <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/15" />
+                <div className="absolute inset-0 bg-foreground/0 transition-colors duration-300 group-hover:bg-foreground/15" />
               </Button>
               <figcaption className="sr-only" itemProp="caption">
                 {image.caption}

@@ -134,12 +134,12 @@ export function GalleryLightbox({ image, allImages, onClose, onNavigate }: Galle
               )}
               {/* Image counter badge */}
               {allImages.length > 1 && (
-                <div className="absolute right-4 top-4 rounded bg-black/50 px-3 py-1.5 text-sm text-white backdrop-blur-sm">
+                <div className="absolute right-4 top-4 rounded bg-foreground/50 px-3 py-1.5 text-sm text-background backdrop-blur-sm">
                   {currentIndex + 1} / {allImages.length}
                 </div>
               )}
 
-              <figcaption className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent px-4 py-3 text-sm text-white">
+              <figcaption className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-foreground/80 to-transparent px-4 py-3 text-sm text-background">
                 <div>{image.caption}</div>
               </figcaption>
               <meta itemProp="name" content={image.title} />

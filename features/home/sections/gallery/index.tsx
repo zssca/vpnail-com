@@ -13,7 +13,7 @@ export function HomeGallerySection() {
   }
 
   return (
-    <Section variant="muted" size="lg">
+    <Section variant="default" size="lg">
       <Container>
         <div className="space-y-8 sm:space-y-10">
           <div className="text-center">

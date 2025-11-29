@@ -11,8 +11,8 @@ export function NavigationButton({ direction, canNavigate, onNavigate }: Navigat
 
   return (
     <div
-      className={`absolute ${isPrevious ? 'left-0' : 'right-0'} top-1/2 -translate-y-1/2 transform p-4 text-white/40 transition-colors ${
-        canNavigate ? 'cursor-pointer hover:text-white/80' : 'cursor-not-allowed opacity-25'
+      className={`absolute ${isPrevious ? 'left-0' : 'right-0'} top-1/2 -translate-y-1/2 transform p-4 text-background/40 transition-colors ${
+        canNavigate ? 'cursor-pointer hover:text-background/80' : 'cursor-not-allowed opacity-25'
       }`}
       onClick={onNavigate}
       onKeyDown={(e) => {
@@ -59,7 +59,7 @@ export function LightboxNavigation({
   return (
     <>
       {/* Image counter badge */}
-      <div className="absolute right-4 top-4 rounded bg-black/50 px-3 py-1.5 text-sm text-white backdrop-blur-sm">
+      <div className="absolute right-4 top-4 rounded bg-foreground/50 px-3 py-1.5 text-sm text-background backdrop-blur-sm">
         {currentIndex + 1} / {totalImages}
       </div>
 

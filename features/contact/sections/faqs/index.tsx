@@ -36,7 +36,7 @@ export function FaqsSection() {
             ))}
           </Accordion>
 
-          <Card className="bg-muted/30">
+          <Card className="bg-background">
             <CardHeader>
               <div className="flex items-center justify-center mb-2">
                 <MessageCircle className="h-6 w-6 text-primary mr-2" />

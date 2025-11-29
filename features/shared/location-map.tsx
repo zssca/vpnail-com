@@ -30,6 +30,7 @@ export function LocationMap({ className, showInfoWindow = true }: LocationMapPro
   const [loadError, setLoadError] = useState(false)
   const businessPosition = siteConfig.location.coordinates
   const parkingPosition = siteConfig.location.parking
+  const shoppersMartPosition = { lat: 51.03875660222582, lng: -114.06082092653011 }
   const hasApiKey = Boolean(siteConfig.googleMapsApiKey)
 
   // Only mount on client side - this is intentional for SSR/CSR hydration
@@ -80,6 +81,12 @@ export function LocationMap({ className, showInfoWindow = true }: LocationMapPro
 
     const parkingIcon = {
       url: '/free-parking-sign.svg',
+      scaledSize: new google.maps.Size(140, 60),
+      anchor: new google.maps.Point(70, 60),
+    }
+
+    const shoppersMartIcon = {
+      url: '/Shoppers-Drug-Mart-Logo.svg',
       scaledSize: new google.maps.Size(140, 60),
       anchor: new google.maps.Point(70, 60),
     }
@@ -142,17 +149,19 @@ export function LocationMap({ className, showInfoWindow = true }: LocationMapPro
     // Create label element below the pin with line breaks
     const labelDiv = document.createElement('div');
     labelDiv.style.cssText = `
-      background: #ffffff;
-      padding: 6px 10px;
-      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.5);
+      padding: 2px 4px;
+      border-radius: 10px;
       font-family: Roboto, Arial, sans-serif;
       font-size: 13px;
       font-weight: 500;
       color: #000000;
       margin-top: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.18);
       text-align: center;
-      line-height: 1.3;
+      line-height: 1;
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(0,0,0,0.08);
     `;
     labelDiv.innerHTML = 'Victoria Park<br>Nails and Spa';
 
@@ -179,6 +188,15 @@ export function LocationMap({ className, showInfoWindow = true }: LocationMapPro
       icon: parkingIcon,
       animation: google.maps.Animation.DROP,
       zIndex: 500,
+    })
+
+    const shoppersMartMarker = new google.maps.Marker({
+      map,
+      position: shoppersMartPosition,
+      title: 'Shoppers Drug Mart',
+      icon: shoppersMartIcon,
+      animation: google.maps.Animation.DROP,
+      zIndex: 450,
     })
 
     // InfoWindow colors: Using hex values that map to globals.css variables
@@ -226,7 +244,9 @@ export function LocationMap({ className, showInfoWindow = true }: LocationMapPro
     const bounds = new google.maps.LatLngBounds()
     bounds.extend(businessPosition)
     bounds.extend(parkingPosition)
+    bounds.extend(shoppersMartPosition)
     map.fitBounds(bounds, 40)
+    map.setTilt(45)
 
     google.maps.event.addListenerOnce(map, 'bounds_changed', () => {
       const currentZoom = map.getZoom()
@@ -242,7 +262,7 @@ export function LocationMap({ className, showInfoWindow = true }: LocationMapPro
         map,
       })
     }
-  }, [isMounted, businessPosition, parkingPosition, showInfoWindow])
+  }, [isMounted, businessPosition, parkingPosition, shoppersMartPosition, showInfoWindow])
 
   useEffect(() => {
     if (!isMounted || typeof window === 'undefined') return

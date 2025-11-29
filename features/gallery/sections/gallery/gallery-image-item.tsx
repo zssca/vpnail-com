@@ -70,7 +70,7 @@ export function GalleryImageItem({ image, onClick, index = 0, priority = false }
           placeholder="blur"
           blurDataURL={imagePlaceholders.default}
         />
-        <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/20" />
+        <div className="absolute inset-0 bg-foreground/0 transition-colors duration-300 group-hover:bg-foreground/20" />
       </Button>
       <figcaption className="sr-only" itemProp="caption">
         {image.caption}

@@ -32,7 +32,7 @@ interface TestimonialsCarouselProps extends TestimonialsContent {
 export function TestimonialsCarousel({
   title,
   testimonials,
-  sectionVariant = 'muted',
+  sectionVariant = 'default',
   sectionSize = 'lg',
 }: TestimonialsCarouselProps) {
   const autoplayRef = React.useRef(Autoplay({ delay: 3000, stopOnInteraction: true }))
