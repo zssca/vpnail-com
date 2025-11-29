@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import { ArrowUpRight, Facebook, Instagram } from 'lucide-react'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -16,7 +17,7 @@ export function Footer({ id }: { id?: string }) {
           <section aria-label="Visit and contact" className="space-y-4">
             <ItemGroup className="space-y-2 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-4 md:space-y-0">
               <Item asChild variant="muted" size="sm">
-                <a href={siteConfig.links.booking}>
+                <Link href={siteConfig.links.booking}>
                   <ItemMedia>
                     <Avatar className="h-12 w-12 bg-primary/10 rounded-lg">
                       <AvatarFallback className="bg-primary/10 text-primary rounded-lg">
@@ -37,7 +38,7 @@ export function Footer({ id }: { id?: string }) {
                   <ItemActions>
                     <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
                   </ItemActions>
-                </a>
+                </Link>
               </Item>
 
               <Item asChild variant="muted" size="sm">
