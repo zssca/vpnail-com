@@ -25,12 +25,12 @@ export function generateContactEmail(data: ContactFormData): string {
 
   // Email-safe colors (hardcoded hex values)
   const colors = {
-    background: '#f5f5f5',       // Muted background
-    cardBackground: '#ffffff',    // White cards
-    border: '#e4e4e7',           // Border color
-    textPrimary: '#18181b',      // Primary text
-    textSecondary: '#71717a',    // Secondary text
-    textMuted: '#3f3f46',        // Muted text
+    background: '#f7f0eb',       // Warm cream backdrop
+    cardBackground: '#fdfaf7',   // Soft off-white cards
+    border: '#e4d6cb',           // Soft beige border
+    textPrimary: '#2f1f19',      // Dark mocha text
+    textSecondary: '#6a4a3c',    // Cocoa secondary text
+    textMuted: '#4a352a',        // Rich mocha muted text
   };
 
   return `

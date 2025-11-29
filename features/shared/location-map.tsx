@@ -14,6 +14,15 @@ export interface LocationMapProps {
   showInfoWindow?: boolean
 }
 
+// Mirror the GitHub approach: hide only POI labels while keeping streets/roads visible for navigation
+const MAP_STYLES: google.maps.MapTypeStyle[] = [
+  {
+    featureType: 'poi',
+    elementType: 'labels',
+    stylers: [{ visibility: 'off' }],
+  },
+]
+
 export function LocationMap({ className, showInfoWindow = true }: LocationMapProps) {
   const MAPS_SCRIPT_ID = 'google-maps-sdk'
   const mapRef = useRef<HTMLDivElement>(null)
@@ -29,7 +38,7 @@ export function LocationMap({ className, showInfoWindow = true }: LocationMapPro
     setIsMounted(true)
   }, [])
 
-  const initMap = useCallback(() => {
+  const initMap = useCallback(async () => {
     if (!isMounted || !mapRef.current || typeof window === 'undefined' || !window.google) return
 
     // Initialize map with 45-degree imagery
@@ -45,13 +54,9 @@ export function LocationMap({ className, showInfoWindow = true }: LocationMapPro
       streetViewControl: false,
       fullscreenControl: false,
       rotateControl: false,
-      styles: [
-        {
-          featureType: 'poi',
-          elementType: 'labels',
-          stylers: [{ visibility: 'off' }]
-        }
-      ]
+      mapId: 'DEMO_MAP_ID', // Required for Advanced Markers
+      clickableIcons: false, // Disable clicking on POI icons
+      styles: MAP_STYLES,
     })
 
     const createLabeledPin = (fill: string, text: string) => {
@@ -123,15 +128,48 @@ export function LocationMap({ className, showInfoWindow = true }: LocationMapPro
       }
     }
 
-    // Business marker with enhanced styling
-    const businessMarker = new google.maps.Marker({
+    // Load Advanced Markers library for better label support
+    const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker") as google.maps.MarkerLibrary;
+
+    // Create default Google Maps pin
+    const pin = new PinElement({
+      background: '#EA4335', // Google Maps red
+      borderColor: '#C5221F',
+      glyphColor: '#ffffff',
+      scale: 1.2,
+    });
+
+    // Create label element below the pin with line breaks
+    const labelDiv = document.createElement('div');
+    labelDiv.style.cssText = `
+      background: #ffffff;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-family: Roboto, Arial, sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: #000000;
+      margin-top: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      text-align: center;
+      line-height: 1.3;
+    `;
+    labelDiv.innerHTML = 'Victoria Park<br>Nails and Spa';
+
+    // Container for pin and label
+    const content = document.createElement('div');
+    content.style.cssText = 'display: flex; flex-direction: column; align-items: center;';
+    content.appendChild(pin.element);
+    content.appendChild(labelDiv);
+
+    // Business marker with Google's default pin style and label below
+    const businessMarker = new AdvancedMarkerElement({
       map,
       position: businessPosition,
+      content: content,
       title: siteConfig.name,
-      icon: createBusinessPin(),
-      animation: google.maps.Animation.DROP,
       zIndex: 1000,
-    })
+    });
 
     // Parking marker with simple drop animation
     const parkingMarker = new google.maps.Marker({
@@ -173,9 +211,10 @@ export function LocationMap({ className, showInfoWindow = true }: LocationMapPro
 
       // Add click listeners with smooth transitions
       businessMarker.addListener('click', () => {
-        businessInfoWindow?.open(map, businessMarker)
-        businessMarker.setAnimation(google.maps.Animation.BOUNCE)
-        setTimeout(() => businessMarker.setAnimation(null), 1400)
+        businessInfoWindow?.open({
+          anchor: businessMarker,
+          map,
+        })
       })
 
       parkingMarker.addListener('click', () => {
@@ -194,14 +233,14 @@ export function LocationMap({ className, showInfoWindow = true }: LocationMapPro
       if (currentZoom && currentZoom > 19) {
         map.setZoom(19)
       }
-      // Ensure 45-degree view is applied after bounds
-      map.setTilt(45)
-      map.setHeading(0)
     })
 
     // Auto-open business info on load
     if (showInfoWindow && businessInfoWindow) {
-      businessInfoWindow.open(map, businessMarker)
+      businessInfoWindow.open({
+        anchor: businessMarker,
+        map,
+      })
     }
   }, [isMounted, businessPosition, parkingPosition, showInfoWindow])
 
@@ -223,7 +262,7 @@ export function LocationMap({ className, showInfoWindow = true }: LocationMapPro
       existingScript ??
       Object.assign(document.createElement('script'), {
         id: MAPS_SCRIPT_ID,
-        src: `https://maps.googleapis.com/maps/api/js?key=${siteConfig.googleMapsApiKey}&v=weekly`,
+        src: `https://maps.googleapis.com/maps/api/js?key=${siteConfig.googleMapsApiKey}&libraries=marker&v=weekly`,
         async: true,
         defer: true,
       })

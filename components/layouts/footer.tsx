@@ -9,17 +9,17 @@ import { Container } from './container'
 
 export function Footer({ id }: { id?: string }) {
   return (
-    <footer id={id} className="border-t bg-background">
+    <footer id={id} className="border-t bg-primary/50">
       <Container className="py-12 pb-20">
         <div className="flex flex-col gap-10">
 
           <section aria-label="Visit and contact" className="space-y-4">
-            <ItemGroup className="space-y-2">
+            <ItemGroup className="space-y-2 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-4 md:space-y-0">
               <Item asChild variant="muted" size="sm">
                 <a href={siteConfig.links.booking} target="_blank" rel="noopener noreferrer">
                   <ItemMedia>
-                    <Avatar className="h-12 w-12 bg-primary/10 rounded-xl">
-                      <AvatarFallback className="bg-primary/10 text-primary">
+                    <Avatar className="h-12 w-12 bg-primary/10 rounded-lg">
+                      <AvatarFallback className="bg-primary/10 text-primary rounded-lg">
                         <Image
                           src="/geist-icons/calendar.svg"
                           alt=""
@@ -43,8 +43,8 @@ export function Footer({ id }: { id?: string }) {
               <Item asChild variant="muted" size="sm">
                 <a href={siteConfig.business.address.mapUrl} target="_blank" rel="noopener noreferrer">
                   <ItemMedia>
-                    <Avatar className="h-12 w-12 bg-primary/10 rounded-xl">
-                      <AvatarFallback className="bg-primary/10 text-primary">
+                    <Avatar className="h-12 w-12 bg-primary/10 rounded-lg">
+                      <AvatarFallback className="bg-primary/10 rounded-lg">
                         <Image
                           src="/geist-icons/location.svg"
                           alt=""

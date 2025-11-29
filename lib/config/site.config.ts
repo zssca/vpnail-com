@@ -76,7 +76,7 @@ export const siteConfig = {
     },
     phone: '(403) 719-3600',
     email: 'calgaryvpark@gmail.com',
-    bookingUrl: 'https://victoriaparknailsspa.setmore.com/',
+    bookingUrl: '',
     hours: [
       { day: 'Monday', hours: '10:00 AM - 7:00 PM' },
       { day: 'Tuesday', hours: '10:00 AM - 7:00 PM' },
@@ -102,7 +102,7 @@ export const siteConfig = {
     tiktok: 'https://www.tiktok.com/@victoriaparknails',
     email: 'mailto:calgaryvpark@gmail.com',
     phone: 'tel:+14037193600',
-    booking: 'https://victoriaparknailsspa.setmore.com/',
+    booking: '/services',
   },
   announcement: {
     enabled: true,

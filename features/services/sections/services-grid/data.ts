@@ -26,7 +26,7 @@ const nailServicesData: ServiceCategory = {
         {
           id: "shellac-gel-top",
           title: "Shellac Manicure with Gel Top",
-          description: "Shellac with hard gel topcoat for extra gloss",
+          description: "Strengthens weak or thin natural nails & prevents chipping with gel topcoat",
           price: "$40",
           duration: "50 mins",
           href: "https://victoriaparknailsspa.setmore.com/book?step=staff&products=0bd9debc-a1f5-4487-bd99-c952afb44201&type=service"
@@ -47,7 +47,7 @@ const nailServicesData: ServiceCategory = {
         {
           id: "pedicure",
           title: "Pedicure with regular polish",
-          description: "Complete foot care with massage & polish",
+          description: "Complete foot care with shaping, callous removal, massage & polish",
           price: "$40",
           duration: "45 mins",
           href: "https://victoriaparknailsspa.setmore.com/book?step=staff&products=35658703-d882-4ca9-b970-e47bd2d187ac&type=service"
@@ -169,7 +169,7 @@ const nailServicesData: ServiceCategory = {
         {
           id: "shellac-removal",
           title: "Shellac Removal",
-          description: "Gentle shellac soak-off",
+          description: "Gentle E-file removal (no acetone soaking)",
           price: "$15",
           duration: "15 mins",
           href: "https://victoriaparknailsspa.setmore.com/book?step=staff&products=63d78b40-d53d-44fd-9ad2-df431c61423c&type=service"
@@ -296,57 +296,12 @@ const massageSpaData: ServiceCategory = {
           href: "https://victoriaparknailsspa.setmore.com/book?step=additional-products&products=79e22787-9882-4c6e-bbb6-bc86a49dc3f3&type=service&staff=cyenzUfc96WJtwAUlopx7DhYQ83kffxi&staffSelected=false"
         },
         {
-          id: "hot-stone-massage-60",
-          title: "1-Hour Hot Stone Massage",
-          description: "Heated stones for deep muscle relaxation",
-          price: "$130",
-          duration: "60 mins",
-          href: "https://victoriaparknailsspa.setmore.com/book?step=additional-products&products=ab304f4c-87a7-4e47-b08b-ff2670ce1b0e&type=service&staff=cyenzUfc96WJtwAUlopx7DhYQ83kffxi&staffSelected=false"
-        },
-        {
           id: "extended-massage-90",
           title: "90-Minute Extended Massage",
           description: "Extended massage with targeted muscle work",
           price: "$180",
           duration: "90 mins",
           href: "https://victoriaparknailsspa.setmore.com/book?step=additional-products&products=cad7b49f-9d7d-4e18-a1dc-025ed2b6f89b&type=service&staff=cyenzUfc96WJtwAUlopx7DhYQ83kffxi&staffSelected=false"
-        },
-        {
-          id: "hot-stone-massage-90",
-          title: "90-Minute Hot Stone Massage",
-          description: "Extended hot stone with deeper muscle relief",
-          price: "$190",
-          duration: "90 mins",
-          href: "https://victoriaparknailsspa.setmore.com/book?step=additional-products&products=223b51c2-4e50-4ef9-8309-b1cfb3852e65&type=service&staff=cyenzUfc96WJtwAUlopx7DhYQ83kffxi&staffSelected=false"
-        },
-        {
-          id: "ultimate-massage-120",
-          title: "2-Hour Ultimate Massage",
-          description: "Customized full-body relief & tight area focus",
-          price: "$240",
-          duration: "120 mins",
-          href: "https://victoriaparknailsspa.setmore.com/book?step=additional-products&products=6105a80e-e1ea-47a3-ba15-5b00b565b4d7&type=service&staff=cyenzUfc96WJtwAUlopx7DhYQ83kffxi&staffSelected=false"
-        },
-        {
-          id: "ultimate-hot-stone-120",
-          title: "2-Hour Ultimate Hot Stone",
-          description: "Maximum relaxation with sustained heat therapy",
-          price: "$250",
-          duration: "120 mins",
-          href: "https://victoriaparknailsspa.setmore.com/book?step=additional-products&products=8ce64029-993f-42ab-a744-724385467b3e&type=service&staff=cyenzUfc96WJtwAUlopx7DhYQ83kffxi&staffSelected=false"
-        }
-      ]
-    },
-    {
-      name: "Spa Treatments",
-      services: [
-        {
-          id: "refreshing-facial",
-          title: "Refreshing Facial",
-          description: "Cleanse, exfoliation, massage & mask",
-          price: "$45",
-          duration: "30 mins",
-          href: "https://victoriaparknailsspa.setmore.com"
         }
       ]
     }

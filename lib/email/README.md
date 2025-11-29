@@ -27,7 +27,7 @@ To update email settings for this client:
 - **Client:** Victoria Park Nails & Spa
 - **Email:** calgaryvpark@gmail.com
 - **Domain:** vpnail.com
-- **Brand Color:** #d4a5a5 (Pink/Rose)
+- **Brand Color:** #8b6959 (Mocha brown)
 
 ## Customizing Email Template
 

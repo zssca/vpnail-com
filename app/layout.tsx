@@ -23,7 +23,7 @@ export default async function RootLayout({
 }) {
   'use cache'
   return (
-    <html lang="en-CA" suppressHydrationWarning className="overflow-x-hidden">
+    <html lang="en-CA" suppressHydrationWarning>
       <head>
         <HeadTags />
       </head>
@@ -42,13 +42,19 @@ export default async function RootLayout({
 
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <ToastProvider>
-            <div className="min-h-screen flex flex-col overflow-x-hidden w-full">
+            <div className="min-h-screen flex flex-col w-full">
               <Suspense fallback={null}>
                 <AnalyticsEvents />
               </Suspense>
               <Header />
               <Breadcrumbs />
-              <main id="main-content" className="flex-1 w-full pb-[72px] lg:pb-0 transition-padding duration-300" tabIndex={-1}>{children}</main>
+              <main
+                id="main-content"
+                className="flex-1 w-full pb-[72px] lg:pb-0 transition-padding duration-300"
+                tabIndex={-1}
+              >
+                {children}
+              </main>
               <Footer id="footer" />
               <StickyBottomNav />
             </div>

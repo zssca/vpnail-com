@@ -5,7 +5,7 @@ import { siteConfig } from '@/lib/config/site.config'
 import { ParkingDirectionsSection } from './sections/directions'
 import { parkingDirectionsContent } from './sections/directions/data'
 
-export function ParkingPage() {
+export async function ParkingPage() {
   return (
     <main>
       <StructuredData

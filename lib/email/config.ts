@@ -32,5 +32,5 @@ export const emailConfig = {
   fromName: `${siteConfig.name} Contact`,
 
   // Branding - primary brand color
-  brandColor: '#8b9a7c', // Sage green (matches --primary CSS variable)
+  brandColor: '#8b6959', // Mocha brown (matches --primary CSS variable)
 } satisfies EmailConfig
