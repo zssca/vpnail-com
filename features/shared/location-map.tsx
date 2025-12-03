@@ -57,7 +57,7 @@ export function LocationMap({ className, showInfoWindow = true }: LocationMapPro
       rotateControl: false,
       mapId: 'DEMO_MAP_ID', // Required for Advanced Markers
       clickableIcons: false, // Disable clicking on POI icons
-      styles: MAP_STYLES,
+      // styles: MAP_STYLES, // Styles are not compatible with mapId (Advanced Markers)
     })
 
     const createLabeledPin = (fill: string, text: string) => {
@@ -181,21 +181,30 @@ export function LocationMap({ className, showInfoWindow = true }: LocationMapPro
     });
 
     // Parking marker with simple drop animation
-    const parkingMarker = new google.maps.Marker({
+    // Note: AdvancedMarkerElement does not support 'animation' property directly like legacy Marker
+    const parkingImg = document.createElement('img');
+    parkingImg.src = parkingIcon.url;
+    parkingImg.style.width = '140px';
+    parkingImg.style.height = '60px';
+
+    const parkingMarker = new AdvancedMarkerElement({
       map,
       position: parkingPosition,
       title: 'Customer Parking',
-      icon: parkingIcon,
-      animation: google.maps.Animation.DROP,
+      content: parkingImg,
       zIndex: 500,
     })
 
-    const shoppersMartMarker = new google.maps.Marker({
+    const shoppersImg = document.createElement('img');
+    shoppersImg.src = shoppersMartIcon.url;
+    shoppersImg.style.width = '140px';
+    shoppersImg.style.height = '60px';
+
+    const shoppersMartMarker = new AdvancedMarkerElement({
       map,
       position: shoppersMartPosition,
       title: 'Shoppers Drug Mart',
-      icon: shoppersMartIcon,
-      animation: google.maps.Animation.DROP,
+      content: shoppersImg,
       zIndex: 450,
     })
 
@@ -282,9 +291,7 @@ export function LocationMap({ className, showInfoWindow = true }: LocationMapPro
       existingScript ??
       Object.assign(document.createElement('script'), {
         id: MAPS_SCRIPT_ID,
-        src: `https://maps.googleapis.com/maps/api/js?key=${siteConfig.googleMapsApiKey}&libraries=marker&v=weekly`,
-        async: true,
-        defer: true,
+        src: `https://maps.googleapis.com/maps/api/js?key=${siteConfig.googleMapsApiKey}&libraries=marker&v=weekly&loading=async`,
       })
 
     const handleLoad = () => {

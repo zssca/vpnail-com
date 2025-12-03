@@ -130,11 +130,13 @@ export const siteConfig = {
       id: 'gift-cards',
       enabled: true,
       message: 'Gift Cards Now Available! - Perfect for any occasion - Purchase in-store or call us today!',
+      link: '/services',
     },
     {
       id: 'rewards-program',
       enabled: true,
       message: 'NEW! Reward & Redeem Points Program - Earn points with every visit - Ask us how to start earning today!',
+      link: '/services',
     },
   ],
   location: {

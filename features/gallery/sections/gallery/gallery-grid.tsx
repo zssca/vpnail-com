@@ -82,9 +82,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
 
       <GalleryLightbox
         image={selectedImage}
-        allImages={images}
         onClose={() => setSelectedImage(null)}
-        onNavigate={setSelectedImage}
       />
     </>
   )

@@ -3,8 +3,9 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
 import { AlertCircle } from 'lucide-react'
-import { getImageSizes, imagePlaceholders, getLoadingStrategy } from '@/lib/utils/image'
+import { getImageSizes, getLoadingStrategy } from '@/lib/utils/image'
 import type { GalleryImage } from '@/lib/utils/gallery'
 
 interface GalleryImageItemProps {
@@ -16,6 +17,7 @@ interface GalleryImageItemProps {
 
 export function GalleryImageItem({ image, onClick, index = 0, priority = false }: GalleryImageItemProps) {
   const [imageError, setImageError] = useState(false)
+  const [isLoaded, setIsLoaded] = useState(false)
   const { priority: autoLoadPriority } = getLoadingStrategy(index, 50, 12)
   const shouldPrioritize = priority || autoLoadPriority
 
@@ -56,19 +58,25 @@ export function GalleryImageItem({ image, onClick, index = 0, priority = false }
         aria-label={image.alt}
         title={image.title}
       >
+        {!isLoaded && (
+          <Skeleton
+            className="absolute inset-0 h-full w-full rounded-lg"
+            aria-hidden="true"
+          />
+        )}
         <Image
           src={image.src}
           alt={image.alt}
           title={image.title}
           fill
           itemProp="contentUrl"
-          className="object-cover transition-all duration-300 group-hover:scale-110"
+          className={`object-cover transition-all duration-300 group-hover:scale-110 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
           sizes={getImageSizes('gallery')}
           priority={shouldPrioritize}
           loading={shouldPrioritize ? 'eager' : 'lazy'}
           onError={() => setImageError(true)}
-          placeholder="blur"
-          blurDataURL={imagePlaceholders.default}
+          onLoad={() => setIsLoaded(true)}
+          placeholder="empty"
         />
         <div className="absolute inset-0 bg-foreground/0 transition-colors duration-300 group-hover:bg-foreground/20" />
       </Button>

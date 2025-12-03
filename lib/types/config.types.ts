@@ -40,6 +40,8 @@ export interface Announcement {
   id: string
   enabled: boolean
   message: string
+  link?: string
+  variant?: 'default' | 'neutral'
 }
 
 export interface Author {
