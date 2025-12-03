@@ -2,16 +2,20 @@ import { buildMetadata } from '@/lib/seo/metadata'
 import { siteConfig } from '@/lib/config/site.config'
 
 export const parkingMetadata = buildMetadata({
-  title: 'Parking at Victoria Park Nails & Spa | Free Customer Parking in Calgary',
-  description: `Park free at ${siteConfig.business.address.street} in Calgary. View our parking map, street view, and walking directions to ${siteConfig.business.name} near the Stampede grounds.`,
+  title: 'Free Parking at Victoria Park Nails & Spa Calgary | Map & Directions',
+  description: `Free customer parking at ${siteConfig.business.address.street} in Calgary. View parking map, street view, and walking directions to ${siteConfig.business.name} near Stampede grounds.`,
   path: '/parking',
   keywords: [
-    'Victoria Park Nails parking',
+    'nail salon with free parking Calgary',
     'free parking Calgary nail salon',
+    'Victoria Park Nails parking',
     'parking near Calgary Stampede nails',
     'parking Victoria Park Nails and Spa',
     'directions Victoria Park Nails',
+    'nail salon parking downtown Calgary',
+    'nail salon directions Calgary',
+    'free parking nail spa Calgary',
   ],
-  openGraphDescription: `See where to park for ${siteConfig.name} with a live map, street view, and quick walking directions from the lot to our salon.`,
-  twitterDescription: `Free customer parking at ${siteConfig.business.address.street}. Open directions or call ${siteConfig.business.phone} for parking help.`,
+  openGraphDescription: `Free customer parking at Victoria Park Nails & Spa Calgary. View parking map, street view, and walking directions near Stampede grounds.`,
+  twitterDescription: `Free customer parking at ${siteConfig.business.address.street}. View map & directions or call ${siteConfig.business.phone} for parking help.`,
 })

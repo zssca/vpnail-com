@@ -3,33 +3,49 @@ import { buildMetadata } from '@/lib/seo/metadata'
 import { siteConfig } from '@/lib/config/site.config'
 
 export const homeMetadata = buildMetadata({
-  title: `Nail Salon Calgary | ${siteConfig.business.name} | Book Online`,
+  title: `Best Nail Salon Calgary | ${siteConfig.business.name} | Manicures & Pedicures`,
   description:
-    `Book gel manicures, spa pedicures, extensions, waxing, and massage at ${siteConfig.business.name} in Victoria Park, Calgary. Free parking, CTrain access, and same-day appointments when available.`,
+    `Calgary's top-rated nail salon in Victoria Park. Book gel manicures, spa pedicures, acrylic extensions, custom nail art, waxing & massage. Free parking near Stampede grounds.`,
   path: '/',
   keywords: [
-    'Victoria Park Nails and Spa',
-    'best nail salon Calgary',
+    // Primary keywords
     'nail salon Calgary',
-    'Victoria Park nails',
+    'best nail salon Calgary',
+    'nail salon near me',
     'manicure Calgary',
     'pedicure Calgary',
-    'custom nail art Calgary',
     'gel nails Calgary',
     'acrylic nails Calgary',
+    'nail art Calgary',
+    // Secondary service keywords
     'shellac manicure Calgary',
     'spa pedicure Calgary',
-    'luxury nail salon Calgary',
     'nail extensions Calgary',
+    'custom nail art Calgary',
+    'gel manicure Calgary',
+    'acrylic nail extensions Calgary',
+    'deluxe pedicure Calgary',
+    // Nail art styles (services offered)
+    'chrome nails Calgary',
+    'ombre nails Calgary',
+    'cat eye nails Calgary',
+    'French manicure Calgary',
+    // Location keywords
     'nail salon Victoria Park',
     'nail salon Downtown Calgary',
     'nail salon Beltline Calgary',
-    'Calgary Stampede nails',
+    'Victoria Park nails',
+    'nail salon near Calgary Stampede',
+    // Brand & trust
+    'Victoria Park Nails and Spa',
+    'luxury nail salon Calgary',
     'professional nail care Calgary',
-    'hot stone massage Calgary',
+    // Other services
+    'waxing Calgary',
+    'massage Calgary',
   ],
   openGraphDescription:
-    'Victoria Park Calgary nail salon for long-wear manicures, pedicures, gel and acrylic extensions, waxing, and massage with free parking near the Stampede grounds.',
+    'Calgary top-rated nail salon for manicures, pedicures, gel & acrylic extensions, custom nail art, waxing & massage. Free parking near Stampede grounds.',
   twitterDescription:
-    'Calgary nail salon with online booking, free parking, and long-wear manicures, pedicures, extensions, and waxing in Victoria Park.',
+    'Best nail salon in Calgary with online booking, free parking, manicures, pedicures, gel & acrylic nails, and custom nail art in Victoria Park.',
 })

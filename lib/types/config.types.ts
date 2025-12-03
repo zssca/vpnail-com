@@ -37,6 +37,7 @@ export interface SiteLinks extends SocialLinks {
 }
 
 export interface Announcement {
+  id: string
   enabled: boolean
   message: string
 }
@@ -69,7 +70,7 @@ export interface SiteConfig {
   business: BusinessInfo
   social: SocialLinks
   links: SiteLinks
-  announcement?: Announcement
+  announcements: Announcement[]
   location: LocationConfig
   googleMapsApiKey: string
 }

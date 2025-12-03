@@ -5,35 +5,58 @@ import { siteConfig } from '@/lib/config/site.config'
 export const servicesMetadata = buildMetadata({
   title: `Nail Services & Pricing Calgary | ${siteConfig.business.name}`,
   description:
-    `See pricing for manicures, gel and acrylic extensions, spa pedicures, waxing, and massage at ${siteConfig.business.name} in Calgary. Free parking and online booking.`,
+    `View nail salon prices in Calgary. Manicures from $25, pedicures from $40, gel & acrylic extensions, custom nail art, waxing & massage at ${siteConfig.business.name}. Book online.`,
   path: '/services',
   keywords: [
-    'Victoria Nails Calgary',
+    // Primary service keywords
     'nail services Calgary',
+    'nail salon prices Calgary',
+    'nail salon pricing Calgary',
     'manicure Calgary',
     'pedicure Calgary',
+    'gel nails Calgary',
+    'acrylic nails Calgary',
+    // Manicure types
     'gel manicure Calgary',
     'shellac manicure Calgary',
-    'acrylic nails Calgary',
-    'gel nail extensions Calgary',
-    'custom nail art Calgary',
-    'nail art design Calgary',
+    'shellac nails Calgary',
+    'French manicure Calgary',
+    // Pedicure types
     'spa pedicure Calgary',
     'hot stone pedicure Calgary',
     'deluxe pedicure Calgary',
-    'massage therapy Calgary',
-    'hot stone massage Calgary',
+    'shellac pedicure Calgary',
+    // Extensions
+    'gel nail extensions Calgary',
+    'acrylic nail extensions Calgary',
+    'nail extensions Calgary',
+    'gel refill Calgary',
+    'acrylic fill Calgary',
+    // Nail art styles (actual services)
+    'custom nail art Calgary',
+    'nail art design Calgary',
+    'chrome nails Calgary',
+    'ombre nails Calgary',
+    'cat eye nails Calgary',
+    // Massage & spa
     'relaxation massage Calgary',
+    'paraffin wax treatment Calgary',
+    // Waxing services
     'waxing services Calgary',
     'facial waxing Calgary',
     'Brazilian waxing Calgary',
+    'eyebrow waxing Calgary',
+    'body waxing Calgary',
+    // Location & brand
     'nail salon Victoria Park Calgary',
+    'Victoria Park Nails and Spa',
     'professional nail care Calgary',
     'luxury nail salon Calgary',
-    'nail salon pricing Calgary',
     'best manicure Calgary',
     'best pedicure Calgary',
   ],
   openGraphDescription:
-    `Browse every manicure, pedicure, gel or acrylic enhancement, massage, and waxing option with upfront pricing at ${siteConfig.business.name} in Calgary.`,
+    `Browse nail salon prices in Calgary. Manicures, pedicures, gel & acrylic extensions, custom nail art, massage & waxing with upfront pricing at ${siteConfig.business.name}.`,
+  twitterDescription:
+    'See nail service prices at Victoria Park Nails & Spa Calgary. Manicures, pedicures, extensions, nail art, waxing & massage. Book online today.',
 })

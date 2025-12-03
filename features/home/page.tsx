@@ -1,4 +1,4 @@
-import { AnnouncementBanner } from '@/components/layouts'
+import { AnnouncementCarousel } from '@/components/layouts'
 import { StructuredData } from '@/components/seo'
 import { siteConfig } from '@/lib/config/site.config'
 import { HeroSection } from './sections/hero'
@@ -20,9 +20,7 @@ export function HomePage() {
       <StructuredData type="BreadcrumbList" data={{ items: homeBreadcrumbData }} />
 
       <main itemScope itemType="https://schema.org/LocalBusiness">
-        {siteConfig.announcement.enabled && (
-          <AnnouncementBanner message={siteConfig.announcement.message} />
-        )}
+        <AnnouncementCarousel announcements={siteConfig.announcements} />
         <HeroSection />
         <CombinationsSection />
         <HomeGallerySection />

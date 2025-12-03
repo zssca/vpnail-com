@@ -2,29 +2,41 @@ import { buildMetadata } from '@/lib/seo/metadata'
 import { siteConfig } from '@/lib/config/site.config'
 
 export const contactMetadata = buildMetadata({
-  title: 'Contact Victoria Park Nails & Spa | Book Calgary Appointments',
+  title: 'Contact & Book Appointment | Victoria Park Nails & Spa Calgary',
   description:
-    `Call ${siteConfig.business.phone} or message our Victoria Park Calgary team for appointments, parking help, and directions. Free parking at ${siteConfig.business.address.street} steps from the Stampede grounds.`,
+    `Book your nail appointment at Calgary's Victoria Park salon. Call ${siteConfig.business.phone} or book online. Free parking, walk-ins welcome, open 7 days near Stampede grounds.`,
   path: '/contact',
   keywords: [
-    'contact Victoria Park Nails and Spa',
+    // Booking keywords
     'book nail appointment Calgary',
-    'nail salon contact Calgary',
-    'Victoria Park nail salon contact',
+    'nail salon appointment Calgary',
+    'nail salon booking Calgary',
+    'online booking nail salon Calgary',
     'book manicure Calgary',
     'book pedicure Calgary',
     'book gel nails Calgary',
     'book acrylic nails Calgary',
-    'nail salon appointment Calgary',
-    'nail salon booking Calgary',
-    'Victoria Park beauty services',
-    'nail salon hours Calgary',
-    'nail salon near Calgary Stampede',
-    'online booking nail salon Calgary',
+    // Contact keywords
+    'contact Victoria Park Nails and Spa',
+    'nail salon contact Calgary',
+    'Victoria Park nail salon contact',
+    // Convenience keywords (USPs)
+    'nail salon with free parking Calgary',
     'walk-in nail salon Calgary',
+    'same-day nail appointment Calgary',
+    'nail salon open Sunday Calgary',
+    // Location keywords
+    'nail salon near Calgary Stampede',
+    'nail salon Victoria Park',
+    'nail salon Downtown Calgary',
+    'nail salon near me Calgary',
+    // Hours & info
+    'nail salon hours Calgary',
+    'nail salon directions Calgary',
+    'Victoria Park beauty services',
   ],
   openGraphDescription:
-    `Reach Victoria Park Nails & Spa for bookings, parking guidance, and same-day availability at ${siteConfig.business.address.street} in Calgary with free client parking.`,
+    `Book your nail appointment at Victoria Park Nails & Spa Calgary. Free parking, walk-ins welcome, same-day availability at ${siteConfig.business.address.street} near Stampede grounds.`,
   twitterDescription:
-    `Questions about availability? Call ${siteConfig.business.phone} or book online for Victoria Park Nails & Spa—free parking, CTrain access, and quick support.`,
+    `Book your Calgary nail appointment. Call ${siteConfig.business.phone} or book online. Free parking, walk-ins welcome, open 7 days at Victoria Park Nails & Spa.`,
 })
