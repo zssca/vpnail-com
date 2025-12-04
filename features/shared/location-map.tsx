@@ -55,8 +55,9 @@ export function LocationMap({ className, showInfoWindow = true }: LocationMapPro
       streetViewControl: false,
       fullscreenControl: false,
       rotateControl: false,
-      mapId: 'DEMO_MAP_ID', // Required for Advanced Markers
+      mapId: 'fe2159529f939848deb400aa', // Required for Advanced Markers
       clickableIcons: false, // Disable clicking on POI icons
+      gestureHandling: 'cooperative', // Improve touch interaction on mobile
       // styles: MAP_STYLES, // Styles are not compatible with mapId (Advanced Markers)
     })
 
