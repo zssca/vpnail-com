@@ -39,6 +39,7 @@ export interface SiteLinks extends SocialLinks {
 export interface Announcement {
   id: string
   enabled: boolean
+  title?: string
   message: string
   link?: string
   variant?: 'default' | 'neutral'
@@ -54,9 +55,17 @@ export interface Coordinates {
   lng: number
 }
 
+export interface Landmark {
+  name: string
+  coordinates: Coordinates
+}
+
 export interface LocationConfig {
   coordinates: Coordinates
   parking: Coordinates
+  landmarks: {
+    shoppersDrugMart: Landmark
+  }
   mapEmbedUrl: string
   streetViewEmbedUrl: string
 }

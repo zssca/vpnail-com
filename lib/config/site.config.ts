@@ -129,13 +129,15 @@ export const siteConfig = {
     {
       id: 'gift-cards',
       enabled: true,
-      message: 'Gift Cards Now Available! - Perfect for any occasion - Purchase in-store or call us today!',
+      title: 'Gift Cards',
+      message: 'Available in-store or call us.',
       link: '/services',
     },
     {
       id: 'rewards-program',
       enabled: true,
-      message: 'NEW! Reward & Redeem Points Program - Earn points with every visit - Ask us how to start earning today!',
+      title: 'Rewards',
+      message: 'Earn points on every visit.',
       link: '/services',
     },
   ],
@@ -147,6 +149,15 @@ export const siteConfig = {
     parking: {
       lat: 51.038970063563234,
       lng: -114.06128717486601,
+    },
+    landmarks: {
+      shoppersDrugMart: {
+        name: 'Shoppers Drug Mart',
+        coordinates: {
+          lat: 51.03875660222582,
+          lng: -114.06082092653011,
+        },
+      },
     },
     mapEmbedUrl:
       'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2508.7772221623454!2d-114.0613071!3d51.0387352!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x537170049b78cad1%3A0xf36de94f8f653d9a!2sVictoria%20Park%20Nails%20and%20Spa!5e0!3m2!1sen!2sca!4v1763939836429!5m2!1sen!2sca',
