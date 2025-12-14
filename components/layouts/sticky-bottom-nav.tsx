@@ -45,7 +45,14 @@ export function StickyBottomNav() {
       <div className="bg-background/95 backdrop-blur-sm border-t border-border ">
         <Container className="max-w-screen-2xl px-3 py-3 md:px-4" noPaddingMobile>
           <div className="grid grid-cols-2 gap-3">
-            <Button asChild size="lg">
+            <Button
+              asChild
+              size="lg"
+              data-gtm-event="book_now_click"
+              data-gtm-id="sticky-book-online"
+              data-gtm-label="Sticky Book Online"
+              data-gtm-href={ROUTES.SERVICES}
+            >
               <Link
                 href={ROUTES.SERVICES}
                 className="flex w-full items-center justify-center gap-2"
@@ -54,7 +61,15 @@ export function StickyBottomNav() {
                 <span className="font-semibold">Book Online</span>
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline">
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              data-gtm-event="click_to_call"
+              data-gtm-id="sticky-call"
+              data-gtm-label="Sticky Call"
+              data-gtm-href={siteConfig.social.phone}
+            >
               <a
                 href={siteConfig.social.phone}
                 className="flex w-full items-center justify-center gap-2"

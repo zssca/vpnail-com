@@ -3,41 +3,7 @@
 import { useEffect } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { analyticsConfig } from '@/lib/config/analytics.config'
-
-type DataLayerEvent = Record<string, unknown>
-
-type DataLayerWindow = typeof window & {
-  gtag?: (...args: unknown[]) => void
-  [key: string]: unknown
-}
-
-function ensureDataLayer(layerName: string): Array<DataLayerEvent> {
-  const win = window as unknown as DataLayerWindow
-  const current = win[layerName]
-
-  if (Array.isArray(current)) {
-    return current as Array<DataLayerEvent>
-  }
-
-  const dataLayer: Array<DataLayerEvent> = []
-  win[layerName] = dataLayer
-  return dataLayer
-}
-
-function pushAnalyticsEvent(eventName: string, params: Record<string, unknown>) {
-  const win = window as unknown as DataLayerWindow
-
-  if (typeof win.gtag === 'function') {
-    win.gtag('event', eventName, params)
-    return
-  }
-
-  const dataLayer = ensureDataLayer(analyticsConfig.dataLayerName)
-  dataLayer.push({
-    event: eventName,
-    ...params,
-  })
-}
+import { ensureDataLayer, pushDataLayerEvent } from '@/lib/utils/analytics'
 
 export function AnalyticsEvents() {
   const pathname = usePathname()
@@ -46,31 +12,41 @@ export function AnalyticsEvents() {
   const analyticsActive = analyticsConfig.shouldLoadAnalytics
 
   useEffect(() => {
-    if (!analyticsConfig.shouldLoadAnalytics) return
-
     ensureDataLayer(analyticsConfig.dataLayerName)
 
     const handleClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement | null
       if (!target) return
 
-      const anchor = target.closest('a') as HTMLAnchorElement | null
-      if (!anchor) return
+      const trackedElement = target.closest('[data-gtm-event]') as HTMLElement | null
+      const anchor = target.closest('a,button') as HTMLAnchorElement | HTMLButtonElement | null
+      const href = anchor?.getAttribute('href') || ''
+      const text = (anchor?.textContent || trackedElement?.textContent || '').trim()
 
-      const href = anchor.getAttribute('href') || ''
-      const text = (anchor.textContent || '').trim()
+      if (trackedElement?.dataset.gtmEvent) {
+        pushDataLayerEvent(trackedElement.dataset.gtmEvent, {
+          link_url: trackedElement.dataset.gtmHref || href,
+          link_text: trackedElement.dataset.gtmLabel || text,
+          component_id: trackedElement.dataset.gtmId,
+          event_category: trackedElement.dataset.gtmCategory,
+        })
+        return
+      }
+
+      if (!href) return
+
       const pagePath = window.location.pathname
       const pageTitle = document.title
 
       let eventName: string | null = null
 
-      if (href.startsWith('tel:')) eventName = 'call_click'
+      if (href.startsWith('tel:')) eventName = 'click_to_call'
       else if (href.startsWith('mailto:')) eventName = 'email_click'
       else if (/setmore\.com/i.test(href)) eventName = 'book_now_click'
-      else if (/maps\.google\.com/i.test(href) || href.startsWith('#location')) eventName = 'map_click'
+      else if (/maps\.google\.com/i.test(href) || href.startsWith('#location')) eventName = 'click_get_directions'
 
       if (eventName) {
-        pushAnalyticsEvent(eventName, {
+        pushDataLayerEvent(eventName, {
           link_url: href,
           link_text: text,
           page_path: pagePath,
@@ -88,7 +64,7 @@ export function AnalyticsEvents() {
     if (!analyticsActive) return
 
     const pagePath = search ? `${pathname}?${search}` : pathname
-    pushAnalyticsEvent('page_view', {
+    pushDataLayerEvent('page_view', {
       page_path: pagePath,
       page_location: window.location.href,
       page_title: document.title,

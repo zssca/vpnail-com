@@ -10,12 +10,13 @@ const allowedActionOrigins = Array.from(
 
 const CONTENT_SECURITY_POLICY = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://tagmanager.google.com https://maps.googleapis.com https://maps.gstatic.com",
+  "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://tagmanager.google.com https://*.googleapis.com https://*.gstatic.com *.google.com blob:",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-  "img-src 'self' data: blob: https: http:",
+  "img-src 'self' data: blob: https://*.googleapis.com https://*.gstatic.com *.google.com *.googleusercontent.com https://*.ggpht.com https: http:",
   "font-src 'self' data: https://fonts.gstatic.com",
-  "connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://analytics.google.com https://tagmanager.google.com https://api.web3forms.com https://maps.googleapis.com https://maps.gstatic.com",
-  "frame-src 'self' https://www.google.com https://www.googletagmanager.com https://tagmanager.google.com",
+  "connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://analytics.google.com https://tagmanager.google.com https://api.web3forms.com https://*.googleapis.com https://*.gstatic.com *.google.com data: blob:",
+  "frame-src 'self' *.google.com https://www.googletagmanager.com https://tagmanager.google.com",
+  "worker-src blob:",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self' https://api.web3forms.com",
@@ -76,10 +77,73 @@ const nextConfig: NextConfig = {
         source: '/_next/static/:path*',
         headers: [staticAssetCache],
       },
+      {
+        source: '/favicons/browserconfig.xml',
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex' }],
+      },
     ]
   },
   async redirects() {
-    return []
+    const canonicalDomain = siteConfig.url.replace(/\/+$/, '')
+
+    return [
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: bareHostname }],
+        destination: `${canonicalDomain}/:path*`,
+        permanent: true,
+      },
+      {
+        source: '/services/',
+        destination: '/services',
+        permanent: true,
+      },
+      {
+        source: '/gallery/',
+        destination: '/gallery',
+        permanent: true,
+      },
+      {
+        source: '/contact/',
+        destination: '/contact',
+        permanent: true,
+      },
+      {
+        source: '/about',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/about/',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/consultation',
+        destination: '/contact',
+        permanent: true,
+      },
+      {
+        source: '/consultation/',
+        destination: '/contact',
+        permanent: true,
+      },
+      {
+        source: '/parking/',
+        destination: '/parking',
+        permanent: true,
+      },
+      {
+        source: '/offers',
+        destination: '/services',
+        permanent: true,
+      },
+      {
+        source: '/offers/',
+        destination: '/services',
+        permanent: true,
+      },
+    ]
   },
 }
 

@@ -1,26 +1,47 @@
-import { siteConfig } from '@/lib/config/site.config'
+import { siteConfig, CONTACT_INFO, SOCIAL_LINKS } from '@/lib/config/site.config'
 
 export const contactInfoData = {
-  title: 'Call, email, or visit',
-  description: 'Talk to our Victoria Park team for bookings, parking help, or service recommendations.',
-  methods: [
+  title: 'Contact',
+  items: [
     {
-      icon: 'Phone',
-      label: 'Phone',
-      value: siteConfig.business.phone,
-      href: siteConfig.links.phone,
-    },
-    {
-      icon: 'Mail',
-      label: 'Email',
-      value: siteConfig.business.email,
-      href: `mailto:${siteConfig.business.email}`,
+      icon: 'Calendar',
+      title: 'Book online',
+      description: 'Reserve your appointment in seconds.',
+      href: siteConfig.links.booking,
+      trackingEvent: 'book_now_click',
+      trackingId: 'contact-info-book-now',
+      trackingLabel: 'Contact Info Book Online',
+      external: true,
     },
     {
       icon: 'MapPin',
-      label: 'Address',
-      value: `${siteConfig.business.address.street}, ${siteConfig.business.address.city}, ${siteConfig.business.address.province} ${siteConfig.business.address.postalCode}`,
+      title: 'Visit us',
+      description: `${CONTACT_INFO.fullAddress.street}, ${CONTACT_INFO.fullAddress.city} ${CONTACT_INFO.fullAddress.province} ${CONTACT_INFO.fullAddress.postalCode}`,
       href: siteConfig.business.address.mapUrl,
+      trackingEvent: 'click_get_directions',
+      trackingId: 'contact-info-directions',
+      trackingLabel: 'Contact Info Visit Us',
+      external: true,
+    },
+    {
+      icon: 'Phone',
+      title: 'Call or text',
+      description: CONTACT_INFO.phone,
+      href: SOCIAL_LINKS.phone,
+      trackingEvent: 'click_to_call',
+      trackingId: 'contact-info-call',
+      trackingLabel: 'Contact Info Call',
+      external: false,
+    },
+    {
+      icon: 'Mail',
+      title: 'Email',
+      description: CONTACT_INFO.email,
+      href: SOCIAL_LINKS.email,
+      trackingEvent: 'email_click',
+      trackingId: 'contact-info-email',
+      trackingLabel: 'Contact Info Email',
+      external: false,
     },
   ],
 } as const

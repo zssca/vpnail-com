@@ -38,6 +38,7 @@ export function Header({ items = primaryNav }: HeaderProps) {
               variant="secondary"
               size="sm"
               asChild
+              data-gtm-id={`nav-${item.label.toLowerCase().replace(/\s+/g, '-')}`}
               className={cn(isActive(item.href!) && "text-primary")}
             >
               <Link href={item.href!}>{item.label}</Link>
@@ -73,6 +74,7 @@ export function Header({ items = primaryNav }: HeaderProps) {
                   variant="secondary"
                   size="sm"
                   asChild
+                  data-gtm-id={`nav-${item.label.toLowerCase().replace(/\s+/g, '-')}`}
                   className={cn(isActive(item.href!) && "text-primary")}
                 >
                   <Link href={item.href!}>{item.label}</Link>

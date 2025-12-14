@@ -79,12 +79,13 @@ export function useFormSubmission(
           const w = window as Window & { dataLayer?: Record<string, unknown>[] }
           w.dataLayer = w.dataLayer || []
           w.dataLayer.push({
-            event: 'generate_lead',
-            form_id: 'contact_form',
+            event: 'contact_form_submit',
+            form_id: 'contact-main',
             form_name: 'Contact Form',
             page_path: window.location.pathname,
             page_title: document.title,
             service: data.service || 'Not specified',
+            status: 'success',
           })
         } catch {
           // GTM tracking failed silently
@@ -113,8 +114,8 @@ export function useFormSubmission(
         const w = window as Window & { dataLayer?: Record<string, unknown>[] }
         w.dataLayer = w.dataLayer || []
         w.dataLayer.push({
-          event: 'form_submit_error',
-          form_id: 'contact_form',
+          event: 'contact_form_error',
+          form_id: 'contact-main',
           form_name: 'Contact Form',
           page_path: window.location.pathname,
           page_title: document.title,

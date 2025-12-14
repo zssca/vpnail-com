@@ -1,11 +1,12 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { ArrowUpRight, Calendar, Mail, MapPin, Phone } from 'lucide-react'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Item, ItemContent, ItemDescription, ItemGroup, ItemMedia, ItemTitle } from '@/components/ui/item'
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
@@ -17,15 +18,15 @@ import { contactFormSchema, formatPhoneNumber, type ContactFormData } from '../.
 import { mainData } from './data'
 
 const iconMap = {
-  Phone: '/geist-icons/phone.svg',
-  Mail: '/geist-icons/email.svg',
-  MapPin: '/geist-icons/location.svg',
+  Calendar,
+  Phone,
+  Mail,
+  MapPin,
 } as const
 
 export function MainSection() {
   const formRef = useRef<HTMLFormElement>(null)
 
-  // Initialize form with React Hook Form and Zod validation
   const form = useForm<ContactFormData>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
@@ -39,148 +40,145 @@ export function MainSection() {
     mode: 'onBlur',
   })
 
-  // Handle phone number formatting
   const handlePhoneChange = (value: string) => {
     const formatted = formatPhoneNumber(value)
     form.setValue('phone', formatted)
   }
 
-  // Use custom hook for form submission logic
   const { isSubmitting, onSubmit } = useFormSubmission(form, formRef)
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      {/* Contact Info - Top Left */}
-      <Card className="flex flex-col">
-        <CardHeader className="flex-shrink-0">
-          <CardTitle>{mainData.contactInfo.title}</CardTitle>
-        </CardHeader>
-        <CardContent className="flex-grow">
-          <ItemGroup className="space-y-2">
-            {mainData.contactInfo.methods.map((method, index) => {
-              const iconSrc = iconMap[method.icon as keyof typeof iconMap]
-              return (
-                <Item key={index} asChild variant="muted" size="sm">
-                  <a href={method.href}>
-                    <ItemMedia>
-                      <Avatar className="h-10 w-10 bg-primary/10 rounded-lg">
-                        <AvatarFallback className="bg-primary/10">
-                          <Image
-                            src={iconSrc}
-                            alt=""
-                            width={20}
-                            height={20}
-                            className="h-5 w-5 text-primary"
-                          />
-                        </AvatarFallback>
-                      </Avatar>
-                    </ItemMedia>
-                    <ItemContent>
-                      <ItemTitle>{method.label}</ItemTitle>
-                      <ItemDescription>{method.value}</ItemDescription>
-                    </ItemContent>
-                  </a>
-                </Item>
-              )
-            })}
-          </ItemGroup>
-        </CardContent>
-      </Card>
+    <div className="flex flex-col gap-6">
+      {/* Contact Items - Full Width Grid matching footer */}
+      <ItemGroup className="gap-4 md:grid md:grid-cols-2 md:gap-5 lg:grid-cols-4">
+        {mainData.contactItems.map((item, index) => {
+          const Icon = iconMap[item.icon as keyof typeof iconMap]
+          const isExternal = item.external
+          const LinkComponent = isExternal ? 'a' : Link
 
-      {/* Hours - Top Right */}
-      <Card className="flex flex-col">
-        <CardHeader className="flex-shrink-0">
-          <CardTitle className="flex items-center gap-2">
-            <Image
-              src="/geist-icons/clock.svg"
-              alt=""
-              width={20}
-              height={20}
-              className="h-5 w-5"
-            />
-            {mainData.hours.title}
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="flex-grow">
-          <Table>
-            <TableBody>
-              {mainData.hours.schedule.map((item, index) => (
-                <TableRow key={index}>
-                  <TableCell className="font-medium">{item.day}</TableCell>
-                  <TableCell className="text-right text-muted-foreground">{item.hours}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          {mainData.hours.holiday?.hours && (
-            <div className="mt-6 rounded-md border bg-primary/5 p-4">
-              <p className="font-semibold">{mainData.hours.holiday.title}</p>
-              <p className="text-muted-foreground">{mainData.hours.holiday.hours}</p>
-            </div>
-          )}
-        </CardContent>
-      </Card>
+          return (
+            <Item key={index} asChild variant="muted" size="sm" className="h-full items-start hover:bg-muted">
+              <LinkComponent
+                href={item.href}
+                {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                data-gtm-event={item.trackingEvent}
+                data-gtm-id={item.trackingId}
+                data-gtm-label={item.trackingLabel}
+                data-gtm-href={item.href}
+                className="h-full"
+              >
+                <ItemMedia variant="icon">
+                  <Icon className="h-4 w-4" />
+                </ItemMedia>
+                <ItemContent className="gap-1.5">
+                  <ItemTitle className="line-clamp-1">{item.title}</ItemTitle>
+                  <ItemDescription>{item.description}</ItemDescription>
+                </ItemContent>
+                <ItemContent className="flex-none flex-row items-center justify-end text-muted-foreground/60 transition-colors group-hover/item:text-primary">
+                  <ArrowUpRight className="h-4 w-4" />
+                </ItemContent>
+              </LinkComponent>
+            </Item>
+          )
+        })}
+      </ItemGroup>
 
-      {/* Location - Bottom Left */}
+      {/* Two column grid for Hours and Form */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Hours */}
+        <Card className="flex flex-col">
+          <CardHeader className="flex-shrink-0">
+            <CardTitle>{mainData.hours.title}</CardTitle>
+          </CardHeader>
+          <CardContent className="flex-grow">
+            <Table>
+              <TableBody>
+                {mainData.hours.schedule.map((item, index) => (
+                  <TableRow key={index}>
+                    <TableCell className="font-medium">{item.day}</TableCell>
+                    <TableCell className="text-right text-muted-foreground">{item.hours}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            {mainData.hours.holiday?.hours && (
+              <div className="mt-6 rounded-md border bg-primary/5 p-4">
+                <p className="font-semibold">{mainData.hours.holiday.title}</p>
+                <p className="text-muted-foreground">{mainData.hours.holiday.hours}</p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Contact Form */}
+        <Card id="contact-form" className="flex flex-col">
+          <CardHeader className="flex-shrink-0">
+            <CardTitle>{mainData.form.title}</CardTitle>
+          </CardHeader>
+          <CardContent className="flex-grow">
+            <Form {...form}>
+              <form
+                ref={formRef}
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-6"
+                noValidate
+              >
+                <ContactFormFields
+                  form={form}
+                  isSubmitting={isSubmitting}
+                  onPhoneChange={handlePhoneChange}
+                />
+
+                <Button
+                  type="submit"
+                  size="lg"
+                  disabled={isSubmitting}
+                  aria-busy={isSubmitting}
+                  className="w-full sm:w-auto min-h-[44px]"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Image
+                        src="/geist-icons/loader-circle.svg"
+                        alt=""
+                        width={16}
+                        height={16}
+                        className="mr-2 h-4 w-4 animate-spin"
+                        aria-hidden="true"
+                      />
+                      <span>Sending...</span>
+                    </>
+                  ) : (
+                    mainData.form.submitButton
+                  )}
+                </Button>
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Location Map - Full Width */}
       <Card id="location" className="flex flex-col">
         <CardHeader className="flex-shrink-0">
-          <CardTitle className="flex items-center justify-between">
-            <span>{mainData.location.title}</span>
-            <span className="text-sm font-normal text-muted-foreground">
-              {mainData.location.description}
-            </span>
-          </CardTitle>
+          <CardTitle>{mainData.location.title}</CardTitle>
         </CardHeader>
-        <CardContent className="flex-grow">
-          <LocationMap showInfoWindow={false} className="min-h-[360px] sm:min-h-[420px]" />
-        </CardContent>
-      </Card>
-
-      {/* Contact Form - Bottom Right */}
-      <Card id="contact-form" className="flex flex-col">
-        <CardHeader className="flex-shrink-0">
-          <CardTitle>{mainData.form.title}</CardTitle>
-        </CardHeader>
-        <CardContent className="flex-grow">
-          <Form {...form}>
-            <form
-              ref={formRef}
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-6"
-              noValidate
-            >
-              <ContactFormFields
-                form={form}
-                isSubmitting={isSubmitting}
-                onPhoneChange={handlePhoneChange}
-              />
-
-              {/* Submit Button */}
-              <Button
-                type="submit"
-                size="lg"
-                disabled={isSubmitting}
-                aria-busy={isSubmitting}
-                className="w-full sm:w-auto min-h-[44px]"
-              >
-                {isSubmitting ? (
-                  <>
-                    <Image
-                      src="/geist-icons/loader-circle.svg"
-                      alt=""
-                      width={16}
-                      height={16}
-                      className="mr-2 h-4 w-4 animate-spin"
-                      aria-hidden="true"
-                    />
-                    <span>Sending Message...</span>
-                  </>
-                ) : (
-                  mainData.form.submitButton
-                )}
-              </Button>
-            </form>
-          </Form>
+        <CardContent className="flex-grow space-y-4">
+          <LocationMap showInfoWindow={false} className="min-h-[360px] sm:min-h-[420px] lg:min-h-[480px]" />
+          <Button
+            variant="default"
+            size="lg"
+            className="w-full sm:w-auto"
+            asChild
+            data-gtm-event={mainData.location.cta.trackingEvent}
+            data-gtm-id={mainData.location.cta.trackingId}
+            data-gtm-label={mainData.location.cta.text}
+            data-gtm-href={mainData.location.cta.href}
+          >
+            <a href={mainData.location.cta.href} target="_blank" rel="noopener noreferrer">
+              {mainData.location.cta.text}
+            </a>
+          </Button>
         </CardContent>
       </Card>
     </div>

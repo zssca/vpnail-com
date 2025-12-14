@@ -34,7 +34,7 @@ function HomeGalleryImageItem({ image, index, totalImages, onSelect }: HomeGalle
         type="button"
         onClick={() => onSelect(image)}
         variant="ghost"
-        className="group relative flex aspect-square h-full w-full overflow-hidden rounded-xl border bg-muted p-0 hover:bg-transparent focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-ring"
+        className="group relative flex aspect-square h-full w-full overflow-hidden rounded-xl border bg-card p-0 hover:bg-transparent focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-ring"
         aria-label={`View full size: ${image.alt}`}
         title={image.title}
       >

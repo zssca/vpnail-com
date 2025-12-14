@@ -4,6 +4,21 @@
  */
 
 export const MAPS_SCRIPT_ID = 'google-maps-sdk'
+export const MAPS_CALLBACK_NAME = '__googleMapsCallback'
+
+/**
+ * Get the Google Maps Map ID
+ * Uses DEMO_MAP_ID for development if no custom Map ID is configured
+ * For production, configure NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID in environment
+ *
+ * @see https://developers.google.com/maps/documentation/javascript/advanced-markers/start
+ */
+export function getMapId(): string {
+  const customMapId = process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID
+  // Use DEMO_MAP_ID for development/testing - works without Cloud Console setup
+  // For production, create a Map ID at: https://console.cloud.google.com/google/maps-apis/studio/maps
+  return customMapId || 'DEMO_MAP_ID'
+}
 
 export const MAP_CONFIG = {
   zoom: 17,
@@ -16,7 +31,7 @@ export const MAP_CONFIG = {
   streetViewControl: false,
   fullscreenControl: false,
   rotateControl: false,
-  mapId: 'fe2159529f939848deb400aa', // Required for Advanced Markers
+  mapId: getMapId(), // Required for Advanced Markers - uses DEMO_MAP_ID if not configured
   clickableIcons: false,
   gestureHandling: 'cooperative' as const,
   maxZoom: 19,
@@ -39,15 +54,23 @@ export const MARKER_SIZES = {
 } as const
 
 /**
- * Creates a Google Maps pin element with custom styling
+ * Pin styling configuration (used by createStyledPin)
  */
-export function createStyledPin() {
-  return new google.maps.marker.PinElement({
-    background: '#EA4335', // Google Maps red
-    borderColor: '#C5221F',
-    glyphColor: '#ffffff',
-    scale: 1.2,
-  })
+export const PIN_CONFIG = {
+  background: '#EA4335', // Google Maps red
+  borderColor: '#C5221F',
+  glyphColor: '#ffffff',
+  scale: 1.2,
+} as const
+
+/**
+ * Creates a Google Maps pin element with custom styling
+ * @param PinElementClass - The PinElement class from the marker library
+ */
+export function createStyledPin(
+  PinElementClass: typeof google.maps.marker.PinElement
+): google.maps.marker.PinElement {
+  return new PinElementClass(PIN_CONFIG)
 }
 
 /**

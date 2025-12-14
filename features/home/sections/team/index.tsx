@@ -50,7 +50,7 @@ export function TeamSection() {
                             alt={member.name}
                             sizes={getImageSizes('avatar')}
                           />
-                          <AvatarFallback className="text-lg bg-secondary text-background">
+                          <AvatarFallback className="text-lg bg-secondary text-secondary-foreground">
                             {member.name
                               .split(' ')
                               .map((n) => n[0])
@@ -67,7 +67,7 @@ export function TeamSection() {
                           </small>
 
                           <div className="flex items-center gap-1 mb-3">
-                            <Star className="h-3.5 w-3.5 text-[var(--rating)] fill-[var(--rating)]" />
+                            <Star className="h-3.5 w-3.5 text-amber-500 fill-amber-500" />
                             <span className="text-xs text-muted-foreground">{member.experience}</span>
                           </div>
 

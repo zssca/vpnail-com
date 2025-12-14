@@ -1,40 +1,60 @@
+'use client'
+
 import * as React from 'react'
 import Link from 'next/link'
-import type { Route } from 'next'
 import Image from 'next/image'
+import type { Route } from 'next'
+import { AnimatePresence, motion } from 'motion/react'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { Container } from '@/components/layouts'
-import { Button, buttonVariants } from '@/components/ui/button'
-import { BlurFade } from '@/components/ui/blur-fade'
+
 import { cn } from '@/lib/utils'
 import { getImageSizes, imagePlaceholders } from '@/lib/utils/image'
+import { Container } from '@/components/layouts'
+import { Button, buttonVariants } from '@/components/ui/button'
+import { Badge, badgeVariants } from '@/components/ui/badge'
+import { BlurFade } from '@/components/ui/blur-fade'
 
+// -----------------------------------------------------------------------------
 // Types
+// -----------------------------------------------------------------------------
+
 export type HeroAction = {
   text: string
   href: string
   variant?: VariantProps<typeof buttonVariants>['variant']
+  size?: VariantProps<typeof buttonVariants>['size']
   external?: boolean
+  trackingEvent?: string
+  trackingId?: string
+  trackingLabel?: string
+  icon?: React.ReactNode
 }
 
 export type HeroBackground =
   | { type: 'default' }
   | { type: 'muted' }
   | { type: 'gradient' }
-  | { type: 'image'; src: string; alt?: string }
+  | { type: 'image'; src: string; alt?: string; overlay?: boolean }
+  | { type: 'carousel'; images: string[]; alt?: string; interval?: number; overlay?: boolean }
 
 export type HeroProps = {
+  label?: string
+  labelVariant?: VariantProps<typeof badgeVariants>['variant']
   title?: React.ReactNode
   description?: React.ReactNode
   actions?: HeroAction[]
   background?: HeroBackground
+  align?: 'center' | 'left'
   variant?: VariantProps<typeof heroVariants>['variant']
   className?: string
 }
 
+// -----------------------------------------------------------------------------
 // Variants
+// -----------------------------------------------------------------------------
+
 const heroVariants = cva(
-  'relative flex min-h-[500px] md:min-h-[calc(100vh-4rem)] w-full items-center overflow-hidden py-14 sm:py-16 lg:py-20',
+  'relative flex w-full items-center overflow-hidden py-12 sm:py-20 lg:py-32',
   {
     variants: {
       variant: {
@@ -42,16 +62,95 @@ const heroVariants = cva(
         muted: 'bg-muted/50 text-foreground',
         primary: 'bg-primary/5 text-foreground',
       },
+      size: {
+        default: 'min-h-[500px] md:min-h-[calc(100vh-4rem)]',
+        compact: 'min-h-[400px] md:min-h-[60vh]',
+        full: 'min-h-[calc(100svh)]',
+      },
     },
     defaultVariants: {
       variant: 'default',
+      size: 'default',
     },
   }
 )
 
-// Background Component
+// -----------------------------------------------------------------------------
+// Sub-components
+// -----------------------------------------------------------------------------
+
+function useCarousel(images: string[], interval: number = 5000) {
+  const [currentIndex, setCurrentIndex] = React.useState(0)
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length)
+    }, interval)
+    return () => clearInterval(timer)
+  }, [images.length, interval])
+
+  return currentIndex
+}
+
+function ImageBackground({ src, alt, withOverlay }: { src: string; alt?: string; withOverlay?: boolean }) {
+  return (
+    <>
+      <div className="absolute inset-0 z-0 bg-background">
+        <Image
+          src={src}
+          alt={alt || 'Hero background'}
+          fill
+          sizes={getImageSizes('hero')}
+          className="object-cover"
+          priority
+          quality={90}
+          placeholder="blur"
+          blurDataURL={imagePlaceholders.default}
+        />
+      </div>
+      {withOverlay && (
+        <div className="absolute inset-0 z-0 bg-background/60 backdrop-blur-[1px]" />
+      )}
+    </>
+  )
+}
+
+function CarouselBackground({ images, alt, interval, withOverlay }: { images: string[]; alt?: string; interval?: number; withOverlay?: boolean }) {
+  const currentIndex = useCarousel(images, interval)
+
+  return (
+    <>
+      <div className="absolute inset-0 z-0 bg-background">
+        <AnimatePresence mode="popLayout">
+          <motion.div
+            key={currentIndex}
+            initial={{ opacity: 0, filter: 'blur(10px)', scale: 1.1 }}
+            animate={{ opacity: 1, filter: 'blur(0px)', scale: 1 }}
+            exit={{ opacity: 0, filter: 'blur(10px)' }}
+            transition={{ duration: 0.7, ease: 'easeInOut' }}
+            className="absolute inset-0 h-full w-full bg-background"
+          >
+            <Image
+              src={images[currentIndex]}
+              alt={alt || 'Hero background'}
+              fill
+              sizes={getImageSizes('hero')}
+              className="object-cover"
+              priority
+              quality={90}
+            />
+          </motion.div>
+        </AnimatePresence>
+      </div>
+      {withOverlay && (
+        <div className="absolute inset-0 z-10 bg-background/40" />
+      )}
+    </>
+  )
+}
+
 function HeroBackground({ background }: { background?: HeroBackground }) {
-  if (!background) return null
+  if (!background || background.type === 'default') return null
 
   if (background.type === 'muted') {
     return <div className="absolute inset-0 z-0 bg-muted/50" />
@@ -68,107 +167,156 @@ function HeroBackground({ background }: { background?: HeroBackground }) {
 
   if (background.type === 'image') {
     return (
-      <>
-        <div className="absolute inset-0 z-0">
-          <Image
-            src={background.src}
-            alt={background.alt || 'Hero background'}
-            fill
-            sizes={getImageSizes('hero')}
-            className="object-cover"
-            priority
-            quality={90}
-            placeholder="blur"
-            blurDataURL={imagePlaceholders.default}
-          />
-        </div>
-        <div className="absolute inset-0 z-0 bg-background/60" />
-      </>
+      <ImageBackground
+        src={background.src}
+        alt={background.alt}
+        withOverlay={background.overlay !== false}
+      />
+    )
+  }
+
+  if (background.type === 'carousel') {
+    return (
+      <CarouselBackground
+        images={background.images}
+        alt={background.alt}
+        interval={background.interval}
+        withOverlay={background.overlay !== false}
+      />
     )
   }
 
   return null
 }
 
-// Button Component
 function HeroButton({ action, index }: { action: HeroAction; index: number }) {
   const variant = action.variant ?? (index === 0 ? 'default' : 'outline')
+  const size = action.size ?? 'lg'
   const isExternal = action.external || /^(https?:\/\/|mailto:|tel:)/.test(action.href)
+
+  const commonClasses = "min-w-[140px] shadow-sm hover:shadow-md transition-all w-full sm:w-auto"
+
+  const content = (
+    <>
+      {action.text}
+      {action.icon && <span className="ml-2">{action.icon}</span>}
+    </>
+  )
+
+  const trackingProps = action.trackingEvent ? {
+    'data-gtm-event': action.trackingEvent,
+    'data-gtm-id': action.trackingId,
+    'data-gtm-label': action.trackingLabel ?? action.text,
+    'data-gtm-href': action.href,
+  } : {}
 
   if (isExternal) {
     return (
-      <div className="w-full sm:w-auto">
-        <Button variant={variant} size="lg" className="w-full sm:w-auto" asChild>
-          <a
-            href={action.href}
-            target={action.external ? '_blank' : undefined}
-            rel={action.external ? 'noopener noreferrer' : undefined}
-          >
-            {action.text}
-          </a>
-        </Button>
-      </div>
+      <Button variant={variant} size={size} className={commonClasses} asChild {...trackingProps}>
+        <a
+          href={action.href}
+          target={action.external ? '_blank' : undefined}
+          rel={action.external ? 'noopener noreferrer' : undefined}
+        >
+          {content}
+        </a>
+      </Button>
     )
   }
 
   return (
-    <div className="w-full sm:w-auto">
-      <Button variant={variant} size="lg" className="w-full sm:w-auto" asChild>
-        <Link href={action.href as Route}>
-          {action.text}
-        </Link>
-      </Button>
-    </div>
+    <Button variant={variant} size={size} className={commonClasses} asChild {...trackingProps}>
+      <Link href={action.href as Route}>{content}</Link>
+    </Button>
   )
 }
 
+// -----------------------------------------------------------------------------
+// Main Component
+// -----------------------------------------------------------------------------
+
 export function Hero({
+  label,
+  labelVariant = 'secondary',
   title,
   description,
   actions = [],
   background,
+  align = 'center',
   variant = 'default',
   className,
 }: HeroProps) {
+  const isCenter = align === 'center'
+  const isCarousel = background?.type === 'carousel'
+
+  // Logic for dark backgrounds:
+  // When we have a dark background (carousel or image with overlay), we apply the 'dark'
+  // class to the section. This leverages the globals.css theme variables to inversed colors
+  // (white text, dark background, etc.) naturally, without maintaining hardcoded color logic.
+  const isDarkBackground = isCarousel || (background?.type === 'image' && background.overlay !== false)
+  const themeClass = isDarkBackground ? 'dark' : ''
+
   return (
-    <section className={cn(heroVariants({ variant }), className)} aria-label="Hero section">
+    <section
+      className={cn(heroVariants({ variant }), themeClass, className)}
+      aria-label="Hero section"
+    >
       <HeroBackground background={background} />
 
       <Container className="relative z-10 w-full">
-        <div className="mx-auto max-w-3xl space-y-8 text-center">
+        <div
+          className={cn(
+            "mx-auto flex max-w-4xl flex-col space-y-8",
+            isCenter ? "items-center text-center" : "items-start text-left"
+          )}
+        >
+          {label && (
+            <BlurFade delay={0} duration={0.5} direction="up" inView>
+              <Badge variant={labelVariant} className="mb-2 px-3 py-1 text-sm backdrop-blur-sm">
+                {label}
+              </Badge>
+            </BlurFade>
+          )}
+
           {title && (
-            <BlurFade delay={0.1} duration={0.5} direction="up" offset={8} blur="4px" inView inViewMargin="-100px">
-              <h1 className="text-balance text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl">
+            <BlurFade delay={0.1} duration={0.5} direction="up" inView>
+              <h1
+                className={cn(
+                  "text-balance font-bold tracking-tight text-4xl sm:text-5xl lg:text-7xl",
+                  "text-foreground" // Uses derived semantic token
+                )}
+              >
                 {title}
               </h1>
             </BlurFade>
           )}
 
           {description && (
-            <BlurFade delay={0.25} duration={0.5} direction="up" offset={6} blur="4px" inView inViewMargin="-100px">
-              <p className="mx-auto max-w-2xl text-pretty text-base text-muted-foreground sm:text-lg">
+            <BlurFade delay={0.2} duration={0.5} direction="up" inView>
+              <p
+                className={cn(
+                  "max-w-2xl text-pretty text-lg sm:text-xl leading-relaxed",
+                  "text-foreground/70" // Uses derived semantic token with requested opacity
+                )}
+              >
                 {description}
               </p>
             </BlurFade>
           )}
 
           {actions.length > 0 && (
-            <div className="mx-auto flex w-full max-w-xl flex-col gap-3 sm:w-auto sm:flex-row sm:items-center sm:justify-center">
-              {actions.slice(0, 2).map((action, index) => (
-                <BlurFade
-                  key={`${action.href}-${index}`}
-                  delay={0.4 + index * 0.08}
-                  duration={0.4}
-                  direction="up"
-                  offset={4}
-                  blur="4px"
-                  inView
-                  inViewMargin="-100px"
-                >
-                  <HeroButton action={action} index={index} />
-                </BlurFade>
-              ))}
-            </div>
+            <BlurFade delay={0.3} duration={0.5} direction="up" inView>
+              <div
+                className={cn(
+                  "flex w-full flex-col gap-4 sm:flex-row",
+                  isCenter ? "sm:items-center sm:justify-center" : "sm:justify-start"
+                )}
+              >
+                {actions.map((action, index) => (
+                  <HeroButton key={`${action.href}-${index}`} action={action} index={index} />
+                ))}
+              </div>
+            </BlurFade>
           )}
         </div>
       </Container>

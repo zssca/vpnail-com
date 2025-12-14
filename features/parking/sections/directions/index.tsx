@@ -64,14 +64,29 @@ export function ParkingDirectionsSection() {
                   required
                 />
               </div>
-              <Button type="submit" variant="default">
+              <Button
+                type="submit"
+                variant="default"
+                data-gtm-event="click_get_directions"
+                data-gtm-id="parking-directions-form"
+                data-gtm-label="Get Directions Form"
+              >
                 Get Directions
               </Button>
             </form>
           </div>
 
           <div className="flex justify-center lg:justify-start">
-            <Button variant="outline" size="lg" className="w-full sm:w-auto" asChild>
+            <Button
+              variant="outline"
+              size="lg"
+              className="w-full sm:w-auto"
+              asChild
+              data-gtm-event="click_get_directions"
+              data-gtm-id="parking-open-maps"
+              data-gtm-label="Open in Google Maps"
+              data-gtm-href={parkingDirectionsContent.ctaHref}
+            >
               <a href={parkingDirectionsContent.ctaHref} target="_blank" rel="noopener noreferrer">
                 Open in Google Maps
               </a>

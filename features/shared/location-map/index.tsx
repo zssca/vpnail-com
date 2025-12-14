@@ -11,6 +11,22 @@ export interface LocationMapProps {
 }
 
 /**
+ * Loading spinner component for map loading state
+ */
+function MapLoadingIndicator() {
+  return (
+    <div className="absolute inset-0 flex items-center justify-center bg-muted/80 backdrop-blur-sm z-10">
+      <div className="flex flex-col items-center gap-3">
+        <div className="relative">
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary/30 border-t-primary" />
+        </div>
+        <span className="text-sm text-muted-foreground font-medium">Loading map...</span>
+      </div>
+    </div>
+  )
+}
+
+/**
  * Interactive Google Maps component with business location, parking, and landmarks
  *
  * Features:
@@ -29,18 +45,18 @@ export function LocationMap({ className, showInfoWindow = true }: LocationMapPro
 
   // Only mount on client side for SSR/CSR hydration compatibility
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Required for client-side mount detection
     setIsMounted(true)
   }, [])
 
   // Load Google Maps script
-  const { isLoaded: isScriptLoaded, loadError: scriptLoadError } = useGoogleMapsScript({
+  const { isLoaded: isScriptLoaded, loadError: scriptLoadError, isLoading: isScriptLoading } = useGoogleMapsScript({
     apiKey: siteConfig.googleMapsApiKey,
     enabled: isMounted && hasApiKey,
   })
 
   // Initialize map with markers
-  const { mapRef, initError } = useMapInitialization({
+  const { mapRef, initError, isInitializing, errorMessage } = useMapInitialization({
     isScriptLoaded,
     businessName: siteConfig.name,
     businessPosition: siteConfig.location.coordinates,
@@ -51,16 +67,35 @@ export function LocationMap({ className, showInfoWindow = true }: LocationMapPro
     showInfoWindow,
   })
 
-  // Show fallback if there's any error or no API key
-  const showFallback = scriptLoadError || initError || !hasApiKey
+  // Determine loading and error states
+  const isLoading = isScriptLoading || isInitializing
+  const hasError = scriptLoadError || initError
+  const showFallback = hasError || !hasApiKey
+
+  // Log errors in development for debugging
+  if (process.env.NODE_ENV === 'development' && hasError) {
+    if (scriptLoadError) {
+      console.warn('[LocationMap] Script load failed - falling back to iframe embed')
+    }
+    if (initError && errorMessage) {
+      console.warn('[LocationMap] Initialization failed:', errorMessage)
+    }
+  }
 
   return (
     <div className={className}>
       <div className="relative w-full overflow-hidden border border-border bg-muted min-h-[360px] sm:min-h-[420px]">
-        {/* Google Maps container */}
-        <div ref={mapRef} className="absolute inset-0 h-full w-full" />
+        {/* Google Maps container - always render to allow ref attachment */}
+        <div
+          ref={mapRef}
+          className="absolute inset-0 h-full w-full"
+          style={{ visibility: showFallback ? 'hidden' : 'visible' }}
+        />
 
-        {/* Fallback iframe embed */}
+        {/* Loading indicator - show while script loads or map initializes */}
+        {isLoading && !showFallback && <MapLoadingIndicator />}
+
+        {/* Fallback iframe embed - show on error or missing API key */}
         {showFallback && (
           <iframe
             title={`${siteConfig.name} map`}

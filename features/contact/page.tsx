@@ -17,7 +17,7 @@ export function ContactPage() {
       <HeroSection />
 
       {/* Contact 2x2 Grid: Info, Hours, Location, Form */}
-      <Section variant="muted">
+      <Section variant="default">
         <Container>
           <MainSection />
         </Container>

@@ -6,9 +6,13 @@ export const ctaData: DualCtaContent = {
   primary: {
     text: 'Book Now',
     href: siteConfig.links.booking,
+    trackingEvent: 'book_now_click',
+    trackingId: 'gallery-cta-book',
   },
   secondary: {
     text: 'Call now',
     href: siteConfig.social.phone,
+    trackingEvent: 'click_to_call',
+    trackingId: 'gallery-cta-call',
   },
 }

@@ -1,33 +1,50 @@
-import { siteConfig } from '@/lib/config/site.config'
+import { siteConfig, CONTACT_INFO, SOCIAL_LINKS } from '@/lib/config/site.config'
 
 export const mainData = {
-  contactInfo: {
-    title: 'Call, email, or visit',
-    description: 'Talk to our Victoria Park team for bookings, parking help, or service recommendations.',
-    methods: [
-      {
-        icon: 'Phone',
-        label: 'Phone',
-        value: siteConfig.business.phone,
-        href: siteConfig.links.phone,
-      },
-      {
-        icon: 'Mail',
-        label: 'Email',
-        value: siteConfig.business.email,
-        href: `mailto:${siteConfig.business.email}`,
-      },
-      {
-        icon: 'MapPin',
-        label: 'Address',
-        value: `${siteConfig.business.address.street}, ${siteConfig.business.address.city}, ${siteConfig.business.address.province} ${siteConfig.business.address.postalCode}`,
-        href: siteConfig.business.address.mapUrl,
-      },
-    ],
-  },
+  contactItems: [
+    {
+      icon: 'Calendar',
+      title: 'Book online',
+      description: 'Reserve your appointment in seconds.',
+      href: siteConfig.links.booking,
+      trackingEvent: 'book_now_click',
+      trackingId: 'contact-book-now',
+      trackingLabel: 'Contact Book Online',
+      external: true,
+    },
+    {
+      icon: 'MapPin',
+      title: 'Visit us',
+      description: `${CONTACT_INFO.fullAddress.street}, ${CONTACT_INFO.fullAddress.city} ${CONTACT_INFO.fullAddress.province} ${CONTACT_INFO.fullAddress.postalCode}`,
+      href: siteConfig.business.address.mapUrl,
+      trackingEvent: 'click_get_directions',
+      trackingId: 'contact-directions',
+      trackingLabel: 'Contact Visit Us',
+      external: true,
+    },
+    {
+      icon: 'Phone',
+      title: 'Call or text',
+      description: CONTACT_INFO.phone,
+      href: SOCIAL_LINKS.phone,
+      trackingEvent: 'click_to_call',
+      trackingId: 'contact-call',
+      trackingLabel: 'Contact Call',
+      external: false,
+    },
+    {
+      icon: 'Mail',
+      title: 'Email',
+      description: CONTACT_INFO.email,
+      href: SOCIAL_LINKS.email,
+      trackingEvent: 'email_click',
+      trackingId: 'contact-email',
+      trackingLabel: 'Contact Email',
+      external: false,
+    },
+  ],
   hours: {
-    title: 'Business Hours',
-    description: 'Open seven days a week so Calgary guests can book when it works for them.',
+    title: 'Hours',
     schedule: siteConfig.business.hours,
     holiday: {
       title: 'Holiday Hours',
@@ -35,11 +52,16 @@ export const mainData = {
     },
   },
   location: {
-    title: 'Find Us',
-    description: `Visit our Calgary nail salon at ${siteConfig.business.address.street}, minutes from the Stampede grounds with free parking and Victoria Park/Stampede CTrain access.`,
+    title: 'Location',
+    cta: {
+      text: 'Get Directions',
+      href: siteConfig.business.address.mapUrl,
+      trackingEvent: 'click_get_directions',
+      trackingId: 'contact-location-directions',
+    },
   },
   form: {
-    title: 'Send a Message',
+    title: 'Message',
     submitButton: 'Send Message',
   },
 } as const

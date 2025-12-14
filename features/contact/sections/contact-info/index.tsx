@@ -1,13 +1,14 @@
-import Image from 'next/image'
+import Link from 'next/link'
+import { ArrowUpRight, Calendar, Mail, MapPin, Phone } from 'lucide-react'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Item, ItemContent, ItemDescription, ItemGroup, ItemMedia, ItemTitle } from '@/components/ui/item'
 import { contactInfoData } from './data'
 
 const iconMap = {
-  Phone: '/geist-icons/phone.svg',
-  Mail: '/geist-icons/email.svg',
-  MapPin: '/geist-icons/location.svg',
+  Calendar,
+  Phone,
+  Mail,
+  MapPin,
 } as const
 
 export function ContactInfoSection() {
@@ -17,30 +18,34 @@ export function ContactInfoSection() {
         <CardTitle>{contactInfoData.title}</CardTitle>
       </CardHeader>
       <CardContent className="flex-grow">
-        <ItemGroup className="space-y-2">
-          {contactInfoData.methods.map((method, index) => {
-            const iconSrc = iconMap[method.icon as keyof typeof iconMap]
+        <ItemGroup className="gap-4 md:grid md:grid-cols-2 md:gap-5 lg:grid-cols-4">
+          {contactInfoData.items.map((item, index) => {
+            const Icon = iconMap[item.icon as keyof typeof iconMap]
+            const isExternal = item.external
+            const LinkComponent = isExternal ? 'a' : Link
+
             return (
-              <Item key={index} asChild variant="muted" size="sm">
-                <a href={method.href}>
-                  <ItemMedia>
-                    <Avatar className="h-10 w-10 bg-primary/10 rounded-lg">
-                      <AvatarFallback className="bg-primary/10">
-                        <Image
-                          src={iconSrc}
-                          alt=""
-                          width={20}
-                          height={20}
-                          className="h-5 w-5 text-primary"
-                        />
-                      </AvatarFallback>
-                    </Avatar>
+              <Item key={index} asChild variant="muted" size="sm" className="h-full items-start hover:bg-muted">
+                <LinkComponent
+                  href={item.href}
+                  {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  data-gtm-event={item.trackingEvent}
+                  data-gtm-id={item.trackingId}
+                  data-gtm-label={item.trackingLabel}
+                  data-gtm-href={item.href}
+                  className="h-full"
+                >
+                  <ItemMedia variant="icon">
+                    <Icon className="h-4 w-4" />
                   </ItemMedia>
-                  <ItemContent>
-                    <ItemTitle>{method.label}</ItemTitle>
-                    <ItemDescription>{method.value}</ItemDescription>
+                  <ItemContent className="gap-1.5">
+                    <ItemTitle className="line-clamp-1">{item.title}</ItemTitle>
+                    <ItemDescription>{item.description}</ItemDescription>
                   </ItemContent>
-                </a>
+                  <ItemContent className="flex-none flex-row items-center justify-end text-muted-foreground/60 transition-colors group-hover/item:text-primary">
+                    <ArrowUpRight className="h-4 w-4" />
+                  </ItemContent>
+                </LinkComponent>
               </Item>
             )
           })}

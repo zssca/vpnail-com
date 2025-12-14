@@ -3,3 +3,4 @@ export { ToastProvider } from './toast-provider';
 export { AnalyticsEvents } from './analytics-events';
 export { ClientOnly } from './client-only';
 export { WebVitals } from './web-vitals';
+export { DataLayerProvider } from './data-layer-provider';

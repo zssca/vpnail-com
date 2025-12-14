@@ -26,6 +26,13 @@ interface UseMapInitializationOptions {
   showInfoWindow: boolean
 }
 
+interface UseMapInitializationResult {
+  mapRef: React.RefObject<HTMLDivElement | null>
+  initError: boolean
+  isInitializing: boolean
+  errorMessage: string | null
+}
+
 /**
  * Hook to initialize Google Map with markers and info windows
  * Handles marker creation, event listeners, and cleanup
@@ -39,9 +46,11 @@ export function useMapInitialization({
   shoppersMartName,
   address,
   showInfoWindow,
-}: UseMapInitializationOptions) {
-  const mapRef = useRef<HTMLDivElement>(null)
+}: UseMapInitializationOptions): UseMapInitializationResult {
+  const mapRef = useRef<HTMLDivElement | null>(null)
   const [initError, setInitError] = useState(false)
+  const [isInitializing, setIsInitializing] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const mapInstanceRef = useRef<google.maps.Map | null>(null)
   const markersRef = useRef<google.maps.marker.AdvancedMarkerElement[]>([])
   const infoWindowRef = useRef<google.maps.InfoWindow | null>(null)
@@ -56,23 +65,51 @@ export function useMapInitialization({
     async function initMap() {
       if (!mapRef.current) return
 
-      try {
-        // Import marker library
-        const { AdvancedMarkerElement, PinElement } = (await google.maps.importLibrary(
-          'marker'
-        )) as google.maps.MarkerLibrary
+      setIsInitializing(true)
+      setErrorMessage(null)
 
-        // Initialize map
-        const map = new google.maps.Map(mapRef.current!, {
-          center: businessPosition,
-          ...MAP_CONFIG,
-        })
+      try {
+        // Verify Google Maps API is available
+        if (!window.google?.maps?.importLibrary) {
+          throw new Error('Google Maps API not fully loaded')
+        }
+
+        // Import marker library with error handling
+        let AdvancedMarkerElement: typeof google.maps.marker.AdvancedMarkerElement
+        let PinElement: typeof google.maps.marker.PinElement
+
+        try {
+          const markerLib = (await google.maps.importLibrary('marker')) as google.maps.MarkerLibrary
+          AdvancedMarkerElement = markerLib.AdvancedMarkerElement
+          PinElement = markerLib.PinElement
+
+          if (!AdvancedMarkerElement || !PinElement) {
+            throw new Error('Marker library loaded but classes not available')
+          }
+        } catch (libError) {
+          console.error('[GoogleMaps] Failed to load marker library:', libError)
+          throw new Error('Failed to load Advanced Markers library. Check Map ID configuration.')
+        }
+
+        if (!mounted) return
+
+        // Initialize map with error handling
+        let map: google.maps.Map
+        try {
+          map = new google.maps.Map(mapRef.current!, {
+            center: businessPosition,
+            ...MAP_CONFIG,
+          })
+        } catch (mapError) {
+          console.error('[GoogleMaps] Failed to create map:', mapError)
+          throw new Error('Failed to initialize map. Check API key and Map ID.')
+        }
 
         if (!mounted) return
         mapInstanceRef.current = map
 
         // Create business marker with custom pin and label
-        const pin = createStyledPin()
+        const pin = createStyledPin(PinElement)
         const labelDiv = createBusinessLabel(businessName)
 
         const content = document.createElement('div')
@@ -175,10 +212,17 @@ export function useMapInitialization({
             map,
           })
         }
+        // Mark as successfully initialized
+        if (mounted) {
+          setIsInitializing(false)
+        }
       } catch (error) {
-        console.error('Error initializing map:', error)
+        const errorMsg = error instanceof Error ? error.message : 'Unknown map initialization error'
+        console.error('[GoogleMaps] Error initializing map:', errorMsg)
         if (mounted) {
           setInitError(true)
+          setErrorMessage(errorMsg)
+          setIsInitializing(false)
         }
       }
     }
@@ -215,5 +259,5 @@ export function useMapInitialization({
     showInfoWindow,
   ])
 
-  return { mapRef, initError }
+  return { mapRef, initError, isInitializing, errorMessage }
 }

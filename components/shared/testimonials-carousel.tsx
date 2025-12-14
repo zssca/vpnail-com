@@ -1,10 +1,8 @@
 'use client'
 
 import * as React from 'react'
-import Autoplay from 'embla-carousel-autoplay'
 import { Section, Container } from '@/components/layouts'
-import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel'
-import { CarouselDots } from '@/components/ui/carousel-dots'
+import { Marquee, MarqueeItem } from '@/components/ui/marquee'
 import { TestimonialCard } from '@/components/shared/testimonial-card'
 
 type SectionVariant = React.ComponentProps<typeof Section>['variant']
@@ -14,7 +12,6 @@ export interface Testimonial {
   id: string
   name: string
   content: string
-  rating: number
   role?: string
   date?: string
 }
@@ -29,58 +26,71 @@ interface TestimonialsCarouselProps extends TestimonialsContent {
   sectionSize?: SectionSize
 }
 
+/**
+ * Calculate card width based on content length
+ * Shorter reviews get smaller cards, longer reviews get larger cards
+ */
+function getCardWidth(contentLength: number): { min: number; max: number } {
+  // Base measurements
+  const MIN_WIDTH = 280
+  const MAX_WIDTH = 420
+
+  // Character thresholds
+  const SHORT_THRESHOLD = 100
+  const MEDIUM_THRESHOLD = 200
+  const LONG_THRESHOLD = 350
+
+  if (contentLength <= SHORT_THRESHOLD) {
+    return { min: MIN_WIDTH, max: 300 }
+  } else if (contentLength <= MEDIUM_THRESHOLD) {
+    return { min: 300, max: 350 }
+  } else if (contentLength <= LONG_THRESHOLD) {
+    return { min: 340, max: 400 }
+  } else {
+    return { min: 380, max: MAX_WIDTH }
+  }
+}
+
 export function TestimonialsCarousel({
   title,
   testimonials,
   sectionVariant = 'default',
   sectionSize = 'lg',
 }: TestimonialsCarouselProps) {
-  const autoplayRef = React.useRef(Autoplay({ delay: 3000, stopOnInteraction: true }))
-  const [carouselApi, setCarouselApi] = React.useState<CarouselApi | null>(null)
-
   if (!testimonials.length) {
     return null
   }
 
   return (
     <Section variant={sectionVariant} size={sectionSize}>
-      <Container noPaddingMobile>
-        <div className="mb-16 px-4 text-center md:px-0">
+      <Container>
+        <div className="mb-16 text-center">
           <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">
             {title}
           </h2>
         </div>
-
-        <div className="relative">
-          <Carousel
-            plugins={[autoplayRef.current]}
-            opts={{ align: 'start', loop: true }}
-            className="w-full"
-            onMouseEnter={autoplayRef.current.stop}
-            onMouseLeave={autoplayRef.current.reset}
-            setApi={setCarouselApi}
-          >
-            <CarouselContent className="-ml-0 md:-ml-4">
-              {testimonials.map((testimonial) => (
-                <CarouselItem
-                  key={testimonial.id}
-                  className="basis-[calc(85%-1rem)] pl-4 pr-4 sm:basis-[calc(70%-1rem)] md:basis-1/2 lg:basis-1/3"
-                >
-                  <TestimonialCard
-                    className="h-full"
-                    rating={testimonial.rating}
-                    content={testimonial.content}
-                    name={testimonial.name}
-                    role={testimonial.role}
-                    date={testimonial.date}
-                  />
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselDots api={carouselApi} className="mt-8 px-4 md:px-0" />
-          </Carousel>
-        </div>
       </Container>
+
+      <Marquee speed={0.5} gap={16}>
+        {testimonials.map((testimonial) => {
+          const { min, max } = getCardWidth(testimonial.content.length)
+          return (
+            <MarqueeItem
+              key={testimonial.id}
+              minWidth={min}
+              maxWidth={max}
+            >
+              <TestimonialCard
+                className="h-full"
+                content={testimonial.content}
+                name={testimonial.name}
+                role={testimonial.role}
+                date={testimonial.date}
+              />
+            </MarqueeItem>
+          )
+        })}
+      </Marquee>
     </Section>
   )
 }

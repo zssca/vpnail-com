@@ -16,6 +16,9 @@ export interface CtaButton {
    * Defaults to true for http(s) URLs and false for tel/mailto schemes.
    */
   external?: boolean
+  trackingEvent?: string
+  trackingId?: string
+  trackingLabel?: string
 }
 
 export interface DualCtaContent {
@@ -49,9 +52,18 @@ function ActionButton({
   const variant = action.variant ?? fallbackVariant
   const openInNewTab = shouldOpenInNewTab(action.href, action.external)
   const isInternal = action.href.startsWith('/')
+  const trackingLabel = action.trackingLabel || action.text
+  const trackingProps = action.trackingEvent
+    ? {
+        'data-gtm-event': action.trackingEvent,
+        'data-gtm-id': action.trackingId,
+        'data-gtm-label': trackingLabel,
+        'data-gtm-href': action.href,
+      }
+    : {}
 
   return (
-    <Button size="lg" variant={variant} asChild>
+    <Button size="lg" variant={variant} asChild {...trackingProps}>
       {isInternal ? (
         <Link href={action.href}>
           {action.text}

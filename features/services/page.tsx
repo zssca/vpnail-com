@@ -6,6 +6,7 @@ import { CtaSection } from './sections/cta'
 import { StructuredData } from '@/components/seo'
 import { getFAQSchema } from '@/lib/seo/structured-data'
 import { faqsData } from './sections/faqs/data'
+import { ServicesScrollTracker } from './scroll-tracker'
 
 export function ServicesPage() {
   const mainEntity = faqsData.categories.flatMap((category) =>
@@ -14,6 +15,7 @@ export function ServicesPage() {
 
   return (
     <main>
+      <ServicesScrollTracker />
       {/* FAQPage JSON-LD for rich results */}
       <StructuredData schema={getFAQSchema(mainEntity)} />
       {/* Service schema for professional nail services */}

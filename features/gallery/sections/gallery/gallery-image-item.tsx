@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { AlertCircle } from 'lucide-react'
 import { getImageSizes, getLoadingStrategy } from '@/lib/utils/image'
+import { pushDataLayerEvent } from '@/lib/utils/analytics'
 import type { GalleryImage } from '@/lib/utils/gallery'
 
 interface GalleryImageItemProps {
@@ -21,6 +22,14 @@ export function GalleryImageItem({ image, onClick, index = 0, priority = false }
   const { priority: autoLoadPriority } = getLoadingStrategy(index, 50, 12)
   const shouldPrioritize = priority || autoLoadPriority
 
+  const handleClick = () => {
+    pushDataLayerEvent('gallery_photo_view', {
+      photo_id: image.filename,
+      photo_title: image.title,
+    })
+    onClick()
+  }
+
   if (imageError) {
     return (
       <figure
@@ -29,8 +38,8 @@ export function GalleryImageItem({ image, onClick, index = 0, priority = false }
         className="flex"
         style={{ viewTransitionName: `gallery-image-${index}` }}
       >
-        <div className="relative flex aspect-square h-full w-full overflow-hidden rounded-lg border bg-muted p-0">
-          <div className="flex h-full w-full items-center justify-center bg-muted/50">
+        <div className="relative flex aspect-square h-full w-full overflow-hidden rounded-lg border bg-card p-0">
+          <div className="flex h-full w-full items-center justify-center bg-card">
             <AlertCircle className="h-6 w-6 text-muted-foreground" />
           </div>
         </div>
@@ -52,9 +61,9 @@ export function GalleryImageItem({ image, onClick, index = 0, priority = false }
     >
       <Button
         type="button"
-        onClick={onClick}
+        onClick={handleClick}
         variant="ghost"
-        className="group relative flex aspect-square h-full w-full cursor-pointer overflow-hidden rounded-lg border bg-muted p-0 hover:bg-transparent focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-ring"
+        className="group relative flex aspect-square h-full w-full cursor-pointer overflow-hidden rounded-lg border bg-card p-0 hover:bg-transparent focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-ring"
         aria-label={image.alt}
         title={image.title}
       >
