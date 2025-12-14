@@ -7,10 +7,93 @@ const canonicalHostname = siteUrl.hostname.toLowerCase();
 const bareHostname = canonicalHostname.replace(/^www\./, '');
 const localLikeHosts = new Set(['localhost', '127.0.0.1']);
 
+/**
+ * Rate limiting for contact form submissions at the edge
+ * Note: Resets on deployment. For distributed rate limiting, use Vercel KV or Upstash.
+ */
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+
+const RATE_LIMIT = {
+  windowMs: 60 * 60 * 1000, // 1 hour
+  maxRequests: 10, // 10 requests per hour per IP for POST requests
+};
+
+function checkRateLimit(ip: string): { allowed: boolean; remaining: number } {
+  const now = Date.now();
+  const record = rateLimitMap.get(ip);
+
+  // Clean up old entries periodically
+  if (rateLimitMap.size > 10000) {
+    for (const [key, value] of rateLimitMap.entries()) {
+      if (now > value.resetTime) {
+        rateLimitMap.delete(key);
+      }
+    }
+  }
+
+  if (!record || now > record.resetTime) {
+    rateLimitMap.set(ip, { count: 1, resetTime: now + RATE_LIMIT.windowMs });
+    return { allowed: true, remaining: RATE_LIMIT.maxRequests - 1 };
+  }
+
+  if (record.count >= RATE_LIMIT.maxRequests) {
+    return { allowed: false, remaining: 0 };
+  }
+
+  record.count++;
+  return { allowed: true, remaining: RATE_LIMIT.maxRequests - record.count };
+}
+
+/**
+ * Block common attack patterns
+ */
+const SUSPICIOUS_PATTERNS = [
+  /\.\.\//, // Path traversal
+  /<script/i, // XSS attempts
+  /union.*select/i, // SQL injection
+  /eval\s*\(/i, // Code injection
+  /javascript:/i, // JavaScript protocol
+  /on\w+\s*=/i, // Event handlers
+];
+
+function isSuspiciousRequest(url: string): boolean {
+  return SUSPICIOUS_PATTERNS.some(pattern => pattern.test(url));
+}
+
 export function proxy(request: NextRequest) {
   const url = request.nextUrl.clone();
   const hostname = url.hostname.toLowerCase();
   const isLocalLikeHost = localLikeHosts.has(hostname) || hostname.endsWith('.vercel.app');
+
+  // Get client IP for rate limiting
+  const forwardedFor = request.headers.get('x-forwarded-for');
+  const ip = forwardedFor?.split(',')[0]?.trim() ?? request.headers.get('x-real-ip') ?? 'anonymous';
+
+  // Block suspicious requests (attack patterns)
+  const fullUrl = request.url + (request.nextUrl.search || '');
+  if (isSuspiciousRequest(fullUrl)) {
+    return new NextResponse('Forbidden', { status: 403 });
+  }
+
+  // Rate limit POST requests (contact form, etc.)
+  if (request.method === 'POST') {
+    const { allowed, remaining } = checkRateLimit(ip);
+
+    if (!allowed) {
+      return new NextResponse(
+        JSON.stringify({ error: 'Too many requests. Please try again later.' }),
+        {
+          status: 429,
+          headers: {
+            'Content-Type': 'application/json',
+            'Retry-After': '3600',
+            'X-RateLimit-Limit': RATE_LIMIT.maxRequests.toString(),
+            'X-RateLimit-Remaining': '0',
+          },
+        }
+      );
+    }
+  }
 
   if (!isLocalLikeHost) {
     const forwardedProto = request.headers.get('x-forwarded-proto') ?? url.protocol.replace(':', '');

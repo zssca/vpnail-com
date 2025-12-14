@@ -3,6 +3,14 @@ import path from 'node:path';
 import { MetadataRoute } from 'next';
 import { siteConfig } from '@/lib/config/site.config';
 
+type ChangeFrequency = 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never';
+
+interface PageConfig {
+  source: string[];
+  priority: number;
+  changeFrequency: ChangeFrequency;
+}
+
 function getLastModified(...segments: string[]) {
   try {
     const targetPath = path.join(process.cwd(), ...segments);
@@ -16,22 +24,57 @@ function getLastModified(...segments: string[]) {
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = siteConfig.url;
 
-  const staticContentSources: Record<string, string[]> = {
-    '/': ['features', 'home', 'page.tsx'],
-    '/services': ['features', 'services', 'page.tsx'],
-    '/contact': ['features', 'contact', 'page.tsx'],
-    '/gallery': ['features', 'gallery', 'page.tsx'],
-    '/parking': ['features', 'parking', 'page.tsx'],
-    '/privacy': ['features', 'privacy', 'page.tsx'],
-    '/terms': ['features', 'terms', 'page.tsx'],
-    '/accessibility': ['features', 'accessibility', 'page.tsx'],
+  // Page configurations with SEO priorities and update frequencies
+  const pageConfigs: Record<string, PageConfig> = {
+    '/': {
+      source: ['features', 'home', 'page.tsx'],
+      priority: 1.0,
+      changeFrequency: 'weekly',
+    },
+    '/services': {
+      source: ['features', 'services', 'page.tsx'],
+      priority: 0.9,
+      changeFrequency: 'weekly',
+    },
+    '/gallery': {
+      source: ['features', 'gallery', 'page.tsx'],
+      priority: 0.8,
+      changeFrequency: 'weekly',
+    },
+    '/contact': {
+      source: ['features', 'contact', 'page.tsx'],
+      priority: 0.8,
+      changeFrequency: 'monthly',
+    },
+    '/parking': {
+      source: ['features', 'parking', 'page.tsx'],
+      priority: 0.6,
+      changeFrequency: 'monthly',
+    },
+    '/privacy': {
+      source: ['features', 'privacy', 'page.tsx'],
+      priority: 0.3,
+      changeFrequency: 'yearly',
+    },
+    '/terms': {
+      source: ['features', 'terms', 'page.tsx'],
+      priority: 0.3,
+      changeFrequency: 'yearly',
+    },
+    '/accessibility': {
+      source: ['features', 'accessibility', 'page.tsx'],
+      priority: 0.3,
+      changeFrequency: 'yearly',
+    },
   };
 
-  const staticPages: MetadataRoute.Sitemap = Object.entries(staticContentSources).map(
-    ([route, source]) => {
-      const lastModified = getLastModified(...source);
+  const staticPages: MetadataRoute.Sitemap = Object.entries(pageConfigs).map(
+    ([route, config]) => {
+      const lastModified = getLastModified(...config.source);
       return {
         url: route === '/' ? baseUrl : `${baseUrl}${route}`,
+        priority: config.priority,
+        changeFrequency: config.changeFrequency,
         ...(lastModified ? { lastModified } : {}),
       };
     }
